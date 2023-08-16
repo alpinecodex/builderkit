@@ -4,47 +4,15 @@ const DEFAULT_EDITOR_CONTENT = {
     {
       type: "heading",
       attrs: { level: 2 },
-      content: [{ type: "text", text: "Introducing Novel" }],
+      content: [{ type: "text", text: "Introducing BuilderKit" }],
     },
     {
       type: "paragraph",
       content: [
         {
           type: "text",
-          text: "Novel is a Notion-style WYSIWYG editor with AI-powered autocompletion. Built with ",
+          text: "BuilderKit is complete content editor with AI-enabled autocompletion and writing capabilities.",
         },
-        {
-          type: "text",
-          marks: [
-            {
-              type: "link",
-              attrs: {
-                href: "https://tiptap.dev/",
-                target: "_blank",
-                class:
-                  "text-stone-400 underline underline-offset-[3px] hover:text-stone-600 transition-colors cursor-pointer",
-              },
-            },
-          ],
-          text: "Tiptap",
-        },
-        { type: "text", text: " and " },
-        {
-          type: "text",
-          marks: [
-            {
-              type: "link",
-              attrs: {
-                href: "https://sdk.vercel.ai/docs",
-                target: "_blank",
-                class:
-                  "text-stone-400 underline underline-offset-[3px] hover:text-stone-600 transition-colors cursor-pointer text-stone-400 underline underline-offset-[3px] hover:text-stone-600 transition-colors cursor-pointer",
-              },
-            },
-          ],
-          text: "Vercel AI SDK",
-        },
-        { type: "text", text: "." },
       ],
     },
     {
@@ -61,7 +29,12 @@ const DEFAULT_EDITOR_CONTENT = {
           content: [
             {
               type: "paragraph",
-              content: [{ type: "text", text: "Slash menu & bubble menu" }],
+              content: [
+                {
+                  type: "text",
+                  text: "AI enabled content tools. Press ⌘ + K to see options.",
+                },
+              ],
             },
           ],
         },
@@ -81,29 +54,7 @@ const DEFAULT_EDITOR_CONTENT = {
             },
           ],
         },
-        {
-          type: "listItem",
-          content: [
-            {
-              type: "paragraph",
-              content: [
-                {
-                  type: "text",
-                  text: "Image uploads (drag & drop / copy & paste, or select from slash menu)",
-                },
-              ],
-            },
-          ],
-        },
       ],
-    },
-    {
-      type: "image",
-      attrs: {
-        src: "https://public.blob.vercel-storage.com/pJrjXbdONOnAeZAZ/banner-2wQk82qTwyVgvlhTW21GIkWgqPGD2C.png",
-        alt: "banner.png",
-        title: "banner.png",
-      },
     },
     { type: "horizontalRule" },
     {
@@ -112,10 +63,10 @@ const DEFAULT_EDITOR_CONTENT = {
       content: [{ type: "text", text: "Learn more" }],
     },
     {
-      type: "taskList",
+      type: "orderedList",
       content: [
         {
-          type: "taskItem",
+          type: "listItem",
           attrs: { checked: false },
           content: [
             {
@@ -142,7 +93,7 @@ const DEFAULT_EDITOR_CONTENT = {
           ],
         },
         {
-          type: "taskItem",
+          type: "listItem",
           attrs: { checked: false },
           content: [
             {
@@ -169,7 +120,7 @@ const DEFAULT_EDITOR_CONTENT = {
           ],
         },
         {
-          type: "taskItem",
+          type: "listItem",
           attrs: { checked: false },
           content: [
             {
