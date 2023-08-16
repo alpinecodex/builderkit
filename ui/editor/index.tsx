@@ -134,7 +134,7 @@ export default function Editor() {
 
   return (
     <>
-      <CommandMenu />
+      <CommandMenu editor={editor} />
       <div
         onClick={() => {
           editor?.chain().focus().run();

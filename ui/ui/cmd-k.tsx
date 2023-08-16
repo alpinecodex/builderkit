@@ -14,7 +14,7 @@ import {
   CommandShortcut,
 } from "@/ui/ui/command";
 
-export function CommandMenu() {
+export function CommandMenu({ editor }) {
   const [open, setOpen] = React.useState(false);
 
   React.useEffect(() => {
@@ -28,6 +28,11 @@ export function CommandMenu() {
     return () => document.removeEventListener("keydown", down);
   }, []);
 
+  const runCommand = React.useCallback((command: () => unknown) => {
+    setOpen(false);
+    command();
+  }, []);
+
   return (
     <Command>
       <CommandDialog open={open} onOpenChange={setOpen}>
@@ -35,7 +40,13 @@ export function CommandMenu() {
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
           <CommandGroup heading="Suggestions">
-            <CommandItem>Generate Outline</CommandItem>
+            <CommandItem
+              onSelect={() =>
+                runCommand(() => editor.commands.insertContent("Test"))
+              }
+            >
+              Click Me
+            </CommandItem>
             <CommandItem>Custom Prompt</CommandItem>
             <CommandItem>Write Article</CommandItem>
           </CommandGroup>
