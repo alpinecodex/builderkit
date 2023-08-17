@@ -5,10 +5,9 @@ import { Metadata } from "next";
 import { ReactNode } from "react";
 import Providers from "./providers";
 
-const title =
-  "Novel – Notion-style WYSIWYG editor with AI-powered autocompletions";
+const title = "Builder Kit | AI Powered Copywriting Companion";
 const description =
-  "Novel is a Notion-style WYSIWYG editor with AI-powered autocompletions. Built with Tiptap, OpenAI, and Vercel AI SDK.";
+  "Builder Kit is a great place to write your content using artificial intelligence. Come on over and give it a try!";
 
 export const metadata: Metadata = {
   title,
@@ -21,9 +20,8 @@ export const metadata: Metadata = {
     title,
     description,
     card: "summary_large_image",
-    creator: "@steventey",
   },
-  metadataBase: new URL("https://novel.sh"),
+  metadataBase: new URL("https://builderkit.io"),
   themeColor: "#ffffff",
 };
 

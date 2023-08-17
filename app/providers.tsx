@@ -27,25 +27,25 @@ export default function Providers({ children }: { children: ReactNode }) {
   const [font, setFont] = useLocalStorage<string>("novel__font", "Default");
 
   return (
-    <ThemeProvider
-      attribute="class"
+    // <ThemeProvider
+    //   attribute="class"
+    //   value={{
+    //     light: "light-theme",
+    //     dark: "dark-theme",
+    //   }}
+    // >
+    <AppContext.Provider
       value={{
-        light: "light-theme",
-        dark: "dark-theme",
+        font,
+        setFont,
       }}
     >
-      <AppContext.Provider
-        value={{
-          font,
-          setFont,
-        }}
-      >
-        <ToasterProvider />
-        <div className={cn(displayFontMapper[font], defaultFontMapper[font])}>
-          {children}
-        </div>
-        <Analytics />
-      </AppContext.Provider>
-    </ThemeProvider>
+      <ToasterProvider />
+      <div className={cn(displayFontMapper[font], defaultFontMapper[font])}>
+        {children}
+      </div>
+      <Analytics />
+    </AppContext.Provider>
+    // </ThemeProvider>
   );
 }

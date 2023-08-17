@@ -14,6 +14,7 @@ import { EditorBubbleMenu } from "./components/bubble-menu";
 import { getPrevText } from "@/lib/editor";
 import { ImageResizer } from "./components/image-resizer";
 import { CommandMenu } from "../ui/cmd-k";
+import MenuBar from "./menu";
 
 export default function Editor() {
   const [content, setContent] = useLocalStorage(
@@ -133,21 +134,24 @@ export default function Editor() {
   }, [editor, content, hydrated]);
 
   return (
-    <>
+    <div className="absolute right-0 top-0 w-screen items-end">
       <CommandMenu editor={editor} />
+      <MenuBar editor={editor} />
       <div
         onClick={() => {
           editor?.chain().focus().run();
         }}
-        className="relative min-h-[500px] w-full max-w-screen-lg border-stone-200 bg-white p-12 px-8 sm:mb-[calc(20vh)] sm:rounded-lg sm:border sm:px-12 sm:shadow-lg"
+        className="absolute right-0 top-0 min-h-screen w-3/4 border-neutral-200 p-12 sm:mb-[calc(20vh)]"
       >
-        <div className="absolute right-5 top-5 mb-5 rounded-lg bg-stone-100 px-2 py-1 text-sm text-stone-400">
+        <div className="fixed right-6 top-36 z-50 mt-2 rounded-lg bg-neutral-100 px-2 py-1 text-sm text-neutral-400">
           {saveStatus}
         </div>
         {editor && <EditorBubbleMenu editor={editor} />}
         {editor?.isActive("image") && <ImageResizer editor={editor} />}
-        <EditorContent editor={editor} />
+        <div className="lg:mt-32">
+          <EditorContent editor={editor} />
+        </div>
       </div>
-    </>
+    </div>
   );
 }
