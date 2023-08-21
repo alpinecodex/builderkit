@@ -12,6 +12,7 @@ export const runtime = "edge";
 
 export async function POST(request: Request) {
   const { prompt } = await request.json();
+  console.log(prompt);
 
   const response = await openai.createChatCompletion({
     model: "gpt-4",
