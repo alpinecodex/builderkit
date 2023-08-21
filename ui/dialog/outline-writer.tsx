@@ -57,7 +57,7 @@ const promptTypes: { [key: string]: string } = {
   FifthStep: "5th Step",
 };
 
-export default function OutlineGenerator({
+export default function OutlineWriter({
   open,
   setOpen,
 }: {
@@ -69,11 +69,12 @@ export default function OutlineGenerator({
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     // @ts-ignore
+    // TODO: fix this
     resolver: zodResolver(formSchema),
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    setLoading(true);
+    setOpen(false);
     const formData = {
       ...values,
     };
@@ -98,10 +99,12 @@ export default function OutlineGenerator({
   };
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger className="sr-only">Generate Outline</DialogTrigger>
+      <DialogTrigger className="sr-only">
+        Writer Article from Outline
+      </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Edit Prompt</DialogTitle>
+          <DialogTitle>Article</DialogTitle>
           <DialogDescription>Update and re-save your prompt.</DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -111,27 +114,25 @@ export default function OutlineGenerator({
           >
             <FormField
               control={form.control}
-              name="name"
+              // @ts-ignore
+              // TODO: fix this
+              name="text"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name of Prompt</FormLabel>
+                  <FormLabel>Write Article based on this Outline</FormLabel>
                   <FormControl>
-                    <Input
-                      className="max-w-[800px]"
-                      placeholder="Name for your prompt..."
+                    <Textarea
+                      placeholder="Paste outline here..."
+                      className="min-h-[250px]"
                       {...field}
                     />
                   </FormControl>
-                  <FormDescription>
-                    Enter a name for your prompt.
-                  </FormDescription>
+                  <FormDescription>Paste an outline.</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit" disabled={loading}>
-              Submit
-            </Button>
+            <Button type="submit">Submit</Button>
           </form>
         </Form>
       </DialogContent>

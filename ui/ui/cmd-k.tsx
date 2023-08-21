@@ -13,11 +13,16 @@ import {
   CommandSeparator,
   CommandShortcut,
 } from "@/ui/ui/command";
+
+// Dialog Components
 import OutlineGenerator from "../dialog/outline-generator";
+import OutlineWriter from "../dialog/outline-writer";
 
 export function CommandMenu({ editor }) {
   const [open, setOpen] = React.useState(false);
   const [outlineGeneratorOpen, setOutlineGeneratorOpen] =
+    React.useState<boolean>(false);
+  const [outlineWriterOpen, setOutlineWriterOpen] =
     React.useState<boolean>(false);
 
   React.useEffect(() => {
@@ -43,24 +48,24 @@ export function CommandMenu({ editor }) {
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
           <CommandGroup heading="Suggestions">
-            <CommandItem
-              onSelect={() =>
-                runCommand(() => editor.commands.insertContent("Test"))
-              }
-            >
-              Click Me
-            </CommandItem>
             <CommandItem onSelect={() => setOutlineGeneratorOpen(true)}>
-              <OutlineGenerator
-                open={outlineGeneratorOpen}
-                setOpen={setOutlineGeneratorOpen}
-              />
+              Generate Outline
+            </CommandItem>
+            <CommandItem onSelect={() => setOutlineWriterOpen(true)}>
+              Writer Article from Outline
             </CommandItem>
             <CommandItem>Custom Prompt</CommandItem>
             <CommandItem>Write Article</CommandItem>
           </CommandGroup>
         </CommandList>
       </CommandDialog>
+
+      {/* Dialog Compoents */}
+      <OutlineGenerator
+        open={outlineGeneratorOpen}
+        setOpen={setOutlineGeneratorOpen}
+      />
+      <OutlineWriter open={outlineWriterOpen} setOpen={setOutlineWriterOpen} />
     </Command>
   );
 }
