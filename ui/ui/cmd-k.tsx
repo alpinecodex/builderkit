@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 
 import {
   Command,
@@ -13,9 +13,12 @@ import {
   CommandSeparator,
   CommandShortcut,
 } from "@/ui/ui/command";
+import OutlineGenerator from "../dialog/outline-generator";
 
 export function CommandMenu({ editor }) {
   const [open, setOpen] = React.useState(false);
+  const [outlineGeneratorOpen, setOutlineGeneratorOpen] =
+    React.useState<boolean>(false);
 
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -46,6 +49,12 @@ export function CommandMenu({ editor }) {
               }
             >
               Click Me
+            </CommandItem>
+            <CommandItem onSelect={() => setOutlineGeneratorOpen(true)}>
+              <OutlineGenerator
+                open={outlineGeneratorOpen}
+                setOpen={setOutlineGeneratorOpen}
+              />
             </CommandItem>
             <CommandItem>Custom Prompt</CommandItem>
             <CommandItem>Write Article</CommandItem>
