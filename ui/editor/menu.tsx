@@ -2,7 +2,7 @@ const MenuBar = ({ editor }) => {
   if (!editor) {
     return null;
   }
-  console.log(editor);
+
   return (
     <div className="fixed right-0 top-0 z-10 hidden w-3/4 flex-wrap gap-2 bg-neutral-50 py-6 pl-12 pr-24 shadow-sm lg:flex">
       <button
