@@ -69,6 +69,7 @@ export function CommandMenu({ editor }) {
         open={outlineWriterOpen}
         setOpen={setOutlineWriterOpen}
         editor={editor}
+        setParentOpen={setOpen}
       />
     </Command>
   );

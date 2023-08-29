@@ -40,10 +40,12 @@ export default function OutlineWriter({
   open,
   setOpen,
   editor,
+  setParentOpen
 }: {
   open: boolean;
   setOpen: (open: boolean) => void;
   editor;
+  setParentOpen: (open: boolean) => void;
 }) {
   const { complete, isLoading, completion, stop } = useCompletion({
     id: "outline-writer",
@@ -128,6 +130,7 @@ export default function OutlineWriter({
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setOpen(false);
+    setParentOpen(false);
     console.log(open);
     try {
       const messages = [
