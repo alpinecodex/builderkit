@@ -8,11 +8,11 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
+  DialogTrigger
 } from "@/ui/ui/dialog";
 
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 import { Button } from "@/ui/ui/button";
@@ -23,12 +23,12 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
+  FormMessage
 } from "@/ui/ui/form";
 import { Textarea } from "@/ui/ui/textarea";
 
-import { toast } from "sonner";
 import { useEffect, useRef } from "react";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   text: z.string().min(2, "Not a valid name").nonempty({
@@ -58,7 +58,7 @@ export default function OutlineWriter({
       editor.chain().focus().run();
     },
     // onFinish: (_prompt, completion) => {
-    //   // highlight the generated text
+    //   // highlight the generated text -> Do we still want this?
     //   editor.commands.insertContent(completion
     //     //   {
     //     //   from: range.from,
@@ -72,6 +72,8 @@ export default function OutlineWriter({
   });
 
   const prev = useRef("");
+
+  // TODO -> fix this code so that the formatting on the markdown stays intact. For @brijr
 
   useEffect(() => {
     const diff = completion.slice(prev.current.length);
@@ -122,12 +124,6 @@ export default function OutlineWriter({
     },
   });
 
-  // const handleAISubmit = (content: string) => {
-  //   complete(content);
-
-  // };
-  //
-
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setOpen(false);
     setParentOpen(false);
@@ -144,8 +140,6 @@ export default function OutlineWriter({
         },
       ];
       complete(JSON.stringify(messages));
-      // editor.commands.insertContent(completion);
-
     } catch (error) {
       toast.error("An error occurred.");
     }
