@@ -64,6 +64,7 @@ export default function OutlineWriter({
   });
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
+    // @ts-ignore
     resolver: zodResolver(formSchema),
     defaultValues: {
       text: "",
