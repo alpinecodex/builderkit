@@ -1,5 +1,7 @@
 "use client";
 
+import { useCompletion } from "ai/react";
+
 import {
   Dialog,
   DialogContent,
@@ -8,13 +10,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/ui/ui/dialog";
-import { Pencil } from "lucide-react";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 import { Button } from "@/ui/ui/button";
@@ -27,82 +25,86 @@ import {
   FormLabel,
   FormMessage,
 } from "@/ui/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/ui/ui/select";
-import { Input } from "@/ui/ui/input";
 import { Textarea } from "@/ui/ui/textarea";
 
+import { useEffect, useRef } from "react";
 import { toast } from "sonner";
 
 const formSchema = z.object({
-  name: z.string().min(2, "Not a valid name").nonempty({
+  text: z.string().min(2, "Not a valid name").nonempty({
     message: "Cannot be blank.",
   }),
-  message: z.string().min(5, "Not valid text").nonempty({
-    message: "Not valid text.",
-  }),
-  type: z.string().nonempty({ message: "Required." }),
 });
-
-const promptTypes: { [key: string]: string } = {
-  FirstStep: "1st Step",
-  SecondStep: "2nd Step",
-  ThirdStep: "3rd Step",
-  FourthStep: "4th Step",
-  FifthStep: "5th Step",
-};
 
 export default function OutlineGenerator({
   open,
   setOpen,
+  editor,
+  setParentOpen,
 }: {
   open: boolean;
   setOpen: (open: boolean) => void;
+  editor;
+  setParentOpen: (open: boolean) => void;
 }) {
-  const [loading, setLoading] = useState<boolean>(false);
+  const { complete, isLoading, completion, stop } = useCompletion({
+    id: "outline-writer",
+    api: "/api/ai",
+    onResponse: (response) => {
+      if (response.status === 429) {
+        toast.error("You have reached your request limit for the day.");
+        return;
+      }
+      editor.chain().focus().run();
+    },
+    onError: () => {
+      toast.error("Something went wrong.");
+    },
+  });
 
-  const router = useRouter();
+  useEffect(() => {
+    if (editor) {
+      editor.chain().setContent(completion, false).run();
+    }
+  }, [isLoading, editor, completion]);
+
   const form = useForm<z.infer<typeof formSchema>>({
     // @ts-ignore
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      text: "",
+    },
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    setLoading(true);
-    const formData = {
-      ...values,
-    };
-
+    setOpen(false);
+    setParentOpen(false);
+    console.log(open);
     try {
-      const response = await fetch("/api/prompt", {
-        method: "PUT",
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-      if (response.status === 200) {
-        router.refresh();
-        toast.success("Prompt updated successfully.");
-        setLoading(false);
-      } else {
-        toast.error("Something went wrong");
-      }
+      const messages = [
+        {
+          role: "system",
+          content:
+            "You are an AI assistant that generates outlines for SEO rich articles.",
+        },
+        {
+          role: "user",
+          content: `Can you please generate me an outline for this topic: \n\n${values.text}\n\nPlease make sure that Outline is set up nicely to be easily turned into a unique high value article. Format the outline in markdown.`,
+        },
+      ];
+      complete(JSON.stringify(messages));
     } catch (error) {
       toast.error("An error occurred.");
     }
   };
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger className="sr-only">Generate Outline</DialogTrigger>
+      <DialogTrigger className="sr-only">
+        Writer Article from Outline
+      </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Edit Prompt</DialogTitle>
-          <DialogDescription>Update and re-save your prompt.</DialogDescription>
+          <DialogTitle>Generate an Article Outline</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form
@@ -111,27 +113,21 @@ export default function OutlineGenerator({
           >
             <FormField
               control={form.control}
-              name="name"
+              name="text"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name of Prompt</FormLabel>
+                  <FormLabel>Create Article Outline</FormLabel>
                   <FormControl>
-                    <Input
-                      className="max-w-[800px]"
-                      placeholder="Name for your prompt..."
-                      {...field}
-                    />
+                    <Textarea placeholder="Write topic here..." {...field} />
                   </FormControl>
                   <FormDescription>
-                    Enter a name for your prompt.
+                    Pick a Topic to write about.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit" disabled={loading}>
-              Submit
-            </Button>
+            <Button type="submit">Submit</Button>
           </form>
         </Form>
       </DialogContent>

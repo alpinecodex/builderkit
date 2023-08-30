@@ -64,6 +64,8 @@ export function CommandMenu({ editor }) {
       <OutlineGenerator
         open={outlineGeneratorOpen}
         setOpen={setOutlineGeneratorOpen}
+        editor={editor}
+        setParentOpen={setOpen}
       />
       <OutlineWriter
         open={outlineWriterOpen}
