@@ -135,20 +135,25 @@ export default function Editor() {
 
   return (
     <div className="absolute right-0 top-0 w-screen items-end">
+      {/* Cmd + K */}
       <CommandMenu editor={editor} />
+      {/* Text Formatting Menu */}
       <MenuBar editor={editor} />
       <div
         onClick={() => {
           editor?.chain().focus().run();
         }}
-        className="absolute right-0 top-0 min-h-screen w-3/4 border-neutral-200 p-12 sm:mb-[calc(20vh)]"
+        className="absolute right-0 top-0 min-h-screen w-3/4 border-neutral-200 sm:mb-[calc(20vh)]"
       >
-        <div className="fixed right-6 z-50 mt-2 rounded-lg bg-neutral-100 px-2 py-1 text-sm text-neutral-400">
+        <div className="fixed right-14 top-4 z-50 rounded-lg bg-neutral-100 px-2 py-1 text-sm text-neutral-400">
           {saveStatus}
         </div>
         {editor && <EditorBubbleMenu editor={editor} />}
         {editor?.isActive("image") && <ImageResizer editor={editor} />}
-        <div className="max-w-screen-md pb-56">
+        <div
+          className="max-w-screen-md px-12 pb-56 pt-24
+        "
+        >
           <EditorContent editor={editor} />
         </div>
       </div>
