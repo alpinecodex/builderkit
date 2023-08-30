@@ -71,51 +71,47 @@ export default function OutlineWriter({
     },
   });
 
-  const prev = useRef("");
-
-  // TODO -> fix this code so that the formatting on the markdown stays intact. For @brijr
-
   useEffect(() => {
-    const diff = completion.slice(prev.current.length);
-    prev.current = completion;
-    editor?.commands.insertContent(diff);
+    if (editor) {
+      editor.chain().setContent(completion, false).run();
+    }
   }, [isLoading, editor, completion]);
 
-  useEffect(() => {
-    // if user presses escape or cmd + z and it's loading,
-    // stop the request, delete the completion, and insert back the "++"
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" || (e.metaKey && e.key === "z")) {
-        stop();
-        if (e.key === "Escape") {
-          editor?.commands.deleteRange({
-            from: editor.state.selection.from - completion.length,
-            to: editor.state.selection.from,
-          });
-        }
-        editor?.commands.insertContent("++");
-      }
-    };
-    const mousedownHandler = (e: MouseEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
-      stop();
-      if (window.confirm("AI writing paused. Continue?")) {
-        complete(editor?.getText() || "");
-      }
-    };
-    if (isLoading) {
-      document.addEventListener("keydown", onKeyDown);
-      window.addEventListener("mousedown", mousedownHandler);
-    } else {
-      document.removeEventListener("keydown", onKeyDown);
-      window.removeEventListener("mousedown", mousedownHandler);
-    }
-    return () => {
-      document.removeEventListener("keydown", onKeyDown);
-      window.removeEventListener("mousedown", mousedownHandler);
-    };
-  }, [stop, isLoading, editor, complete, completion.length]);
+  // useEffect(() => {
+  //   // if user presses escape or cmd + z and it's loading,
+  //   // stop the request, delete the completion, and insert back the "++"
+  //   const onKeyDown = (e: KeyboardEvent) => {
+  //     if (e.key === "Escape" || (e.metaKey && e.key === "z")) {
+  //       stop();
+  //       if (e.key === "Escape") {
+  //         editor?.commands.deleteRange({
+  //           from: editor.state.selection.from - completion.length,
+  //           to: editor.state.selection.from,
+  //         });
+  //       }
+  //       editor?.commands.insertContent("++");
+  //     }
+  //   };
+  //   const mousedownHandler = (e: MouseEvent) => {
+  //     e.preventDefault();
+  //     e.stopPropagation();
+  //     stop();
+  //     if (window.confirm("AI writing paused. Continue?")) {
+  //       complete(editor?.getText() || "");
+  //     }
+  //   };
+  //   if (isLoading) {
+  //     document.addEventListener("keydown", onKeyDown);
+  //     window.addEventListener("mousedown", mousedownHandler);
+  //   } else {
+  //     document.removeEventListener("keydown", onKeyDown);
+  //     window.removeEventListener("mousedown", mousedownHandler);
+  //   }
+  //   return () => {
+  //     document.removeEventListener("keydown", onKeyDown);
+  //     window.removeEventListener("mousedown", mousedownHandler);
+  //   };
+  // }, [stop, isLoading, editor, complete, completion.length]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -136,7 +132,7 @@ export default function OutlineWriter({
         },
         {
           role: "user",
-          content: `I am going to give you an outline that I want to write an article for. Please help follow the outline and write me a long article that is around 2000 words. \n\nOutline: ${values.text}\n\nPlease make sure that paragraphs are well synthesized with 7-10 well-constructed sentences each. Do not write any less than 5 sentences per paragraph. Please return the text in markdown format.`,
+          content: `I am going to give you an outline that I want to write an article for. Please help follow the outline and write me a long article that is around 2000 words. \n\nOutline: ${values.text}\n\nPlease make sure that paragraphs are well synthesized with 7-10 well-constructed sentences each. Do not write any less than 5 sentences per paragraph. Please return the text in markdown.`,
         },
       ];
       complete(JSON.stringify(messages));
