@@ -148,7 +148,7 @@ export default function Editor() {
         </div>
         {editor && <EditorBubbleMenu editor={editor} />}
         {editor?.isActive("image") && <ImageResizer editor={editor} />}
-        <div className="max-w-screen-sm pb-36">
+        <div className="max-w-screen-sm pb-56">
           <EditorContent editor={editor} />
         </div>
       </div>
