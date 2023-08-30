@@ -49,10 +49,10 @@ export default function Nav() {
         </div>
       </div>
       <div className="flex flex-col gap-12">
-        <div className="flex items-center gap-4 rounded-lg bg-neutral-300 p-4 hover:opacity-50">
+        {/* <div className="flex items-center gap-4 rounded-lg bg-neutral-300 p-4 hover:opacity-50">
           <div className="h-12 w-12 rounded-full bg-neutral-500"></div>
           <p>Account</p>
-        </div>
+        </div> */}
         <p className="text-sm text-neutral-500">
           © Builder Kit, 2023. All Rights Reserved.
         </p>
