@@ -8,7 +8,7 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger
+  DialogTrigger,
 } from "@/ui/ui/dialog";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,7 +23,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@/ui/ui/form";
 import { Textarea } from "@/ui/ui/textarea";
 
@@ -40,7 +40,7 @@ export default function OutlineWriter({
   open,
   setOpen,
   editor,
-  setParentOpen
+  setParentOpen,
 }: {
   open: boolean;
   setOpen: (open: boolean) => void;
