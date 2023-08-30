@@ -8,15 +8,11 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
+  DialogTrigger
 } from "@/ui/ui/dialog";
-import { Pencil } from "lucide-react";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 import { Button } from "@/ui/ui/button";
@@ -27,18 +23,11 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
+  FormMessage
 } from "@/ui/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/ui/ui/select";
-import { Input } from "@/ui/ui/input";
 import { Textarea } from "@/ui/ui/textarea";
 
+import { useEffect, useRef } from "react";
 import { toast } from "sonner";
 
 const formSchema = z.object({
@@ -51,18 +40,79 @@ export default function OutlineWriter({
   open,
   setOpen,
   editor,
+  setParentOpen
 }: {
   open: boolean;
   setOpen: (open: boolean) => void;
   editor;
+  setParentOpen: (open: boolean) => void;
 }) {
-  const { complete, completion, isLoading } = useCompletion({
+  const { complete, isLoading, completion, stop } = useCompletion({
+    id: "outline-writer",
     api: "/api/ai",
-    onFinish: () => {
-      toast.success("Successfully generated.");
+    onResponse: (response) => {
+      if (response.status === 429) {
+        toast.error("You have reached your request limit for the day.");
+        return;
+      }
+      editor.chain().focus().run();
+    },
+    // onFinish: (_prompt, completion) => {
+    //   // highlight the generated text -> Do we still want this?
+    //   editor.commands.insertContent(completion
+    //     //   {
+    //     //   from: range.from,
+    //     //   to: range.from + completion.length,
+    //     // }
+    //   );
+    // },
+    onError: () => {
+      toast.error("Something went wrong.");
     },
   });
-  const router = useRouter();
+
+  useEffect(() => {
+    if (editor) {
+      editor.chain().setContent(completion, false).run();
+    }
+  }, [isLoading, editor, completion]);
+
+  // useEffect(() => {
+  //   // if user presses escape or cmd + z and it's loading,
+  //   // stop the request, delete the completion, and insert back the "++"
+  //   const onKeyDown = (e: KeyboardEvent) => {
+  //     if (e.key === "Escape" || (e.metaKey && e.key === "z")) {
+  //       stop();
+  //       if (e.key === "Escape") {
+  //         editor?.commands.deleteRange({
+  //           from: editor.state.selection.from - completion.length,
+  //           to: editor.state.selection.from,
+  //         });
+  //       }
+  //       editor?.commands.insertContent("++");
+  //     }
+  //   };
+  //   const mousedownHandler = (e: MouseEvent) => {
+  //     e.preventDefault();
+  //     e.stopPropagation();
+  //     stop();
+  //     if (window.confirm("AI writing paused. Continue?")) {
+  //       complete(editor?.getText() || "");
+  //     }
+  //   };
+  //   if (isLoading) {
+  //     document.addEventListener("keydown", onKeyDown);
+  //     window.addEventListener("mousedown", mousedownHandler);
+  //   } else {
+  //     document.removeEventListener("keydown", onKeyDown);
+  //     window.removeEventListener("mousedown", mousedownHandler);
+  //   }
+  //   return () => {
+  //     document.removeEventListener("keydown", onKeyDown);
+  //     window.removeEventListener("mousedown", mousedownHandler);
+  //   };
+  // }, [stop, isLoading, editor, complete, completion.length]);
+
   const form = useForm<z.infer<typeof formSchema>>({
     // @ts-ignore
     resolver: zodResolver(formSchema),
@@ -71,13 +121,10 @@ export default function OutlineWriter({
     },
   });
 
-  const handleAISubmit = (content: string) => {
-    complete(content);
-    editor.commands.insertContent(completion);
-  };
-
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setOpen(false);
+    setParentOpen(false);
+    console.log(open);
     try {
       const messages = [
         {
@@ -86,10 +133,10 @@ export default function OutlineWriter({
         },
         {
           role: "user",
-          content: `I am going to give you an outline that I want to write an article for. Please help follow the outline and write me a long article that is around 2000 words. \n\nOutline: ${values.text}\n\nPlease make sure that paragraphs are well synthesized with 7-10 well-constructed sentences each. Do not write any less than 5 sentences per paragraph. Please return the text in markdown format.`,
+          content: `I am going to give you an outline that I want to write an article for. Please help follow the outline and write me a long article that is around 2000 words. \n\nOutline: ${values.text}\n\nPlease make sure that paragraphs are well synthesized with 7-10 well-constructed sentences each. Do not write any less than 5 sentences per paragraph. Please return the text in markdown.`,
         },
       ];
-      handleAISubmit(JSON.stringify(messages));
+      complete(JSON.stringify(messages));
     } catch (error) {
       toast.error("An error occurred.");
     }

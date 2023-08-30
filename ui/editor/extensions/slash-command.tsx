@@ -1,35 +1,26 @@
-import React, {
-  useState,
-  useEffect,
-  useCallback,
-  ReactNode,
-  useRef,
-  useLayoutEffect,
-} from "react";
-import { Editor, Range, Extension } from "@tiptap/core";
-import Suggestion from "@tiptap/suggestion";
+import { getPrevText } from "@/lib/editor";
+import LoadingCircle from "@/ui/icons/loading-circle";
+import Magic from "@/ui/icons/magic";
+import { Editor, Extension, Range } from "@tiptap/core";
 import { ReactRenderer } from "@tiptap/react";
+import Suggestion from "@tiptap/suggestion";
+import va from "@vercel/analytics";
 import { useCompletion } from "ai/react";
-import tippy from "tippy.js";
 import {
-  Heading1,
+  CheckSquare, Code, Heading1,
   Heading2,
   Heading3,
   List,
   ListOrdered,
   MessageSquarePlus,
   Text,
-  TextQuote,
-  Image as ImageIcon,
-  Code,
-  CheckSquare,
+  TextQuote
 } from "lucide-react";
-import LoadingCircle from "@/ui/icons/loading-circle";
+import {
+  ReactNode, useCallback, useEffect, useLayoutEffect, useRef, useState
+} from "react";
 import { toast } from "sonner";
-import va from "@vercel/analytics";
-import Magic from "@/ui/icons/magic";
-import { getPrevText } from "@/lib/editor";
-import { startImageUpload } from "@/ui/editor/plugins/upload-images";
+import tippy from "tippy.js";
 
 interface CommandItemProps {
   title: string;
@@ -263,7 +254,6 @@ const CommandList = ({
     onResponse: (response) => {
       if (response.status === 429) {
         toast.error("You have reached your request limit for the day.");
-        va.track("Rate Limit Reached");
         return;
       }
       editor.chain().focus().deleteRange(range).run();
@@ -283,9 +273,7 @@ const CommandList = ({
   const selectItem = useCallback(
     (index: number) => {
       const item = items[index];
-      va.track("Slash Command Used", {
-        command: item.title,
-      });
+
       if (item) {
         if (item.title === "Continue writing") {
           complete(
@@ -351,9 +339,8 @@ const CommandList = ({
       {items.map((item: CommandItemProps, index: number) => {
         return (
           <button
-            className={`flex w-full items-center space-x-2 rounded-md px-2 py-1 text-left text-sm text-stone-900 hover:bg-stone-100 ${
-              index === selectedIndex ? "bg-stone-100 text-stone-900" : ""
-            }`}
+            className={`flex w-full items-center space-x-2 rounded-md px-2 py-1 text-left text-sm text-stone-900 hover:bg-stone-100 ${index === selectedIndex ? "bg-stone-100 text-stone-900" : ""
+              }`}
             key={index}
             onClick={() => selectItem(index)}
           >

@@ -143,12 +143,12 @@ export default function Editor() {
         }}
         className="absolute right-0 top-0 min-h-screen w-3/4 border-neutral-200 p-12 sm:mb-[calc(20vh)]"
       >
-        <div className="fixed right-6 top-36 z-50 mt-2 rounded-lg bg-neutral-100 px-2 py-1 text-sm text-neutral-400">
+        <div className="fixed right-6 z-50 mt-2 rounded-lg bg-neutral-100 px-2 py-1 text-sm text-neutral-400">
           {saveStatus}
         </div>
         {editor && <EditorBubbleMenu editor={editor} />}
         {editor?.isActive("image") && <ImageResizer editor={editor} />}
-        <div className="lg:mt-32">
+        <div className="max-w-screen-sm pb-36">
           <EditorContent editor={editor} />
         </div>
       </div>
