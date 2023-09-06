@@ -18,6 +18,7 @@ import {
 import OutlineGenerator from "../dialog/outline-generator";
 import OutlineWriter from "../dialog/outline-writer";
 import CustomPrompt from "../dialog/custom-prompt";
+import UrlToOutline from "../dialog/url-to-outline";
 
 export function CommandMenu({ editor }) {
   const [open, setOpen] = React.useState(false);
@@ -26,6 +27,8 @@ export function CommandMenu({ editor }) {
   const [outlineWriterOpen, setOutlineWriterOpen] =
     React.useState<boolean>(false);
   const [customPromptOpen, setCustomPromptOpen] =
+    React.useState<boolean>(false);
+  const [urlToOutlineOpen, setUrlToOutlineOpen] =
     React.useState<boolean>(false);
 
   React.useEffect(() => {
@@ -61,6 +64,9 @@ export function CommandMenu({ editor }) {
               Custom Prompt
             </CommandItem>
             <CommandItem>Write Article</CommandItem>
+            <CommandItem onSelect={() => setUrlToOutlineOpen(true)}>
+              Generate Outline from URL
+            </CommandItem>
           </CommandGroup>
         </CommandList>
       </CommandDialog>
@@ -81,6 +87,12 @@ export function CommandMenu({ editor }) {
       <CustomPrompt
         open={customPromptOpen}
         setOpen={setCustomPromptOpen}
+        editor={editor}
+        setParentOpen={setOpen}
+      />
+      <UrlToOutline
+        open={urlToOutlineOpen}
+        setOpen={setUrlToOutlineOpen}
         editor={editor}
         setParentOpen={setOpen}
       />

@@ -36,7 +36,7 @@ const formSchema = z.object({
   }),
 });
 
-export default function CustomPrompt({
+export default function UrlToOutline({
   open,
   setOpen,
   editor,
@@ -126,7 +126,7 @@ export default function CustomPrompt({
     setParentOpen(false);
     console.log(open);
     try {
-      const contentResponse = await fetch("/api/scraper", {
+      const contentResponse = await fetch("/api/scrape", {
         method: "POST",
         body: JSON.stringify({ url: values.url }),
       });
