@@ -17,12 +17,15 @@ import {
 // Dialog Components
 import OutlineGenerator from "../dialog/outline-generator";
 import OutlineWriter from "../dialog/outline-writer";
+import CustomPrompt from "../dialog/custom-prompt";
 
 export function CommandMenu({ editor }) {
   const [open, setOpen] = React.useState(false);
   const [outlineGeneratorOpen, setOutlineGeneratorOpen] =
     React.useState<boolean>(false);
   const [outlineWriterOpen, setOutlineWriterOpen] =
+    React.useState<boolean>(false);
+  const [customPromptOpen, setCustomPromptOpen] =
     React.useState<boolean>(false);
 
   React.useEffect(() => {
@@ -54,7 +57,9 @@ export function CommandMenu({ editor }) {
             <CommandItem onSelect={() => setOutlineWriterOpen(true)}>
               Writer Article from Outline
             </CommandItem>
-            <CommandItem>Custom Prompt</CommandItem>
+            <CommandItem onSelect={() => setCustomPromptOpen(true)}>
+              Custom Prompt
+            </CommandItem>
             <CommandItem>Write Article</CommandItem>
           </CommandGroup>
         </CommandList>
@@ -70,6 +75,12 @@ export function CommandMenu({ editor }) {
       <OutlineWriter
         open={outlineWriterOpen}
         setOpen={setOutlineWriterOpen}
+        editor={editor}
+        setParentOpen={setOpen}
+      />
+      <CustomPrompt
+        open={customPromptOpen}
+        setOpen={setCustomPromptOpen}
         editor={editor}
         setParentOpen={setOpen}
       />
