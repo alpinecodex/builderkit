@@ -13,39 +13,28 @@ export const AppContext = createContext<{
   setFont: Dispatch<SetStateAction<string>>;
 }>({
   font: "Default",
-  setFont: () => {},
+  setFont: () => { },
 });
 
 const ToasterProvider = () => {
-  const { theme } = useTheme() as {
-    theme: "light" | "dark" | "system";
-  };
-  return <Toaster theme={theme} />;
+  return <Toaster position="top-center" />;
 };
 
 export default function Providers({ children }: { children: ReactNode }) {
   const [font, setFont] = useLocalStorage<string>("novel__font", "Default");
 
   return (
-    // <ThemeProvider
-    //   attribute="class"
-    //   value={{
-    //     light: "light-theme",
-    //     dark: "dark-theme",
-    //   }}
-    // >
     <AppContext.Provider
       value={{
         font,
         setFont,
       }}
     >
-      {/* <ToasterProvider /> */}
+      <ToasterProvider />
       <div className={cn(displayFontMapper[font], defaultFontMapper[font])}>
         {children}
       </div>
       <Analytics />
     </AppContext.Provider>
-    // </ThemeProvider>
   );
 }
