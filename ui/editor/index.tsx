@@ -223,6 +223,19 @@ export default function Editor() {
     document.body.removeChild(el);
   };
 
+  const clearEditor = () => {
+    if (editor) {
+      editor.commands.setContent({
+        type: "doc",
+        content: [],
+      });
+      setContent({
+        type: "doc",
+        content: [],
+      }); // This will clear the local storage
+    }
+  };
+
   return (
     <div className="absolute right-0 top-0 w-screen items-end">
       {/* Cmd + K */}
@@ -235,7 +248,7 @@ export default function Editor() {
         }}
         className="absolute right-0 top-0 min-h-screen w-3/4 border-neutral-200 sm:mb-[calc(20vh)]"
       >
-        <div className="fixed right-14 top-4 z-50 rounded-lg bg-neutral-100 px-2 py-1 text-sm text-neutral-400">
+        <div className="fixed right-[163px] top-4 z-50 rounded-lg bg-neutral-100 px-2 py-1 text-sm text-neutral-400">
           {saveStatus}
         </div>
         {editor && <EditorBubbleMenu editor={editor} />}
@@ -246,7 +259,7 @@ export default function Editor() {
         {/* Copy Button, Google Doc, Post to Wordpress */}
         <div className="fixed left-[27%] top-4 flex gap-2">
           <button
-            className="flex items-center gap-1 rounded-md bg-stone-100 px-2 py-1 text-sm font-medium text-stone-600 hover:bg-stone-200"
+            className="flex items-center gap-1 rounded-lg bg-stone-100 px-2 py-1 text-sm font-medium text-stone-600 hover:bg-stone-200"
             onClick={copyContent}
           >
             <svg
@@ -266,7 +279,7 @@ export default function Editor() {
             Copy
           </button>
           <button
-            className="flex items-center gap-1 rounded-md bg-stone-100 px-2 py-1 text-sm font-medium text-stone-600 hover:bg-stone-200"
+            className="flex items-center gap-1 rounded-lg bg-stone-100 px-2 py-1 text-sm font-medium text-stone-600 hover:bg-stone-200"
             onClick={copyToNewGoogleDoc}
           >
             <svg
@@ -286,7 +299,7 @@ export default function Editor() {
             Google Doc
           </button>
           <button
-            className="flex items-center gap-1 rounded-md bg-stone-100 px-2 py-1 text-sm font-medium text-stone-600 hover:bg-stone-200"
+            className="flex items-center gap-1 rounded-lg bg-stone-100 px-2 py-1 text-sm font-medium text-stone-600 hover:bg-stone-200"
             onClick={postToWordpress}
           >
             <svg
@@ -300,12 +313,33 @@ export default function Editor() {
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418"
+                d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"
               />
             </svg>
             Post to WordPress
           </button>
         </div>
+
+        <button
+          className="fixed right-14 top-4 flex items-center gap-1 rounded-lg bg-stone-100 py-1 pl-1 pr-2 text-sm font-medium text-stone-600 hover:bg-stone-200"
+          onClick={clearEditor}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="h-4 w-4"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M12 6v12m6-6H6"
+            />
+          </svg>
+          New Draft
+        </button>
       </div>
     </div>
   );
