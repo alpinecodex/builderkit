@@ -14,7 +14,8 @@ import { EditorBubbleMenu } from "./components/bubble-menu";
 import { getPrevText } from "@/lib/editor";
 import { ImageResizer } from "./components/image-resizer";
 import { CommandMenu } from "../ui/cmd-k";
-import MenuBar from "./menu";
+import MenuBar from "./menu-bar";
+import Stats from "./stats";
 
 export default function Editor() {
   const [content, setContent] = useLocalStorage(
@@ -242,6 +243,9 @@ export default function Editor() {
       <CommandMenu editor={editor} />
       {/* Text Formatting Menu */}
       <MenuBar editor={editor} />
+      {/* Stats Menu */}
+      <Stats editor={editor} />
+
       <div
         onClick={() => {
           editor?.chain().focus().run();
