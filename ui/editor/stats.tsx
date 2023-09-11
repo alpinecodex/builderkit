@@ -20,12 +20,12 @@ const Stats = ({ editor }) => {
       <div className="flex w-full flex-wrap items-center justify-between gap-2 rounded-lg bg-stone-400 bg-opacity-80 px-4 py-2 text-white shadow-sm">
         <p>
           Word Count:{" "}
-          <code className="rounded-lg bg-stone-500 px-1 py-px">
+          <code className="rounded-md bg-stone-500 px-1 py-px">
             {wordCount}
           </code>
         </p>
         <button className="hover:underline-hover">
-          Generate Content Score
+          Generate Content Score (Coming Soon)
         </button>
       </div>
     </div>
