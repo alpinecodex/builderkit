@@ -1,3 +1,5 @@
+import { toast } from "sonner";
+
 const Stats = ({ editor }) => {
   if (!editor) {
     return null;
@@ -15,9 +17,16 @@ const Stats = ({ editor }) => {
 
   return (
     <div className="fixed bottom-0 right-0 z-10 hidden w-3/4 rounded-lg p-12 py-4 text-sm shadow-sm lg:flex">
-      <div className="flex w-full flex-wrap items-center gap-2 rounded-lg bg-stone-400 bg-opacity-80 px-4 py-2 text-white shadow-sm">
-        Word Count:{" "}
-        <code className="rounded-lg bg-stone-500 px-1 py-px">{wordCount}</code>
+      <div className="flex w-full flex-wrap items-center justify-between gap-2 rounded-lg bg-stone-400 bg-opacity-80 px-4 py-2 text-white shadow-sm">
+        <p>
+          Word Count:{" "}
+          <code className="rounded-lg bg-stone-500 px-1 py-px">
+            {wordCount}
+          </code>
+        </p>
+        <button className="hover:underline-hover">
+          Generate Content Score
+        </button>
       </div>
     </div>
   );
