@@ -59,7 +59,13 @@ export default function Nav() {
           Created by <a href="https://alpinecodex.com">Alpine Codex</a>.
         </p>
         <p className="text-sm text-neutral-500">
-          © Builder Kit, 2023. All Rights Reserved.
+          © <a href="https://builderkit.io">Builder Kit</a>, 2023. All Rights
+          Reserved.
+        </p>
+        <p className="sr-only">
+          Created by{" "}
+          <a href="https://cameronyoungblood.com">Cameron Youngblood</a> and
+          <a href="https://bridger.cc">Bridger Tower</a>
         </p>
       </div>
     </nav>
