@@ -4,8 +4,8 @@ const MenuBar = ({ editor }) => {
   }
 
   return (
-    <div className="fixed bottom-0 right-0 z-10 hidden w-3/4 rounded-lg p-12 py-6 shadow-sm lg:flex">
-      <div className="flex flex-wrap gap-2 rounded-lg bg-neutral-100 bg-opacity-80 p-6 shadow-sm backdrop-blur-md">
+    <div className="fixed bottom-12 right-0 z-10 hidden w-3/4 rounded-lg p-12 py-6 text-sm shadow-sm lg:flex">
+      <div className="flex flex-wrap gap-2 rounded-lg border bg-neutral-100 bg-opacity-80 p-4 shadow-sm backdrop-blur-md">
         <button
           onClick={() => editor.chain().focus().toggleBold().run()}
           disabled={!editor.can().chain().focus().toggleBold().run()}
@@ -226,23 +226,13 @@ const MenuBar = ({ editor }) => {
         <button
           className={
             editor.isActive("redo")
-              ? "is-active dark:text-neutral-700 rounded-md border bg-neutral-300 px-2 py-1"
+              ? "is-active dark:text-neutral-700 rounded-md border bg-neutral-400 px-2 py-1"
               : "rounded-md border px-2 py-1"
           }
           onClick={() => editor.chain().focus().redo().run()}
           disabled={!editor.can().chain().focus().redo().run()}
         >
           redo
-        </button>
-        <button
-          onClick={() => editor.chain().focus().setColor("#958DF1").run()}
-          className={
-            editor.isActive("textStyle", { color: "#958DF1" })
-              ? "is-active dark:text-neutral-700 rounded-md border bg-neutral-300 px-2 py-1"
-              : "rounded-md border px-2 py-1"
-          }
-        >
-          purple
         </button>
       </div>
     </div>
