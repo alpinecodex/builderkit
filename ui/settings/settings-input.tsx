@@ -46,7 +46,7 @@ export default function SettingsInput({
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const response = await fetch("/api/settings", {
-      method: "POST",
+      method: "PUT",
       body: JSON.stringify(values),
     });
     if (response.status === 200) {
@@ -83,6 +83,7 @@ export default function SettingsInput({
                     onClick={handleClick}
                     className="p-2"
                     variant="outline"
+                    type="button"
                   >
                     <Eye />
                   </Button>
