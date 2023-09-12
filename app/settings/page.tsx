@@ -15,6 +15,7 @@ export default async function Page() {
     <>
       <div className="flex">
         <Nav />
+        {/* @ts-expect-error Server Component */}
         <SettingsForm />
       </div>
       <Menu />

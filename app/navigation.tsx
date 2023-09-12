@@ -17,7 +17,7 @@ const links = [
   },
   {
     title: "Settings",
-    href: "/",
+    href: "/settings",
     icon: <Settings />,
   },
 ];

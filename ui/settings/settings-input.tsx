@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { toast } from "sonner";
 
 import { Button } from "@/ui/ui/button";
 import {
@@ -24,6 +25,7 @@ type SettingsInputProps = {
   title: string;
   placeholder: string;
   description: string;
+  defaultValue: string;
 };
 
 export default function SettingsInput({
@@ -31,6 +33,7 @@ export default function SettingsInput({
   title,
   placeholder,
   description,
+  defaultValue,
 }: SettingsInputProps) {
   const formSchema = z.object({
     [attribute]: z.string().nonempty("Required."),
@@ -40,7 +43,7 @@ export default function SettingsInput({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      [attribute]: "",
+      [attribute]: defaultValue ? defaultValue : "",
     },
   });
 
@@ -50,7 +53,7 @@ export default function SettingsInput({
       body: JSON.stringify(values),
     });
     if (response.status === 200) {
-      console.log("good");
+      toast.success(`Successfully saved ${title}.`);
     }
     const data = await response.json();
   };

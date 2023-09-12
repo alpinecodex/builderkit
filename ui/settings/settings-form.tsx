@@ -1,4 +1,8 @@
 import SettingsInput from "./settings-input";
+import { getServerSession, Session } from "next-auth";
+import { redirect } from "next/navigation";
+import { authOptions } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
 
 const inputs = [
   {
@@ -28,6 +32,19 @@ const inputs = [
 ];
 
 export default async function SettingsForm() {
+  const session = (await getServerSession(authOptions)) as Session;
+  const { email } = session?.user;
+
+  if (!session) {
+    redirect("/login?callbackUrl=/");
+  }
+
+  const data = await prisma.user.findUnique({
+    where: {
+      email,
+    },
+  });
+
   return (
     <div className="absolute right-0 top-0 flex min-h-screen w-3/4 justify-center border-neutral-200 sm:mb-[calc(20vh)]">
       <div className="w-3/4 max-w-[500px] py-24">
@@ -39,6 +56,7 @@ export default async function SettingsForm() {
             title={input.title}
             placeholder={input.placeholder}
             description={input.description}
+            defaultValue={data[input.attribute]}
           />
         ))}
       </div>

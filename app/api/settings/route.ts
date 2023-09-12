@@ -21,7 +21,6 @@ export async function PUT(request: Request) {
       },
     });
 
-    console.log(updatedRecord);
     return NextResponse.json(updatedRecord);
   } catch (error) {
     console.log(error);
