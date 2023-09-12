@@ -35,10 +35,6 @@ export default async function SettingsForm() {
   const session = (await getServerSession(authOptions)) as Session;
   const { email } = session?.user;
 
-  if (!session) {
-    redirect("/login?callbackUrl=/");
-  }
-
   const data = await prisma.user.findUnique({
     where: {
       email,
