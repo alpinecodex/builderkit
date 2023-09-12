@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import AccountWidget from "@/ui/auth/account-widget";
 
 import { Archive, Pencil, Settings, ArrowRight } from "lucide-react";
 
@@ -53,8 +54,8 @@ export default function Nav() {
         </div>
       </div>
       <div className="flex flex-col gap-4">
-        {/* Put Account Information Here */}
-        <p className="underline">Account Information</p>
+        {/* @ts-expect-error Server Component */}
+        <AccountWidget />
         <p className="text-sm text-neutral-500">
           Created by <a href="https://alpinecodex.com">Alpine Codex</a>.
         </p>

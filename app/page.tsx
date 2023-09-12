@@ -9,7 +9,7 @@ export default async function Page() {
   const session = await getServerSession(authOptions);
 
   if (!session) {
-    redirect("/api/auth/signin?callbackUrl=/");
+    redirect("/login?callbackUrl=/");
   }
   return (
     <>
