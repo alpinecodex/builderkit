@@ -1,6 +1,7 @@
 "use client";
 
 import { useCompletion } from "ai/react";
+import { useSession } from "next-auth/react";
 
 import {
   Dialog,
@@ -47,9 +48,13 @@ export default function OutlineWriter({
   editor;
   setParentOpen: (open: boolean) => void;
 }) {
+  const { data: session } = useSession();
   const { complete, isLoading, completion, stop } = useCompletion({
     id: "outline-writer",
     api: "/api/ai",
+    headers: {
+      email: session?.user?.email,
+    },
     onResponse: (response) => {
       if (response.status === 429) {
         toast.error("You have reached your request limit for the day.");

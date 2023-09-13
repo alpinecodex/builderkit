@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import AccountWidget from "@/ui/auth/account-widget";
 
 import { Archive, Pencil, Settings, ArrowRight } from "lucide-react";
@@ -17,7 +16,7 @@ const links = [
   },
   {
     title: "Settings",
-    href: "/",
+    href: "/settings",
     icon: <Settings />,
   },
 ];
@@ -39,7 +38,7 @@ export default function Nav() {
         </div>
         <div className="mt-12 flex flex-col justify-between gap-4 text-lg">
           {links.map((link) => (
-            <Link
+            <a
               className="group flex items-center justify-between rounded-lg border border-stone-300 px-3 py-2 text-stone-600 hover:bg-stone-300 hover:text-stone-900"
               href={link.href}
               key={link.title}
@@ -49,7 +48,7 @@ export default function Nav() {
                 {link.title}
               </div>
               <ArrowRight className="hidden text-stone-400 group-hover:block" />
-            </Link>
+            </a>
           ))}
         </div>
       </div>

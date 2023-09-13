@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useSession } from "next-auth/react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import { TiptapEditorProps } from "./props";
 import { TiptapExtensions } from "./extensions";
@@ -18,6 +19,7 @@ import MenuBar from "./menu-bar";
 import Stats from "./stats";
 
 export default function Editor() {
+  const { data: session } = useSession();
   const [content, setContent] = useLocalStorage(
     "content",
     DEFAULT_EDITOR_CONTENT,
@@ -67,6 +69,9 @@ export default function Editor() {
   const { complete, completion, isLoading, stop } = useCompletion({
     id: "novel",
     api: "/api/generate",
+    headers: {
+      email: session?.user?.email,
+    },
     onFinish: (_prompt, completion) => {
       editor?.commands.setTextSelection({
         from: editor.state.selection.from - completion.length,
