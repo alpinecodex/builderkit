@@ -4,20 +4,27 @@ import Magic from "@/ui/icons/magic";
 import { Editor, Extension, Range } from "@tiptap/core";
 import { ReactRenderer } from "@tiptap/react";
 import Suggestion from "@tiptap/suggestion";
-import va from "@vercel/analytics";
+import { useSession } from "next-auth/react";
 import { useCompletion } from "ai/react";
 import {
-  CheckSquare, Code, Heading1,
+  CheckSquare,
+  Code,
+  Heading1,
   Heading2,
   Heading3,
   List,
   ListOrdered,
   MessageSquarePlus,
   Text,
-  TextQuote
+  TextQuote,
 } from "lucide-react";
 import {
-  ReactNode, useCallback, useEffect, useLayoutEffect, useRef, useState
+  ReactNode,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
 } from "react";
 import { toast } from "sonner";
 import tippy from "tippy.js";
@@ -247,10 +254,14 @@ const CommandList = ({
   range: any;
 }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const { data: session } = useSession();
 
   const { complete, isLoading } = useCompletion({
     id: "novel",
     api: "/api/generate",
+    headers: {
+      email: session?.user?.email,
+    },
     onResponse: (response) => {
       if (response.status === 429) {
         toast.error("You have reached your request limit for the day.");
@@ -339,8 +350,9 @@ const CommandList = ({
       {items.map((item: CommandItemProps, index: number) => {
         return (
           <button
-            className={`flex w-full items-center space-x-2 rounded-md px-2 py-1 text-left text-sm text-stone-900 hover:bg-stone-100 ${index === selectedIndex ? "bg-stone-100 text-stone-900" : ""
-              }`}
+            className={`flex w-full items-center space-x-2 rounded-md px-2 py-1 text-left text-sm text-stone-900 hover:bg-stone-100 ${
+              index === selectedIndex ? "bg-stone-100 text-stone-900" : ""
+            }`}
             key={index}
             onClick={() => selectItem(index)}
           >
