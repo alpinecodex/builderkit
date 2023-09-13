@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getServerSession, Session } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import { kv } from "@vercel/kv";
 
 export async function PUT(request: Request) {
   const session = (await getServerSession(authOptions)) as Session;
@@ -19,6 +20,13 @@ export async function PUT(request: Request) {
       data: {
         [key]: value,
       },
+    });
+
+    await kv.hset(email, {
+      wordpressKey: updatedRecord?.wordpressKey,
+      openAiKey: updatedRecord?.openAiKey,
+      anthropicKey: updatedRecord?.anthropicKey,
+      copyLeaksKey: updatedRecord?.copyLeaksKey,
     });
 
     return NextResponse.json(updatedRecord);
