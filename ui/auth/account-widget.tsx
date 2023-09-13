@@ -1,5 +1,3 @@
-import Link from "next/link";
-import Image from "next/image";
 import { getServerSession, Session } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import SignOut from "./sign-out";
@@ -33,9 +31,9 @@ export default async function AccountWidget() {
             {session.user?.name}
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <Link href="/settings">
+          <a href="/settings">
             <DropdownMenuItem>Settings</DropdownMenuItem>
-          </Link>
+          </a>
           <SignOut>
             <DropdownMenuItem>Log out</DropdownMenuItem>
           </SignOut>
