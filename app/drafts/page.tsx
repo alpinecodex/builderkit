@@ -30,7 +30,7 @@ export default async function Page() {
           <div>
             {data.map((record) => (
               <div key={record.id}>
-                <Link href={`/drafts/${record?.id}`}>{record.title}</Link>
+                <a href={`/drafts/${record?.id}`}>{record.title}</a>
               </div>
             ))}
           </div>

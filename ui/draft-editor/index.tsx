@@ -5,24 +5,21 @@ import { useSession } from "next-auth/react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import { TiptapEditorProps } from "./props";
 import { TiptapExtensions } from "./extensions";
-import useLocalStorage from "@/lib/hooks/use-local-storage";
-import { useDebouncedCallback } from "use-debounce";
 import { useCompletion } from "ai/react";
 import { toast } from "sonner";
 import va from "@vercel/analytics";
-import DEFAULT_EDITOR_CONTENT from "./default-content";
 import { EditorBubbleMenu } from "./components/bubble-menu";
 import { getPrevText } from "@/lib/editor";
 import { ImageResizer } from "./components/image-resizer";
 import { CommandMenu } from "../ui/cmd-k";
 import MenuBar from "./menu-bar";
 import Stats from "./stats";
-import DialogForm from "../draft/dialog-form";
 
-export default function Editor({ content }: any) {
+export default function Editor({ content, id }) {
   const { data: session } = useSession();
 
   const [hydrated, setHydrated] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const editor = useEditor({
     extensions: TiptapExtensions,
@@ -114,6 +111,57 @@ export default function Editor({ content }: any) {
       window.removeEventListener("mousedown", mousedownHandler);
     };
   }, [stop, isLoading, editor, complete, completion.length]);
+
+  const saveOnClick = async () => {
+    const content = editor?.getJSON() || "";
+    console.log(content);
+    const apiCall = new Promise(async (resolve, reject) => {
+      try {
+        setLoading(true);
+        const response = await fetch("/api/drafts", {
+          method: "PUT",
+          body: JSON.stringify({ content, id }),
+        });
+        const data = await response.json();
+        if (response.status === 200) {
+          resolve(data);
+        } else {
+          reject(new Error("Something went wrong."));
+        }
+        setLoading(false);
+      } catch (error) {
+        toast.error("An error occurred.");
+      }
+    });
+    toast.promise(apiCall, {
+      loading: "Saving the draft...",
+      success: (data) => "Successfully saved the draft.",
+      error: (err) => {
+        if (err.message === "Something went wrong.") {
+          return "You are unauthorized to perform this action.";
+        } else {
+          return "Something went wrong. Please try again later.";
+        }
+      },
+    });
+  };
+
+  // CMD + S to save draft
+  // TODO -> figure out why this is clearing the editor
+  // useEffect(() => {
+  //   const handleKeyDown = async (e) => {
+  //     if (e.metaKey && e.code === "KeyS") {
+  //       e.preventDefault();
+  //       await saveOnClick();
+  //     }
+  //   };
+
+  //   window.addEventListener("keydown", handleKeyDown);
+
+  //   return () => {
+  //     window.removeEventListener("keydown", handleKeyDown);
+  //   };
+  // }, []);
 
   // Hydrate the editor with the content from localStorage.
   useEffect(() => {
@@ -297,7 +345,27 @@ export default function Editor({ content }: any) {
           </button>
         </div>
 
-        <DialogForm editor={editor} />
+        <button
+          className="fixed right-14 top-4 flex items-center gap-1 rounded-lg bg-stone-100 py-1 pl-1 pr-2 text-sm font-medium text-stone-600 hover:bg-stone-200"
+          disabled={loading}
+          onClick={saveOnClick}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="h-4 w-4"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M12 6v12m6-6H6"
+            />
+          </svg>
+          Save
+        </button>
       </div>
     </div>
   );

@@ -18,7 +18,7 @@ export default async function Page({ params: { id }, params: { id: string } }) {
     <>
       <div className="flex">
         <Nav />
-        <Editor content={draft?.content} />
+        <Editor content={draft?.content} id={id} />
       </div>
       <Menu />
     </>
