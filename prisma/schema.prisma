@@ -50,6 +50,7 @@ model User {
   openAiKey     String?
   anthropicKey  String?
   copyLeaksKey  String?
+  draft         Draft[]
 }
 
 model VerificationToken {
@@ -61,4 +62,12 @@ model VerificationToken {
   updatedAt  DateTime @updatedAt
 
   @@unique([identifier, token])
+}
+
+model Draft {
+  id     String @id @default(cuid())
+  title  String
+  body   String
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 }
