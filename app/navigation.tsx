@@ -27,7 +27,7 @@ export default function Nav() {
       <div>
         <div>
           <Image
-            src="./logo.svg"
+            src="/logo.svg"
             alt="Builder Kit Logo"
             width={200}
             height={100}

@@ -1,5 +1,5 @@
-import Menu from "../../menu";
-import Nav from "../../navigation";
+import Menu from "@/app/menu";
+import Nav from "@/app/navigation";
 import { getServerSession, Session } from "next-auth";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth";
