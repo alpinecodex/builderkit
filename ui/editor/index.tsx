@@ -17,6 +17,7 @@ import { ImageResizer } from "./components/image-resizer";
 import { CommandMenu } from "../ui/cmd-k";
 import MenuBar from "./menu-bar";
 import Stats from "./stats";
+import DialogForm from "../draft/dialog-form";
 
 export default function Editor() {
   const { data: session } = useSession();
@@ -24,25 +25,18 @@ export default function Editor() {
     "content",
     DEFAULT_EDITOR_CONTENT,
   );
-  const [saveStatus, setSaveStatus] = useState("Saved");
 
   const [hydrated, setHydrated] = useState(false);
 
   const debouncedUpdates = useDebouncedCallback(async ({ editor }) => {
     const json = editor.getJSON();
-    setSaveStatus("Saving...");
     setContent(json);
-    // Simulate a delay in saving.
-    setTimeout(() => {
-      setSaveStatus("Saved");
-    }, 500);
   }, 750);
 
   const editor = useEditor({
     extensions: TiptapExtensions,
     editorProps: TiptapEditorProps,
     onUpdate: (e) => {
-      setSaveStatus("Unsaved");
       const selection = e.editor.state.selection;
       const lastTwo = getPrevText(e.editor, {
         chars: 2,
@@ -257,9 +251,6 @@ export default function Editor() {
         }}
         className="absolute right-0 top-0 min-h-screen w-3/4 border-neutral-200 sm:mb-[calc(20vh)]"
       >
-        <div className="fixed right-[163px] top-4 z-50 rounded-lg bg-neutral-100 px-2 py-1 text-sm text-neutral-400">
-          {saveStatus}
-        </div>
         {editor && <EditorBubbleMenu editor={editor} />}
         {editor?.isActive("image") && <ImageResizer editor={editor} />}
         <div className="mx-auto max-w-screen-md px-12 pb-56 pt-24">
@@ -329,26 +320,7 @@ export default function Editor() {
           </button>
         </div>
 
-        <button
-          className="fixed right-14 top-4 flex items-center gap-1 rounded-lg bg-stone-100 py-1 pl-1 pr-2 text-sm font-medium text-stone-600 hover:bg-stone-200"
-          onClick={clearEditor}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="h-4 w-4"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M12 6v12m6-6H6"
-            />
-          </svg>
-          New Draft
-        </button>
+        <DialogForm editor={editor} />
       </div>
     </div>
   );
