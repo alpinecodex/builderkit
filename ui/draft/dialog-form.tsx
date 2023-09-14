@@ -54,7 +54,7 @@ export default function DialogForm({ editor }: { editor: Editor }) {
     };
 
     try {
-      const response = await fetch("/api/draft", {
+      const response = await fetch("/api/drafts", {
         method: "POST",
         body: JSON.stringify(formData),
       });

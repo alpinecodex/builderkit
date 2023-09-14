@@ -11,7 +11,7 @@ const links = [
   },
   {
     title: "Drafts",
-    href: "/",
+    href: "/drafts",
     icon: <Archive />,
   },
   {
