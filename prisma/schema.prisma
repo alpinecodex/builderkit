@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider  = "postgresql"
-  url       = env("POSTGRES_URL")
+  url       = env("POSTGRES_PRISMA_URL")
   directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
@@ -44,13 +44,13 @@ model User {
   image         String?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
-  accounts      Account[]
-  sessions      Session[]
-  wordpressKey  String?
-  openAiKey     String?
   anthropicKey  String?
   copyLeaksKey  String?
+  openAiKey     String?
+  wordpressKey  String?
+  accounts      Account[]
   draft         Draft[]
+  sessions      Session[]
 }
 
 model VerificationToken {
@@ -67,9 +67,9 @@ model VerificationToken {
 model Draft {
   id        String   @id @default(cuid())
   title     String
-  content   Json
   userId    String
-  user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  content   Json
+  user      User     @relation(fields: [userId], references: [id])
 }

@@ -96,7 +96,7 @@ export default function DialogForm({ editor }: { editor: Editor }) {
         <DialogHeader>
           <DialogTitle>Save Draft</DialogTitle>
           <DialogDescription className="sr-only">
-            Add a title and click "save" to save your draft.
+            Add a title and click &quot;save&quot; to save your draft.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
