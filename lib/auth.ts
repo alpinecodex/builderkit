@@ -1,8 +1,6 @@
 // @ts-ignore
 import { NextAuthOptions } from "next-auth/next";
 import GoogleProvider from "next-auth/providers/google";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { prisma } from "@/lib/prisma";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -14,5 +12,4 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/login",
   },
-  adapter: PrismaAdapter(prisma),
 };
