@@ -4,7 +4,9 @@ import { getServerSession, Session } from "next-auth";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { Trash, File, Pen } from "lucide-react";
+import { File } from "lucide-react";
+import DeleteDraft from "@/ui/draft/delete-draft";
+import EditDraft from "@/ui/draft/edit-draft";
 
 export default async function Page() {
   const session = (await getServerSession(authOptions)) as Session;
@@ -50,12 +52,8 @@ export default async function Page() {
                     updated: {record.updatedAt.toDateString()}
                   </p>
                 </a>
-                <button className="ml-2 rounded-md border-2 p-1 transition-all hover:bg-stone-200">
-                  <Pen className="transition-all hover:text-stone-500" />
-                </button>
-                <button className="rounded-md border-2 p-1 transition-all hover:bg-stone-200">
-                  <Trash className="transition-all hover:text-red-500" />
-                </button>
+                <EditDraft id={record?.id} title={record?.title} />
+                <DeleteDraft id={record?.id} />
               </div>
             ))}
           </div>
