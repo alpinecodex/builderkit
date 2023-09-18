@@ -130,10 +130,8 @@ export default function EditDraft({
               )}
             />
             <AlertDialogFooter>
-              <AlertDialogAction>
-                <button type="submit" disabled={loading}>
-                  Submit
-                </button>
+              <AlertDialogAction type="submit" disabled={loading}>
+                Submit
               </AlertDialogAction>
 
               <AlertDialogCancel>Cancel</AlertDialogCancel>
