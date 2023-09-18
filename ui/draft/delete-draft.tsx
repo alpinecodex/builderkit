@@ -1,6 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { useState } from "react";
 
 import {
   AlertDialog,
@@ -17,25 +18,41 @@ import {
 import { Trash } from "lucide-react";
 
 export default function DeleteDraft({ id }: { id: string | undefined }) {
+  const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
   const onClick = async () => {
-    try {
-      const response = await fetch("/api/drafts", {
-        method: "DELETE",
-        body: JSON.stringify({ id: id }),
-      });
+    const apiCall = new Promise(async (resolve, reject) => {
+      try {
+        setLoading(true);
+        const response = await fetch("/api/drafts", {
+          method: "DELETE",
+          body: JSON.stringify({ id: id }),
+        });
 
-      const data = await response.json();
-      if (response.status === 200) {
-        toast.success("Successfully Deleted");
-      } else {
+        const data = await response.json();
+        if (response.status === 200) {
+          resolve(data);
+        } else {
+          reject(new Error("Something went wrong."));
+        }
+        setLoading(false);
+        router.refresh();
+      } catch (error) {
+        console.log(error);
         toast.error("Something went wrong");
       }
-      router.refresh();
-    } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong");
-    }
+    });
+    toast.promise(apiCall, {
+      loading: "Deleting draft...",
+      success: (data) => "Successfully deleted draft.",
+      error: (err) => {
+        if (err.message === "Something went wrong.") {
+          return "You are unauthorized to perform this action.";
+        } else {
+          return "Something went wrong. Please try again later.";
+        }
+      },
+    });
   };
   return (
     <AlertDialog>
@@ -58,7 +75,9 @@ export default function DeleteDraft({ id }: { id: string | undefined }) {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={onClick}>Delete</AlertDialogAction>
+          <AlertDialogAction onClick={onClick} disabled={loading}>
+            Delete
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
