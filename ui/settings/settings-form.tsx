@@ -1,6 +1,5 @@
 import SettingsInput from "./settings-input";
 import { getServerSession, Session } from "next-auth";
-import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
@@ -48,11 +47,11 @@ export default async function SettingsForm() {
         {inputs.map((input, index) => (
           <SettingsInput
             key={index}
-            attribute={input.attribute}
-            title={input.title}
-            placeholder={input.placeholder}
-            description={input.description}
-            defaultValue={data[input.attribute]}
+            attribute={input?.attribute}
+            title={input?.title}
+            placeholder={input?.placeholder}
+            description={input?.description}
+            defaultValue={data?.[input?.attribute]}
           />
         ))}
       </div>
