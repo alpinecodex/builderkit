@@ -34,21 +34,39 @@ export async function POST(request: Request) {
 export async function PUT(request: Request) {
   const session = (await getServerSession(authOptions)) as Session;
   if (!session) return NextResponse.json("Not authenticated.", { status: 401 });
-  const { id, content } = await request.json();
-  try {
-    const updatedRecord = await prisma.draft.update({
-      where: {
-        id,
-      },
-      data: {
-        content,
-      },
-    });
+  const { id, content, title } = await request.json();
+  if (title) {
+    try {
+      const updatedRecord = await prisma.draft.update({
+        where: {
+          id,
+        },
+        data: {
+          title,
+        },
+      });
 
-    return NextResponse.json(updatedRecord);
-  } catch (error) {
-    console.log(error);
-    return NextResponse.json(error, { status: 500 });
+      return NextResponse.json(updatedRecord);
+    } catch (error) {
+      console.log(error);
+      return NextResponse.json(error, { status: 500 });
+    }
+  } else {
+    try {
+      const updatedRecord = await prisma.draft.update({
+        where: {
+          id,
+        },
+        data: {
+          content,
+        },
+      });
+
+      return NextResponse.json(updatedRecord);
+    } catch (error) {
+      console.log(error);
+      return NextResponse.json(error, { status: 500 });
+    }
   }
 }
 
