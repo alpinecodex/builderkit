@@ -79,7 +79,7 @@ export default function SettingsInput({
                   <Input
                     placeholder={placeholder}
                     {...field}
-                    type={hidden ? "password" : ""}
+                    type={hidden ? "password" : "text"}
                   />
                   <Button
                     size="icon"
