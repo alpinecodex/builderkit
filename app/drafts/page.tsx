@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { Trash, File, Pen } from "lucide-react";
+import DeleteDraft from "@/ui/draft/delete-draft";
 
 export default async function Page() {
   const session = (await getServerSession(authOptions)) as Session;
@@ -53,9 +54,10 @@ export default async function Page() {
                 <button className="ml-2 rounded-md border-2 p-1 transition-all hover:bg-stone-200">
                   <Pen className="transition-all hover:text-stone-500" />
                 </button>
-                <button className="rounded-md border-2 p-1 transition-all hover:bg-stone-200">
+                {/* <button className="rounded-md border-2 p-1 transition-all hover:bg-stone-200">
                   <Trash className="transition-all hover:text-red-500" />
-                </button>
+                </button> */}
+                <DeleteDraft id={record?.id} />
               </div>
             ))}
           </div>
