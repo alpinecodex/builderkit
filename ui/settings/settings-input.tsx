@@ -39,6 +39,7 @@ export default function SettingsInput({
     [attribute]: z.string().nonempty("Required."),
   });
 
+  const [loading, setLoading] = useState<boolean>(false);
   const [hidden, setHidden] = useState<boolean>(true);
   const form = useForm<z.infer<typeof formSchema>>({
     // @ts-ignore
@@ -49,14 +50,30 @@ export default function SettingsInput({
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const response = await fetch("/api/settings", {
-      method: "PUT",
-      body: JSON.stringify(values),
+    setLoading(true);
+    const apiCall = new Promise(async (resolve, reject) => {
+      const response = await fetch("/api/settings", {
+        method: "PUT",
+        body: JSON.stringify(values),
+      });
+      const data = await response.json();
+      if (response.status === 200) {
+        resolve(data);
+      } else {
+        reject(new Error("Something went wrong."));
+      }
     });
-    if (response.status === 200) {
-      toast.success(`Successfully saved ${title}.`);
-    }
-    const data = await response.json();
+    toast.promise(apiCall, {
+      loading: `Saving ${title}...`,
+      success: (data) => `Successfully edited ${title}.`,
+      error: (err) => {
+        if (err.message === "Something went wrong.") {
+          return "You are unauthorized to perform this action.";
+        } else {
+          return "Something went wrong. Please try again later.";
+        }
+      },
+    });
   };
 
   const handleClick = () => {
@@ -75,8 +92,8 @@ export default function SettingsInput({
           render={({ field }) => (
             <FormItem>
               <FormLabel>{title}</FormLabel>
-              <FormControl>
-                <div className="flex w-full max-w-sm items-center space-x-2">
+              <FormControl className="flex w-full items-center">
+                <div className="flex gap-2">
                   <Input
                     placeholder={placeholder}
                     {...field}

@@ -27,6 +27,7 @@ export async function PUT(request: Request) {
       openAiKey: updatedRecord?.openAiKey,
       anthropicKey: updatedRecord?.anthropicKey,
       copyLeaksKey: updatedRecord?.copyLeaksKey,
+      gptModel: updatedRecord?.gptModel,
     });
 
     return NextResponse.json(updatedRecord);

@@ -48,6 +48,7 @@ model User {
   copyLeaksKey  String?
   openAiKey     String?
   wordpressKey  String?
+  gptModel      GPTModel?
   accounts      Account[]
   draft         Draft[]
   sessions      Session[]
@@ -72,4 +73,19 @@ model Draft {
   updatedAt DateTime @updatedAt
   content   Json
   user      User     @relation(fields: [userId], references: [id])
+}
+
+enum GPTModel {
+  gpt_4
+  gpt_4_0613
+  gpt_4_32k
+  gpt_4_32k_0613
+  gpt_4_0314
+  gpt_4_32k_0314
+  gpt_3_5_turbo
+  gpt_3_5_turbo_16k
+  gpt_3_5_turbo_instruct
+  gpt_3_5_turbo_0613
+  gpt_3_5_turbo_16k_0613
+  gpt_3_5_turbo_0301
 }
