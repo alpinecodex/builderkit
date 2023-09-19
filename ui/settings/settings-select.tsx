@@ -1,6 +1,7 @@
 "use client";
 
 import { useForm } from "react-hook-form";
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { toast } from "sonner";
@@ -29,6 +30,7 @@ export default function SettingsSelect({
 }: {
   defaultValue: string;
 }) {
+  const [loading, setLoading] = useState<boolean>(false);
   const models: { [key: string]: string } = {
     "GPT-4": "gpt_4",
     "GPT-4 6/23": "gpt_4_0613",
@@ -55,14 +57,31 @@ export default function SettingsSelect({
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const response = await fetch("/api/settings", {
-      method: "PUT",
-      body: JSON.stringify(values),
+    setLoading(true);
+    const apiCall = new Promise(async (resolve, reject) => {
+      const response = await fetch("/api/settings", {
+        method: "PUT",
+        body: JSON.stringify(values),
+      });
+      const data = await response.json();
+      if (response.status === 200) {
+        resolve(data);
+      } else {
+        reject(new Error("Something went wrong."));
+      }
+      setLoading(false);
     });
-    if (response.status === 200) {
-      toast.success(`Successfully saved Model.`);
-    }
-    const data = await response.json();
+    toast.promise(apiCall, {
+      loading: "Saving GPT Model...",
+      success: (data) => "Successfully saved GPT Model.",
+      error: (err) => {
+        if (err.message === "Something went wrong.") {
+          return "You are unauthorized to perform this action.";
+        } else {
+          return "Something went wrong. Please try again later.";
+        }
+      },
+    });
   };
 
   return (
@@ -83,7 +102,7 @@ export default function SettingsSelect({
                     <SelectTrigger>
                       <SelectValue placeholder="Select Font Family..." />
                     </SelectTrigger>
-                    <Button variant="outline" type="submit">
+                    <Button variant="outline" type="submit" disabled={loading}>
                       Save
                     </Button>
                   </div>
