@@ -39,6 +39,7 @@ export default function DialogForm({ editor }: { editor: Editor }) {
     }),
   });
   const form = useForm<z.infer<typeof formSchema>>({
+    // @ts-ignore
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: "",
