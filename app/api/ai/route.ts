@@ -5,9 +5,25 @@ import { kv } from "@vercel/kv";
 
 export const runtime = "edge";
 
+const models = {
+  gpt_4: "gpt-4",
+  gpt_4_0613: "gpt-4-0613",
+  gpt_4_32k: "gpt-4-32k",
+  gpt_4_32k_0613: "gpt-4-32k-0613",
+  gpt_4_0314: "gpt-4-0314",
+  gpt_4_32k_0314: "gpt-4-32k-0314",
+  gpt_3_5_turbo: "gpt-3.5-turbo",
+  gpt_3_5_turbo_16k: "gpt-3.5-turbo-16k",
+  gpt_3_5_turbo_instruct: "gpt-3.5-turbo-instruct",
+  gpt_3_5_turbo_0613: "gpt-3.5-turbo-0613",
+  gpt_3_5_turbo_16k_0613: "gpt-3.5-turbo-16k-0613",
+  gpt_3_5_turbo_0301: "gpt-3.5-turbo-0301",
+};
+
 export async function POST(request: Request) {
   const email = request.headers.get("email");
   const apiKey: string = await kv.hget(email, "openAiKey");
+  const model: string = await kv.hget(email, "gptModel");
   const { prompt } = await request.json();
 
   if (!apiKey) {
@@ -26,7 +42,7 @@ export async function POST(request: Request) {
 
     const openai = new OpenAIApi(config);
     const response = await openai.createChatCompletion({
-      model: "gpt-3.5-turbo-0613",
+      model: models[model] || "gpt-3.5-turbo-0613",
       stream: true,
       messages: JSON.parse(prompt),
     });
@@ -43,6 +59,7 @@ export async function POST(request: Request) {
     const stream = OpenAIStream(response);
     return new StreamingTextResponse(stream);
   } catch (error) {
+    console.log(error);
     return NextResponse.json("An error occured. Please try again later.", {
       status: 500,
     });
