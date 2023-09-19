@@ -74,8 +74,8 @@ export default function SettingsInput({
           render={({ field }) => (
             <FormItem>
               <FormLabel>{title}</FormLabel>
-              <FormControl>
-                <div className="flex w-full max-w-sm items-center space-x-2">
+              <FormControl className="flex w-full items-center">
+                <div className="flex gap-2">
                   <Input
                     placeholder={placeholder}
                     {...field}

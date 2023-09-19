@@ -2,6 +2,7 @@ import SettingsInput from "./settings-input";
 import { getServerSession, Session } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import SettingsSelect from "./settings-select";
 
 const inputs = [
   {
@@ -42,7 +43,7 @@ export default async function SettingsForm() {
 
   return (
     <div className="absolute right-0 top-0 flex min-h-screen w-3/4 justify-center border-neutral-200 sm:mb-[calc(20vh)]">
-      <div className="w-3/4 max-w-[500px] py-24">
+      <div className="mx-auto w-full max-w-md py-24">
         <h1 className="mb-6 text-3xl">Settings</h1>
         {inputs.map((input, index) => (
           <SettingsInput
@@ -54,6 +55,7 @@ export default async function SettingsForm() {
             defaultValue={data?.[input?.attribute]}
           />
         ))}
+        <SettingsSelect defaultValue={data?.gptModel} />
       </div>
     </div>
   );
