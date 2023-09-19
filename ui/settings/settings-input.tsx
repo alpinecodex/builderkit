@@ -41,6 +41,7 @@ export default function SettingsInput({
 
   const [hidden, setHidden] = useState<boolean>(true);
   const form = useForm<z.infer<typeof formSchema>>({
+    // @ts-ignore
     resolver: zodResolver(formSchema),
     defaultValues: {
       [attribute]: defaultValue ? defaultValue : "",

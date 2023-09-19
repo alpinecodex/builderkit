@@ -278,7 +278,7 @@ export default function Editor({ content, id }) {
       >
         {editor && <EditorBubbleMenu editor={editor} />}
         {editor?.isActive("image") && <ImageResizer editor={editor} />}
-        <div className="mx-auto max-w-screen-md px-12 pb-56 pt-24">
+        <div className="mx-auto max-w-screen-md px-12 pb-56 pt-36">
           <EditorContent editor={editor} />
         </div>
         {/* Copy Button, Google Doc, Post to Wordpress */}

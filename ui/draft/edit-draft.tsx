@@ -47,6 +47,7 @@ export default function EditDraft({
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
+    // @ts-ignore
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: title || "",

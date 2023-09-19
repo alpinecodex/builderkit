@@ -10,8 +10,6 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator,
-  CommandShortcut,
 } from "@/ui/ui/command";
 
 // Dialog Components
@@ -53,25 +51,24 @@ export function CommandMenu({ editor }) {
         <CommandInput placeholder="Type a command or search..." />
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
-          <CommandGroup heading="Suggestions">
-            <CommandItem onSelect={() => setOutlineGeneratorOpen(true)}>
+          <CommandGroup heading="Select below">
+            <CommandItem onSelect={() => { setOutlineGeneratorOpen(true); setOpen(false); }}>
               Generate Outline
             </CommandItem>
-            <CommandItem onSelect={() => setOutlineWriterOpen(true)}>
-              Writer Article from Outline
+            <CommandItem onSelect={() => { setOutlineWriterOpen(true); setOpen(false); }}>
+              Write Article from Outline
             </CommandItem>
-            <CommandItem onSelect={() => setCustomPromptOpen(true)}>
+            <CommandItem onSelect={() => { setCustomPromptOpen(true); setOpen(false); }}>
               Custom Prompt
             </CommandItem>
-            <CommandItem>Write Article</CommandItem>
-            <CommandItem onSelect={() => setUrlToOutlineOpen(true)}>
+            <CommandItem onSelect={() => { setUrlToOutlineOpen(true); setOpen(false); }}>
               Generate Outline from URL
             </CommandItem>
           </CommandGroup>
         </CommandList>
       </CommandDialog>
 
-      {/* Dialog Compoents */}
+      {/* Dialog Components */}
       <OutlineGenerator
         open={outlineGeneratorOpen}
         setOpen={setOutlineGeneratorOpen}
