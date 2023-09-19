@@ -165,6 +165,12 @@ export default function UrlToOutline({
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             className="w-full space-y-8"
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                form.handleSubmit(onSubmit)();
+              }
+            }}
           >
             <FormField
               control={form.control}
