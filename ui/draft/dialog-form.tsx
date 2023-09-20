@@ -33,6 +33,7 @@ import { useForm } from "react-hook-form";
 
 export default function DialogForm({ editor }: { editor: Editor }) {
   const [loading, setLoading] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
   const formSchema = z.object({
     title: z.string().nonempty({
       message: "Required",
@@ -63,6 +64,7 @@ export default function DialogForm({ editor }: { editor: Editor }) {
         const data = await response.json();
         if (response.status === 200) {
           resolve(data);
+          setOpen(false);
         } else if (response.status === 401) {
           reject(new Error("You are unauthorized to perform this action."));
         } else {
@@ -88,7 +90,7 @@ export default function DialogForm({ editor }: { editor: Editor }) {
     });
   };
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="fixed right-14 top-4 flex items-center gap-1 rounded-lg bg-stone-100 py-1 pl-1 pr-2 text-sm font-medium text-stone-600 hover:bg-stone-200">
         <svg
           xmlns="http://www.w3.org/2000/svg"
