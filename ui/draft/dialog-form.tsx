@@ -39,7 +39,6 @@ export default function DialogForm({ editor }: { editor: Editor }) {
     }),
   });
   const form = useForm<z.infer<typeof formSchema>>({
-    // @ts-ignore
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: "",
@@ -47,32 +46,46 @@ export default function DialogForm({ editor }: { editor: Editor }) {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    setLoading(true);
     const content = editor?.getJSON() || "";
     const formData = {
       ...values,
       content,
     };
 
-    try {
-      const response = await fetch("/api/drafts", {
-        method: "POST",
-        body: JSON.stringify(formData),
-      });
+    const apiCall = new Promise(async (resolve, reject) => {
+      setLoading(true);
+      try {
+        const response = await fetch("/api/drafts", {
+          method: "POST",
+          body: JSON.stringify(formData),
+        });
 
-      const data = await response.json();
-      if (response.status === 200) {
-        toast.success("Successfully saved draft.");
-      } else if (response.status === 401) {
-        toast.error("You are unauthorized to perform this action.");
-      } else {
-        toast.error("Something went wrong. Please try again.");
+        const data = await response.json();
+        if (response.status === 200) {
+          resolve(data);
+        } else if (response.status === 401) {
+          reject(new Error("You are unauthorized to perform this action."));
+        } else {
+          reject(new Error("Something went wrong."));
+        }
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+        console.log(error);
+        toast.error("An error occurred.");
       }
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-      toast.error(error);
-    }
+    });
+    toast.promise(apiCall, {
+      loading: "Saving the draft...",
+      success: (data) => "Successfully saved the draft.",
+      error: (err) => {
+        if (err.message === "Something went wrong.") {
+          return "You are unauthorized to perform this action.";
+        } else {
+          return "Something went wrong. Please try again later.";
+        }
+      },
+    });
   };
   return (
     <Dialog>
@@ -121,7 +134,9 @@ export default function DialogForm({ editor }: { editor: Editor }) {
                 </FormItem>
               )}
             />
-            <Button type="submit">Save</Button>
+            <Button type="submit" disabled={loading}>
+              Save
+            </Button>
           </form>
         </Form>
       </DialogContent>
