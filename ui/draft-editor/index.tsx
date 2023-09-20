@@ -130,6 +130,7 @@ export default function Editor({ content, id }) {
         }
         setLoading(false);
       } catch (error) {
+        setLoading(false);
         toast.error("An error occurred.");
       }
     });
