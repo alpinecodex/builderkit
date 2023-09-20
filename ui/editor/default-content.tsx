@@ -56,12 +56,6 @@ const DEFAULT_EDITOR_CONTENT = {
         },
       ],
     },
-    { type: "horizontalRule" },
-    {
-      type: "heading",
-      attrs: { level: 3 },
-      content: [{ type: "text", text: "Learn more" }],
-    },
   ],
 };
 
