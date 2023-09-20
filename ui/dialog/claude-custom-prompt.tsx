@@ -50,7 +50,7 @@ export default function ClaudeCustomPrompt({
 }) {
   const { data: session } = useSession();
   const { complete, isLoading, completion, stop } = useCompletion({
-    id: "outline-writer",
+    id: "custom-prompt-claude",
     api: "/api/ai/claude",
     headers: {
       email: session?.user?.email,
@@ -84,7 +84,7 @@ export default function ClaudeCustomPrompt({
     setOpen(false);
     setParentOpen(false);
     try {
-      complete(JSON.stringify(prompt));
+      complete(JSON.stringify(values));
     } catch (error) {
       toast.error("An error occurred.");
     }

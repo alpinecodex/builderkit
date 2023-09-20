@@ -8,6 +8,7 @@ export async function POST(request: Request) {
   const email = request.headers.get("email");
   const apiKey: string = await kv.hget(email, "anthropicKey");
   const { prompt } = await request.json();
+  console.log(prompt);
 
   if (!apiKey) {
     return NextResponse.json(
@@ -24,6 +25,7 @@ export async function POST(request: Request) {
       headers: {
         "Content-Type": "application/json",
         "x-api-key": apiKey,
+        "anthropic-version": "2023-06-01",
       },
       body: JSON.stringify({
         prompt: `Human: ${prompt}\n\nAssistant:`,
