@@ -8,7 +8,7 @@ export async function POST(request: Request) {
   const email = request.headers.get("email");
   const apiKey: string = await kv.hget(email, "anthropicKey");
   const { prompt } = await request.json();
-  console.log(prompt);
+  console.log(prompt); // get rid of this
 
   if (!apiKey) {
     return NextResponse.json(

@@ -18,6 +18,7 @@ import OutlineWriter from "../dialog/outline-writer";
 import CustomPrompt from "../dialog/custom-prompt";
 import UrlToOutline from "../dialog/url-to-outline";
 import ClaudeCustomPrompt from "../dialog/claude-custom-prompt";
+import ClaudeOutlineWriter from "../dialog/claude-outline-writer";
 
 export function CommandMenu({ editor }) {
   const [open, setOpen] = React.useState(false);
@@ -31,6 +32,7 @@ export function CommandMenu({ editor }) {
     React.useState<boolean>(false);
   const [claudeCustomOpen, setClaudeCustomOpen] =
     React.useState<boolean>(false);
+  const [claudeOutline, setClaudeOutline] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -95,6 +97,14 @@ export function CommandMenu({ editor }) {
             >
               Custom Prompt (Claude 2)
             </CommandItem>
+            <CommandItem
+              onSelect={() => {
+                setClaudeOutline(true);
+                setOpen(false);
+              }}
+            >
+              Write Article from Outline (Claude 2)
+            </CommandItem>
           </CommandGroup>
         </CommandList>
       </CommandDialog>
@@ -127,6 +137,12 @@ export function CommandMenu({ editor }) {
       <ClaudeCustomPrompt
         open={claudeCustomOpen}
         setOpen={setClaudeCustomOpen}
+        editor={editor}
+        setParentOpen={setOpen}
+      />
+      <ClaudeOutlineWriter
+        open={claudeOutline}
+        setOpen={setClaudeOutline}
         editor={editor}
         setParentOpen={setOpen}
       />
