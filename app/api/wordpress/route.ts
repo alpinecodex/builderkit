@@ -1,17 +1,30 @@
 import { NextResponse } from 'next/server';
+import { kv } from "@vercel/kv";
+import { getServerSession, Session } from "next-auth";
+import { authOptions } from "@/lib/auth";
+
 export const POST = async (req: Request) => {
+  const session = (await getServerSession(authOptions)) as Session;
+  if (!session) return NextResponse.json("Not authenticated.", { status: 401 });
+  const email = session?.user?.email;
+
   const { content } = await req.json();
-  console.log(content);
   const postData = {
     content: content,
     status: "draft",
     title: content.match(/<h1>(.*?)<\/h1>/)[1],
     slug: content.match(/<h1>(.*?)<\/h1>/)[1],
   };
-  const url = `${process.env.WP_URL}/wp-json/wp/v2/posts`;
+
+  const wpUser: string = await kv.hget(email, "wordpressUsername");
+  const wpPass: string = await kv.hget(email, "wordpressPassword");
+  const wpUrl: string = await kv.hget(email, "wordpressUrl");
+
+
+  const url = `${wpUrl}/wp-json/wp/v2/posts`;
   const credentials = {
-    username: process.env.WP_USERNAME,
-    password: process.env.WP_PASSWORD,
+    username: wpUser,
+    password: wpPass,
   };
   const headers = {
     "Content-Type": "application/json",

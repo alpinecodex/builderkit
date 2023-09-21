@@ -164,29 +164,38 @@ export default function Editor() {
 
   // Post to Wordpress
   const postToWordpress = async () => {
-    const postContent = editor?.getHTML() || "";
-
-    try {
-      const response = await fetch("/api/wordpress", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ content: postContent }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        toast.error(errorData.error);
-      } else {
-        toast.success("Content posted to WordPress as a 'Draft'.");
+    const apiCall = new Promise(async (resolve, reject) => {
+      const postContent = editor?.getHTML() || "";
+      try {
+        const response = await fetch("/api/wordpress", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ content: postContent }),
+        });
+        const data = await response.json();
+        if (!response.ok) {
+          reject(new Error("Something went wrong."))
+        } else {
+          resolve(data);
+        }
+      } catch (err) {
+        console.error(err);
+        reject(new Error("Something went wrong."));
       }
-
-      toast.success("Content posted to WordPress as a 'Draft'.");
-    } catch (err) {
-      console.error(err);
-      toast.error("Failed to post content to WordPress.");
-    }
+    });
+    toast.promise(apiCall, {
+      loading: `Posting to WordPress...`,
+      success: (data) => `Successfully posted to WordPress`,
+      error: (err) => {
+        if (err.message === "Something went wrong.") {
+          return "You are unauthorized to perform this action.";
+        } else {
+          return "Something went wrong. Please try again later.";
+        }
+      },
+    });
   };
 
   // Clear Editor Function

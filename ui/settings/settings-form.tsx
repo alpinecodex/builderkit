@@ -27,6 +27,12 @@ const inputs = [
 
 const wpInputs = [
   {
+    attribute: "wordpressUrl",
+    title: "WordPress URL",
+    placeholder: "WordPress URL...",
+    description: "Enter your WordPress URL.",
+  },
+  {
     attribute: "wordpressUsername",
     title: "WordPress Username",
     placeholder: "WordPress Username...",
