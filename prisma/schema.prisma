@@ -47,7 +47,9 @@ model User {
   anthropicKey  String?
   copyLeaksKey  String?
   openAiKey     String?
-  wordpressKey  String?
+  wordpressPassword  String?
+  wordpressUsername  String?
+wordpressUrl       String?
   gptModel      GPTModel?
   accounts      Account[]
   draft         Draft[]

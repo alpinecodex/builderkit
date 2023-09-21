@@ -23,7 +23,9 @@ export async function PUT(request: Request) {
     });
 
     await kv.hset(email, {
-      wordpressKey: updatedRecord?.wordpressKey,
+      wordpressPassword: updatedRecord?.wordpressPassword,
+      wordpressUrl: updatedRecord?.wordpressUrl,
+      wordpressUsername: updatedRecord?.wordpressUsername,
       openAiKey: updatedRecord?.openAiKey,
       anthropicKey: updatedRecord?.anthropicKey,
       copyLeaksKey: updatedRecord?.copyLeaksKey,

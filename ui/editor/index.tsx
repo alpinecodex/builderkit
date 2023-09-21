@@ -162,67 +162,43 @@ export default function Editor() {
     document.body.removeChild(el);
   };
 
-  // New Google Doc Function
-  const copyToNewGoogleDoc = () => {
-    const el = document.createElement("div");
-    el.innerHTML = editor?.getHTML() || "";
-    document.body.appendChild(el);
-
-    const range = document.createRange();
-    range.selectNode(el);
-
-    const selection = window.getSelection();
-    if (selection) {
-      selection.removeAllRanges();
-      selection.addRange(range);
-    }
-
-    try {
-      document.execCommand("copy");
-      toast.success("Content Copied: Paste into the Google Doc opening now...");
-      setTimeout(() => {
-        window.open("https://docs.new", "_blank");
-      }, 2500);
-    } catch (err) {
-      toast.error("Failed to copy text.");
-    }
-
-    if (selection) {
-      selection.removeAllRanges();
-    }
-
-    document.body.removeChild(el);
-  };
-
   // Post to Wordpress
-  const postToWordpress = () => {
-    const el = document.createElement("div");
-    el.innerHTML = editor?.getHTML() || "";
-    document.body.appendChild(el);
-
-    const range = document.createRange();
-    range.selectNode(el);
-
-    const selection = window.getSelection();
-    if (selection) {
-      selection.removeAllRanges();
-      selection.addRange(range);
-    }
-
-    try {
-      document.execCommand("copy");
-      toast.success("Content posted to WordPress as a 'Draft'.");
-    } catch (err) {
-      toast.error("Failed to copy text.");
-    }
-
-    if (selection) {
-      selection.removeAllRanges();
-    }
-
-    document.body.removeChild(el);
+  const postToWordpress = async () => {
+    const apiCall = new Promise(async (resolve, reject) => {
+      const postContent = editor?.getHTML() || "";
+      try {
+        const response = await fetch("/api/wordpress", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ content: postContent }),
+        });
+        const data = await response.json();
+        if (!response.ok) {
+          reject(new Error("Something went wrong."))
+        } else {
+          resolve(data);
+        }
+      } catch (err) {
+        console.error(err);
+        reject(new Error("Something went wrong."));
+      }
+    });
+    toast.promise(apiCall, {
+      loading: `Posting to WordPress...`,
+      success: (data) => `Successfully posted to WordPress`,
+      error: (err) => {
+        if (err.message === "Something went wrong.") {
+          return "You are unauthorized to perform this action.";
+        } else {
+          return "Something went wrong. Please try again later.";
+        }
+      },
+    });
   };
 
+  // Clear Editor Function
   const clearEditor = () => {
     if (editor) {
       editor.commands.setContent({
@@ -278,26 +254,7 @@ export default function Editor() {
             </svg>
             Copy
           </button>
-          <button
-            className="flex items-center gap-1 rounded-lg bg-stone-100 px-2 py-1 text-sm font-medium text-stone-600 hover:bg-stone-200"
-            onClick={copyToNewGoogleDoc}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="h-4 w-4"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
-              />
-            </svg>
-            Google Doc
-          </button>
+
           <button
             className="flex items-center gap-1 rounded-lg bg-stone-100 px-2 py-1 text-sm font-medium text-stone-600 hover:bg-stone-200"
             onClick={postToWordpress}
