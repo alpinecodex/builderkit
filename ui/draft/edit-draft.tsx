@@ -104,9 +104,9 @@ export default function EditDraft({
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Edit Property</AlertDialogTitle>
-          <AlertDialogDescription>
-            Change how often you receive reports and if a property is active.
+          <AlertDialogTitle>Edit Draft Title</AlertDialogTitle>
+          <AlertDialogDescription className="sr-only">
+            Edit and save the name of the draft.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <Form {...form}>

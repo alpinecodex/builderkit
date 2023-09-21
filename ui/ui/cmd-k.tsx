@@ -17,6 +17,8 @@ import OutlineGenerator from "../dialog/outline-generator";
 import OutlineWriter from "../dialog/outline-writer";
 import CustomPrompt from "../dialog/custom-prompt";
 import UrlToOutline from "../dialog/url-to-outline";
+import ClaudeCustomPrompt from "../dialog/claude-custom-prompt";
+import ClaudeOutlineWriter from "../dialog/claude-outline-writer";
 
 export function CommandMenu({ editor }) {
   const [open, setOpen] = React.useState(false);
@@ -28,6 +30,9 @@ export function CommandMenu({ editor }) {
     React.useState<boolean>(false);
   const [urlToOutlineOpen, setUrlToOutlineOpen] =
     React.useState<boolean>(false);
+  const [claudeCustomOpen, setClaudeCustomOpen] =
+    React.useState<boolean>(false);
+  const [claudeOutline, setClaudeOutline] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -52,17 +57,53 @@ export function CommandMenu({ editor }) {
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
           <CommandGroup heading="Select below">
-            <CommandItem onSelect={() => { setOutlineGeneratorOpen(true); setOpen(false); }}>
+            <CommandItem
+              onSelect={() => {
+                setOutlineGeneratorOpen(true);
+                setOpen(false);
+              }}
+            >
               Generate Outline
             </CommandItem>
-            <CommandItem onSelect={() => { setOutlineWriterOpen(true); setOpen(false); }}>
+            <CommandItem
+              onSelect={() => {
+                setOutlineWriterOpen(true);
+                setOpen(false);
+              }}
+            >
               Write Article from Outline
             </CommandItem>
-            <CommandItem onSelect={() => { setCustomPromptOpen(true); setOpen(false); }}>
+            <CommandItem
+              onSelect={() => {
+                setCustomPromptOpen(true);
+                setOpen(false);
+              }}
+            >
               Custom Prompt
             </CommandItem>
-            <CommandItem onSelect={() => { setUrlToOutlineOpen(true); setOpen(false); }}>
+            <CommandItem
+              onSelect={() => {
+                setUrlToOutlineOpen(true);
+                setOpen(false);
+              }}
+            >
               Generate Outline from URL
+            </CommandItem>
+            <CommandItem
+              onSelect={() => {
+                setClaudeCustomOpen(true);
+                setOpen(false);
+              }}
+            >
+              Custom Prompt (Claude 2)
+            </CommandItem>
+            <CommandItem
+              onSelect={() => {
+                setClaudeOutline(true);
+                setOpen(false);
+              }}
+            >
+              Write Article from Outline (Claude 2)
             </CommandItem>
           </CommandGroup>
         </CommandList>
@@ -90,6 +131,18 @@ export function CommandMenu({ editor }) {
       <UrlToOutline
         open={urlToOutlineOpen}
         setOpen={setUrlToOutlineOpen}
+        editor={editor}
+        setParentOpen={setOpen}
+      />
+      <ClaudeCustomPrompt
+        open={claudeCustomOpen}
+        setOpen={setClaudeCustomOpen}
+        editor={editor}
+        setParentOpen={setOpen}
+      />
+      <ClaudeOutlineWriter
+        open={claudeOutline}
+        setOpen={setClaudeOutline}
         editor={editor}
         setParentOpen={setOpen}
       />
