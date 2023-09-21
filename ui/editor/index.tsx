@@ -162,22 +162,24 @@ export default function Editor() {
     document.body.removeChild(el);
   };
 
-
   // Post to Wordpress
   const postToWordpress = async () => {
     const postContent = editor?.getHTML() || "";
 
     try {
       const response = await fetch("/api/wordpress", {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ content: postContent })
+        body: JSON.stringify({ content: postContent }),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to post to WordPress');
+        const errorData = await response.json();
+        toast.error(errorData.error);
+      } else {
+        toast.success("Content posted to WordPress as a 'Draft'.");
       }
 
       toast.success("Content posted to WordPress as a 'Draft'.");

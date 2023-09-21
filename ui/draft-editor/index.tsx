@@ -202,32 +202,27 @@ export default function Editor({ content, id }) {
   };
 
   // Post to Wordpress
-  const postToWordpress = () => {
-    const el = document.createElement("div");
-    el.innerHTML = editor?.getHTML() || "";
-    document.body.appendChild(el);
-
-    const range = document.createRange();
-    range.selectNode(el);
-
-    const selection = window.getSelection();
-    if (selection) {
-      selection.removeAllRanges();
-      selection.addRange(range);
-    }
+  const postToWordpress = async () => {
+    const postContent = editor?.getHTML() || "";
 
     try {
-      document.execCommand("copy");
+      const response = await fetch("/api/wordpress", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ content: postContent })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to post to WordPress');
+      }
+
       toast.success("Content posted to WordPress as a 'Draft'.");
     } catch (err) {
-      toast.error("Failed to copy text.");
+      console.error(err);
+      toast.error("Failed to post content to WordPress.");
     }
-
-    if (selection) {
-      selection.removeAllRanges();
-    }
-
-    document.body.removeChild(el);
   };
 
   // Clear Editor Function
