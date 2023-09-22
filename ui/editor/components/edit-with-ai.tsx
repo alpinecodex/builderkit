@@ -81,10 +81,20 @@ function DialogForm({ editor }: { editor: Editor }) {
     },
   });
 
+  // useEffect(() => {
+  //   if (editor) {
+  //     editor.chain().setContent(completion, false).run();
+  //   }
+  // }, [isLoading, editor, completion]);
+
+  const prev = useRef("");
+
+  // editor?.commands.deleteRange({
+
   useEffect(() => {
-    if (editor) {
-      editor.chain().setContent(completion, false).run();
-    }
+    const diff = completion.slice(prev.current.length);
+    prev.current = completion;
+    editor?.commands.insertContent(diff);
   }, [isLoading, editor, completion]);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -96,7 +106,17 @@ function DialogForm({ editor }: { editor: Editor }) {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      complete(JSON.stringify(values));
+      const messages = [
+        {
+          role: "system",
+          content: "You are an AI assistant for writing.",
+        },
+        {
+          role: "user",
+          content: `${values.prompt}\n\n Please return the only the text in markdown.`,
+        },
+      ];
+      complete(JSON.stringify(messages));
     } catch (error) {
       toast.error("An error occurred.");
     }
