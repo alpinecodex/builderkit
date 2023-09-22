@@ -9,9 +9,6 @@ interface EditWithAI {
 }
 
 export const EditWithAI: FC<EditWithAI> = ({ editor }) => {
-  let selection = editor.state.selection;
-  let range = { from: selection.from, to: selection.to };
-
   return (
     <div className="relative h-full">
       {/* <button
@@ -66,6 +63,10 @@ const formSchema = z.object({
 
 function DialogForm({ editor }: { editor: Editor }) {
   const { data: session } = useSession();
+
+  let selection = editor.state.selection;
+  let range = { from: selection.from, to: selection.to };
+
   const { complete, isLoading, completion, stop } = useCompletion({
     id: "edit-prompt",
     api: "/api/ai",
@@ -73,10 +74,6 @@ function DialogForm({ editor }: { editor: Editor }) {
       email: session?.user?.email,
     },
     onResponse: (response) => {
-      if (response.status === 429) {
-        toast.error("You have reached your request limit for the day.");
-        return;
-      }
       editor.chain().focus().run();
     },
     onError: () => {
@@ -112,8 +109,10 @@ function DialogForm({ editor }: { editor: Editor }) {
       </DialogTrigger>
       <DialogContent className="z-[9999]">
         <DialogHeader>
-          <DialogTitle>Custom Prompt with Claude</DialogTitle>
-          <DialogDescription>Enter a custom prompt to write.</DialogDescription>
+          <DialogTitle>Edit Selection with a Custom Prompt</DialogTitle>
+          <DialogDescription>
+            Enter instructions on what you want the AI to do.
+          </DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form
@@ -131,16 +130,17 @@ function DialogForm({ editor }: { editor: Editor }) {
               name="prompt"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>User Message</FormLabel>
+                  <FormLabel>Instructions</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="User prompt message..."
+                      placeholder="Enter prompt..."
                       className=""
                       {...field}
                     />
                   </FormControl>
                   <FormDescription className="sr-only">
-                    Set a custom prompt message for Claude 2 by Anthropic.
+                    Enter a prompt to perform custom actions on the selected
+                    area.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
