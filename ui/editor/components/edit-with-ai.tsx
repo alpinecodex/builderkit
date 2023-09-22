@@ -110,7 +110,7 @@ function DialogForm({ editor }: { editor: Editor }) {
       <DialogTrigger className="flex h-full items-center gap-1 p-2 text-sm font-medium text-stone-600 hover:bg-stone-100 active:bg-stone-200">
         Edit
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="z-[9999]">
         <DialogHeader>
           <DialogTitle>Custom Prompt with Claude</DialogTitle>
           <DialogDescription>Enter a custom prompt to write.</DialogDescription>
