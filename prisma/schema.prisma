@@ -37,21 +37,23 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  anthropicKey  String?
-  copyLeaksKey  String?
-  openAiKey     String?
-  wordpressKey  String?
-  gptModel      GPTModel?
-  accounts      Account[]
-  draft         Draft[]
-  sessions      Session[]
+  id                String    @id @default(cuid())
+  name              String?
+  email             String?   @unique
+  emailVerified     DateTime?
+  image             String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  anthropicKey      String?
+  copyLeaksKey      String?
+  openAiKey         String?
+  gptModel          GPTModel?
+  wordpressPassword String?
+  wordpressUrl      String?
+  wordpressUsername String?
+  accounts          Account[]
+  draft             Draft[]
+  sessions          Session[]
 }
 
 model VerificationToken {
