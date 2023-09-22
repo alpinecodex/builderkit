@@ -1,22 +1,13 @@
 import { Editor } from "@tiptap/core";
-import { Check, ChevronDown } from "lucide-react";
-import { Dispatch, FC, SetStateAction } from "react";
+import { FC } from "react";
 
 interface EditWithAI {
   editor: Editor;
-  //   isOpen: boolean;
-  //   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 export const EditWithAI: FC<EditWithAI> = ({ editor }) => {
   return (
     <div className="relative h-full">
-      {/* <button
-        className="flex h-full items-center gap-1 p-2 text-sm font-medium text-stone-600 hover:bg-stone-100 active:bg-stone-200"
-        onClick={() => editor.chain().focus().deleteRange(range).run()}
-      >
-        Delete
-      </button> */}
       <DialogForm editor={editor} />
     </div>
   );
@@ -52,7 +43,7 @@ import {
 } from "@/ui/ui/form";
 import { Textarea } from "@/ui/ui/textarea";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
 const formSchema = z.object({
@@ -63,9 +54,14 @@ const formSchema = z.object({
 
 function DialogForm({ editor }: { editor: Editor }) {
   const { data: session } = useSession();
-
+  const [open, setOpen] = useState<boolean>(false);
   let selection = editor.state.selection;
   let range = { from: selection.from, to: selection.to };
+
+  const mousedownHandler = (e: MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
 
   const { complete, isLoading, completion, stop } = useCompletion({
     id: "edit-prompt",
@@ -74,22 +70,18 @@ function DialogForm({ editor }: { editor: Editor }) {
       email: session?.user?.email,
     },
     onResponse: (response) => {
+      window.addEventListener("mousedown", mousedownHandler);
       editor.chain().focus().run();
+    },
+    onFinish: () => {
+      window.removeEventListener("mousedown", mousedownHandler);
     },
     onError: () => {
       toast.error("Something went wrong.");
     },
   });
 
-  // useEffect(() => {
-  //   if (editor) {
-  //     editor.chain().setContent(completion, false).run();
-  //   }
-  // }, [isLoading, editor, completion]);
-
   const prev = useRef("");
-
-  // editor?.commands.deleteRange({
 
   useEffect(() => {
     const diff = completion.slice(prev.current.length);
@@ -105,6 +97,7 @@ function DialogForm({ editor }: { editor: Editor }) {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    setOpen(false);
     try {
       const messages = [
         {
@@ -123,7 +116,7 @@ function DialogForm({ editor }: { editor: Editor }) {
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="flex h-full items-center gap-1 p-2 text-sm font-medium text-stone-600 hover:bg-stone-100 active:bg-stone-200">
         Edit
       </DialogTrigger>
