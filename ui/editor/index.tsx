@@ -176,7 +176,7 @@ export default function Editor() {
         });
         const data = await response.json();
         if (!response.ok) {
-          reject(new Error("Something went wrong."))
+          reject(new Error("Something went wrong."));
         } else {
           resolve(data);
         }
@@ -225,7 +225,7 @@ export default function Editor() {
         onClick={() => {
           editor?.chain().focus().run();
         }}
-        className="absolute right-0 top-0 min-h-screen w-3/4 border-neutral-200 sm:mb-[calc(20vh)]"
+        className="absolute right-0 top-0 z-0 min-h-screen w-3/4 border-neutral-200 sm:mb-[calc(20vh)]"
       >
         {editor && <EditorBubbleMenu editor={editor} />}
         {editor?.isActive("image") && <ImageResizer editor={editor} />}

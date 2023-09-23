@@ -11,6 +11,7 @@ import {
 import { NodeSelector } from "./node-selector";
 import { ColorSelector } from "./color-selector";
 import { LinkSelector } from "./link-selector";
+import { EditWithAI } from "./edit-with-ai";
 import { cn } from "@/lib/utils";
 
 export interface BubbleMenuItem {
@@ -126,6 +127,7 @@ export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = (props) => {
           setIsLinkSelectorOpen(false);
         }}
       />
+      <EditWithAI editor={props.editor} />
     </BubbleMenu>
   );
 };
