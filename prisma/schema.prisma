@@ -51,6 +51,7 @@ model User {
   wordpressPassword String?
   wordpressUrl      String?
   wordpressUsername String?
+  serpApiKey        String?
   accounts          Account[]
   draft             Draft[]
   sessions          Session[]
