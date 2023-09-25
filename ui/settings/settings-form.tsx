@@ -23,6 +23,12 @@ const inputs = [
     placeholder: "CopyLeaks API Key...",
     description: "Enter your CopyLeaks API Key.",
   },
+  {
+    attribute: "serpApiKey",
+    title: "SERP API Key",
+    placeholder: "SERP API Key...",
+    description: "Enter your SERP API Key.",
+  },
 ];
 
 const wpInputs = [
@@ -57,7 +63,10 @@ export default async function SettingsForm() {
   });
 
   return (
-    <div suppressHydrationWarning className="absolute right-0 top-0 flex min-h-screen w-3/4 justify-center border-neutral-200 sm:mb-[calc(20vh)]">
+    <div
+      suppressHydrationWarning
+      className="absolute right-0 top-0 flex min-h-screen w-3/4 justify-center border-neutral-200 sm:mb-[calc(20vh)]"
+    >
       <div className="mx-auto w-full max-w-md py-24">
         <h1 className="mb-8 text-3xl">Settings</h1>
         <h2 className="mb-2 text-xl text-stone-400">API Keys</h2>
@@ -73,7 +82,9 @@ export default async function SettingsForm() {
           />
         ))}
 
-        <h2 className="mb-2 mt-8 text-xl text-stone-400">Wordpress Credentials</h2>
+        <h2 className="mb-2 mt-8 text-xl text-stone-400">
+          Wordpress Credentials
+        </h2>
         <hr className="mb-4" />
         {wpInputs.map((input, index) => (
           <SettingsInput
