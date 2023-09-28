@@ -19,6 +19,7 @@ import CustomPrompt from "../dialog/custom-prompt";
 import UrlToOutline from "../dialog/url-to-outline";
 import ClaudeCustomPrompt from "../dialog/claude-custom-prompt";
 import ClaudeOutlineWriter from "../dialog/claude-outline-writer";
+import SearchResults from "../dialog/search-results";
 
 export function CommandMenu({ editor }) {
   const [open, setOpen] = React.useState(false);
@@ -33,6 +34,7 @@ export function CommandMenu({ editor }) {
   const [claudeCustomOpen, setClaudeCustomOpen] =
     React.useState<boolean>(false);
   const [claudeOutline, setClaudeOutline] = React.useState<boolean>(false);
+  const [searchOutline, setSearchOutline] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -105,6 +107,14 @@ export function CommandMenu({ editor }) {
             >
               Write Article from Outline (Claude 2)
             </CommandItem>
+            <CommandItem
+              onSelect={() => {
+                setSearchOutline(true);
+                setOpen(false);
+              }}
+            >
+              Generate outline from a search term
+            </CommandItem>
           </CommandGroup>
         </CommandList>
       </CommandDialog>
@@ -143,6 +153,12 @@ export function CommandMenu({ editor }) {
       <ClaudeOutlineWriter
         open={claudeOutline}
         setOpen={setClaudeOutline}
+        editor={editor}
+        setParentOpen={setOpen}
+      />
+      <SearchResults
+        open={searchOutline}
+        setOpen={setSearchOutline}
         editor={editor}
         setParentOpen={setOpen}
       />

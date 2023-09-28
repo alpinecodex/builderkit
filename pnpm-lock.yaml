@@ -164,6 +164,9 @@ dependencies:
   react-moveable:
     specifier: ^0.54.1
     version: 0.54.1
+  serpapi:
+    specifier: ^2.0.0
+    version: 2.0.0
   sonner:
     specifier: ^0.6.2
     version: 0.6.2(react-dom@18.2.0)(react@18.2.0)
@@ -5919,6 +5922,10 @@ packages:
   /seroval@0.5.1:
     resolution: {integrity: sha512-ZfhQVB59hmIauJG5Ydynupy8KHyr5imGNtdDhbZG68Ufh1Ynkv9KOYOAABf71oVbQxJ8VkWnMHAjEHE7fWkH5g==}
     engines: {node: '>=10'}
+    dev: false
+
+  /serpapi@2.0.0:
+    resolution: {integrity: sha512-LKrIBrXWhZDmS1urFwB8e/T8omW2C7r7ZmW231aVBtMbfNx/p9pi5gkiScM/VSAcsyhX1q3oPeWCvbzQiiwaCg==}
     dev: false
 
   /set-function-name@2.0.1:
