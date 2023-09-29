@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { Editor } from "@tiptap/react";
 import { toast } from "sonner";
@@ -32,6 +33,7 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 
 export default function DialogForm({ editor }: { editor: Editor }) {
+  const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
   const formSchema = z.object({
@@ -65,6 +67,7 @@ export default function DialogForm({ editor }: { editor: Editor }) {
         if (response.status === 200) {
           resolve(data);
           setOpen(false);
+          router.push(`/drafts/${data?.id}`);
         } else if (response.status === 401) {
           reject(new Error("You are unauthorized to perform this action."));
         } else {

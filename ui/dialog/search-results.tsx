@@ -129,37 +129,50 @@ export default function SearchResults({
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setOpen(false);
     setParentOpen(false);
-    console.log(open);
-    try {
-      const serpResponse = await fetch("/api/serp", {
-        method: "POST",
-        body: JSON.stringify(values),
-      });
+    const apiCall = new Promise(async (resolve, reject) => {
+      try {
+        const serpResponse = await fetch("/api/serp", {
+          method: "POST",
+          body: JSON.stringify(values),
+        });
 
-      const { relatedQuestions, organicResults } = await serpResponse.json();
-      console.log("organicResults: ", organicResults);
+        const { relatedQuestions, organicResults } = await serpResponse.json();
+        console.log("organicResults: ", organicResults);
 
-      const headlinesResponse = await fetch("api/scrape/headlines", {
-        method: "POST",
-        body: JSON.stringify({ organicResults: organicResults }),
-      });
+        const headlinesResponse = await fetch("api/scrape/headlines", {
+          method: "POST",
+          body: JSON.stringify({ organicResults: organicResults }),
+        });
 
-      const h2Headlines = await headlinesResponse.json();
+        const h2Headlines = await headlinesResponse.json();
+        resolve(h2Headlines);
 
-      const messages = [
-        {
-          role: "system",
-          content: `I have a JSON nested array of a ton of H2 headlines. I need an outline created with all of these questions or topics. Please help me create an outline for it. \n\nH2 Headlines: ${h2Headlines} Please filter out unnecessary H2 tags such as "login", "logout", "user information", etc.\n\nI also have a list of related searches. Please include this when creating the outline: ${relatedQuestions}\n\nPlease provide an outline with a maximum of 12 sections. Format the outline using Roman Numerals. If the content exceeds the token limit, please truncate or shorten it. Return the output in markdown.`,
-        },
-        {
-          role: "user",
-          content: "",
-        },
-      ];
-      complete(JSON.stringify(messages));
-    } catch (error) {
-      toast.error("An error occurred.");
-    }
+        const messages = [
+          {
+            role: "system",
+            content: `I have a JSON nested array of a ton of H2 headlines. I need an outline created with all of these questions or topics. Please help me create an outline for it. \n\nH2 Headlines: ${h2Headlines} Please filter out unnecessary H2 tags such as "login", "logout", "user information", etc.\n\nI also have a list of related searches. Please include this when creating the outline: ${relatedQuestions}\n\nPlease provide an outline with a maximum of 12 sections. Format the outline using Roman Numerals. If the content exceeds the token limit, please truncate or shorten it. Return the output in markdown.`,
+          },
+          {
+            role: "user",
+            content: "",
+          },
+        ];
+        complete(JSON.stringify(messages));
+      } catch (error) {
+        reject(new Error("Something went wrong."));
+      }
+    });
+    toast.promise(apiCall, {
+      loading: "Hacking Google... Scraping the internet... Writing outline...",
+      success: (data) => "Success!",
+      error: (err) => {
+        if (err.message === "Something went wrong.") {
+          return "You are unauthorized to perform this action.";
+        } else {
+          return "Something went wrong. Please try again later.";
+        }
+      },
+    });
   };
   return (
     <Dialog open={open} onOpenChange={setOpen}>
