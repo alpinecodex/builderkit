@@ -21,13 +21,14 @@ export default function ContentScore({ editor }: { editor: Editor }) {
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
   const content = editor.state.doc.textContent;
+  console.log(content);
   const onClick = async () => {
     const apiCall = new Promise(async (resolve, reject) => {
       try {
         setLoading(true);
         const response = await fetch("/api/content-score", {
           method: "POST",
-          body: JSON.stringify(content),
+          body: JSON.stringify({ content: content }),
         });
 
         const data = await response.json();
