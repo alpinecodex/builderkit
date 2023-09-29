@@ -5,6 +5,7 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 import { Button } from "@/ui/ui/button";
 import {
@@ -39,10 +40,10 @@ export default function SettingsInput({
     [attribute]: z.string().nonempty("Required."),
   });
 
+  const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const [hidden, setHidden] = useState<boolean>(true);
   const form = useForm<z.infer<typeof formSchema>>({
-    // @ts-ignore
     resolver: zodResolver(formSchema),
     defaultValues: {
       [attribute]: defaultValue ? defaultValue : "",
@@ -59,6 +60,7 @@ export default function SettingsInput({
       const data = await response.json();
       if (response.status === 200) {
         resolve(data);
+        router.refresh();
       } else {
         reject(new Error("Something went wrong."));
       }

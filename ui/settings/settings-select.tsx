@@ -5,6 +5,7 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 import { Button } from "@/ui/ui/button";
 import {
@@ -30,6 +31,7 @@ export default function SettingsSelect({
 }: {
   defaultValue: string;
 }) {
+  const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const models: { [key: string]: string } = {
     "GPT-4": "gpt_4",
@@ -70,6 +72,7 @@ export default function SettingsSelect({
         reject(new Error("Something went wrong."));
       }
       setLoading(false);
+      router.refresh();
     });
     toast.promise(apiCall, {
       loading: "Saving GPT Model...",

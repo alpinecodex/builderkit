@@ -1,28 +1,31 @@
-const maxDuration = 120;
+const maxDuration = 30;
 
 import { NextResponse } from "next/server";
 import { kv } from "@vercel/kv";
-import { prisma } from "@/lib/prisma";
+import { authOptions } from "@/lib/auth";
+import { getServerSession, Session } from "next-auth";
 import axios from "axios";
 import * as cheerio from "cheerio";
 import { getJson } from "serpapi";
 
-// data.related_questions.forEach(question => question?.question) => this will add it to whatever. question?.snippet will get the answer for each one
-
-// data.organic_results.forEach(result => result?.link) => link to each top organic result
-
 export async function POST(request: Request) {
-  const { query }: { query: string } = await request.json();
+  const session = (await getServerSession(authOptions)) as Session;
+  const email = session?.user?.email as string | undefined;
 
-  const params = {
-    q: query,
-    hl: "en",
-    gl: "us",
-    google_domain: "google.com",
-    safe: "active",
-    api_key: process.env.SERP_API_KEY,
-  };
+  if (!session) return NextResponse.json("Not authorized", { status: 401 });
+
+  const { query }: { query: string } = await request.json();
   try {
+    const apiKey: string = await kv.hget(email, "serpApiKey");
+    const params = {
+      q: query,
+      hl: "en",
+      gl: "us",
+      google_domain: "google.com",
+      safe: "active",
+      api_key: apiKey,
+    };
+
     const response = await getJson("google", params);
     const relatedQuestions: string[] = response["related_questions"].map(
       (question: { question?: string }) => question?.question,
