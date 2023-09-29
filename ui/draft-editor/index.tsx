@@ -14,10 +14,11 @@ import { ImageResizer } from "./components/image-resizer";
 import { CommandMenu } from "../ui/cmd-k";
 import MenuBar from "./menu-bar";
 import Stats from "./stats";
+import { useRouter } from "next/navigation";
 
 export default function Editor({ content, id }) {
   const { data: session } = useSession();
-
+  const router = useRouter();
   const [hydrated, setHydrated] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -125,6 +126,7 @@ export default function Editor({ content, id }) {
         const data = await response.json();
         if (response.status === 200) {
           resolve(data);
+          router.refresh();
         } else {
           reject(new Error("Something went wrong."));
         }
@@ -215,7 +217,7 @@ export default function Editor({ content, id }) {
         });
         const data = await response.json();
         if (!response.ok) {
-          reject(new Error("Something went wrong."))
+          reject(new Error("Something went wrong."));
         } else {
           resolve(data);
         }
@@ -251,7 +253,6 @@ export default function Editor({ content, id }) {
       }); // This will clear the local storage
     }
   };
-
 
   return (
     <div className="absolute right-0 top-0 w-screen items-end">

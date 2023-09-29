@@ -30,6 +30,7 @@ export async function PUT(request: Request) {
       anthropicKey: updatedRecord?.anthropicKey,
       copyLeaksKey: updatedRecord?.copyLeaksKey,
       gptModel: updatedRecord?.gptModel,
+      serpApiKey: updatedRecord?.serpApiKey,
     });
 
     return NextResponse.json(updatedRecord);

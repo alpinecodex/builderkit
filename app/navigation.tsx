@@ -1,5 +1,6 @@
 import Image from "next/image";
 import AccountWidget from "@/ui/auth/account-widget";
+import Link from "next/link";
 
 import { Archive, Pencil, Settings, ArrowRight, File } from "lucide-react";
 
@@ -43,7 +44,7 @@ export default function Nav() {
         </div>
         <div className="mt-12 flex flex-col justify-between gap-4 text-lg">
           {links.map((link) => (
-            <a
+            <Link
               className="group flex items-center justify-between rounded-lg border border-stone-300 px-3 py-2 text-stone-600 hover:bg-stone-300 hover:text-stone-900"
               href={link.href}
               key={link.title}
@@ -53,7 +54,7 @@ export default function Nav() {
                 {link.title}
               </div>
               <ArrowRight className="hidden text-stone-400 group-hover:block" />
-            </a>
+            </Link>
           ))}
         </div>
       </div>
