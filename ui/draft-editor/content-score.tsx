@@ -41,6 +41,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/ui/ui/alert-dialog";
+import { NodeType } from "@tiptap/pm/model";
 
 export default function ContentScore({ editor }: { editor: Editor }) {
   const [loading, setLoading] = useState<boolean>(false);
@@ -48,20 +49,48 @@ export default function ContentScore({ editor }: { editor: Editor }) {
   const content = editor.state.doc.textContent;
 
   function findIndex(doc, searchText) {
-    let position = 0;
+    let position = -1;
 
-    // Traverse the nodes in the document
     doc.descendants((node, pos) => {
-      if (node.isText) {
-        const index = node.text.indexOf(searchText);
-        if (index !== -1) {
-          position = pos + index;
+      if (node.isText && node.text.includes(searchText)) {
+        let index = 0;
+        let currentNode = doc.nodeAt(pos);
+
+        while (currentNode && !currentNode.text.includes(searchText)) {
+          index += currentNode.nodeSize;
+          currentNode = currentNode.nodeBefore;
+        }
+
+        if (currentNode) {
+          position = index + currentNode.text.indexOf(searchText);
           return false; // Stop the traversal when the text is found
         }
       }
     });
 
-    return position !== 0 ? position : -1; // Return the found position or -1
+    return position;
+  }
+
+  function highlightText(searchText: string) {
+    console.log("highlight text fn");
+    editor.state.doc.descendants((node, pos: number) => {
+      if (node.text) {
+        console.log(node);
+        let index = node.text.indexOf(searchText);
+        if (index !== -1) {
+          // Add a highlight mark to the found text
+          editor
+            .chain()
+            .focus()
+            .setTextSelection({
+              from: pos + index,
+              to: pos + index + searchText.length,
+            })
+            .setHighlight({ color: "#ffcc00" })
+            .run();
+        }
+      }
+    });
   }
 
   const parseContentScore = (scoreData) => {
@@ -75,7 +104,9 @@ export default function ContentScore({ editor }: { editor: Editor }) {
   };
 
   const testClick = async () => {
-    parseContentScore(data);
+    highlightText(
+      "The French Revolution was a key inspiration for rebellious slaves and free people of color in Saint-Domingue.",
+    );
   };
 
   const onClick = async () => {
