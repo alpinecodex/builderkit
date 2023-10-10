@@ -15,6 +15,7 @@ import { CommandMenu } from "../ui/cmd-k";
 import MenuBar from "./menu-bar";
 import Stats from "./stats";
 import { useRouter } from "next/navigation";
+import { Plus, Send, Copy } from "lucide-react";
 
 export default function Editor({ content, id }) {
   const { data: session } = useSession();
@@ -70,46 +71,17 @@ export default function Editor({ content, id }) {
 
   const prev = useRef("");
 
-  // Insert chunks of the generated text
   useEffect(() => {
-    const diff = completion.slice(prev.current.length);
-    prev.current = completion;
-    editor?.commands.insertContent(diff);
-  }, [isLoading, editor, completion]);
-
-  useEffect(() => {
-    // if user presses escape or cmd + z and it's loading,
-    // stop the request, delete the completion, and insert back the "++"
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" || (e.metaKey && e.key === "z")) {
-        stop();
-        if (e.key === "Escape") {
-          editor?.commands.deleteRange({
-            from: editor.state.selection.from - completion.length,
-            to: editor.state.selection.from,
-          });
-        }
-        editor?.commands.insertContent("++");
+      if ((e.metaKey || e.ctrlKey) && e.key === "s") {
+        e.preventDefault();
+        saveOnClick();
       }
     };
-    const mousedownHandler = (e: MouseEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
-      stop();
-      if (window.confirm("AI writing paused. Continue?")) {
-        complete(editor?.getText() || "");
-      }
-    };
-    if (isLoading) {
-      document.addEventListener("keydown", onKeyDown);
-      window.addEventListener("mousedown", mousedownHandler);
-    } else {
-      document.removeEventListener("keydown", onKeyDown);
-      window.removeEventListener("mousedown", mousedownHandler);
-    }
+    document.addEventListener("keydown", onKeyDown);
+    // Cleanup function
     return () => {
       document.removeEventListener("keydown", onKeyDown);
-      window.removeEventListener("mousedown", mousedownHandler);
     };
   }, [stop, isLoading, editor, complete, completion.length]);
 
@@ -148,23 +120,6 @@ export default function Editor({ content, id }) {
       },
     });
   };
-
-  // CMD + S to save draft
-  // TODO -> figure out why this is clearing the editor
-  // useEffect(() => {
-  //   const handleKeyDown = async (e) => {
-  //     if (e.metaKey && e.code === "KeyS") {
-  //       e.preventDefault();
-  //       await saveOnClick();
-  //     }
-  //   };
-
-  //   window.addEventListener("keydown", handleKeyDown);
-
-  //   return () => {
-  //     window.removeEventListener("keydown", handleKeyDown);
-  //   };
-  // }, []);
 
   // Hydrate the editor with the content from localStorage.
   useEffect(() => {
@@ -280,20 +235,7 @@ export default function Editor({ content, id }) {
             className="flex items-center gap-1 rounded-lg bg-stone-100 px-2 py-1 text-sm font-medium text-stone-600 hover:bg-stone-200"
             onClick={copyContent}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="h-4 w-4"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M8.25 7.5V6.108c0-1.135.845-2.098 1.976-2.192.373-.03.748-.057 1.123-.08M15.75 18H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08M15.75 18.75v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5A3.375 3.375 0 006.375 7.5H5.25m11.9-3.664A2.251 2.251 0 0015 2.25h-1.5a2.251 2.251 0 00-2.15 1.586m5.8 0c.065.21.1.433.1.664v.75h-6V4.5c0-.231.035-.454.1-.664M6.75 7.5H4.875c-.621 0-1.125.504-1.125 1.125v12c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V16.5a9 9 0 00-9-9z"
-              />
-            </svg>
+            <Copy className="w-4" />
             Copy
           </button>
 
@@ -301,20 +243,7 @@ export default function Editor({ content, id }) {
             className="flex items-center gap-1 rounded-lg bg-stone-100 px-2 py-1 text-sm font-medium text-stone-600 hover:bg-stone-200"
             onClick={postToWordpress}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="h-4 w-4"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"
-              />
-            </svg>
+            <Send className="w-4" />
             Post to WordPress
           </button>
         </div>
@@ -324,21 +253,8 @@ export default function Editor({ content, id }) {
           disabled={loading}
           onClick={saveOnClick}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="h-4 w-4"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M12 6v12m6-6H6"
-            />
-          </svg>
-          Save
+          <Plus className="w-4" />
+          Save Draft
         </button>
       </div>
     </div>

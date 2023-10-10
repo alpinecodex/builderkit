@@ -2,6 +2,8 @@
 
 import React, { useState } from "react";
 
+import { Pencil } from "lucide-react";
+
 import {
   Command,
   CommandDialog,
@@ -53,115 +55,124 @@ export function CommandMenu({ editor }) {
   }, []);
 
   return (
-    <Command>
-      <CommandDialog open={open} onOpenChange={setOpen}>
-        <CommandInput placeholder="Type a command or search..." />
-        <CommandList>
-          <CommandEmpty>No results found.</CommandEmpty>
-          <CommandGroup heading="Select below">
-            <CommandItem
-              onSelect={() => {
-                setOutlineGeneratorOpen(true);
-                setOpen(false);
-              }}
-            >
-              Generate Outline
-            </CommandItem>
-            <CommandItem
-              onSelect={() => {
-                setOutlineWriterOpen(true);
-                setOpen(false);
-              }}
-            >
-              Write Article from Outline
-            </CommandItem>
-            <CommandItem
-              onSelect={() => {
-                setCustomPromptOpen(true);
-                setOpen(false);
-              }}
-            >
-              Custom Prompt
-            </CommandItem>
-            <CommandItem
-              onSelect={() => {
-                setUrlToOutlineOpen(true);
-                setOpen(false);
-              }}
-            >
-              Generate Outline from URL
-            </CommandItem>
-            <CommandItem
-              onSelect={() => {
-                setClaudeCustomOpen(true);
-                setOpen(false);
-              }}
-            >
-              Custom Prompt (Claude 2)
-            </CommandItem>
-            <CommandItem
-              onSelect={() => {
-                setClaudeOutline(true);
-                setOpen(false);
-              }}
-            >
-              Write Article from Outline (Claude 2)
-            </CommandItem>
-            <CommandItem
-              onSelect={() => {
-                setSearchOutline(true);
-                setOpen(false);
-              }}
-            >
-              Generate outline from a search term
-            </CommandItem>
-          </CommandGroup>
-        </CommandList>
-      </CommandDialog>
+    <div>
+      <button
+        className="fixed right-[164px] z-50 mt-4 flex items-center gap-1 rounded-lg bg-stone-100 px-2 py-1 text-sm font-medium text-stone-600 hover:bg-stone-200"
+        onClick={() => setOpen((open) => !open)}
+      >
+        <Pencil className="w-4" />
+        Write with AI
+      </button>
+      <Command>
+        <CommandDialog open={open} onOpenChange={setOpen}>
+          <CommandInput placeholder="Type a command or search..." />
+          <CommandList>
+            <CommandEmpty>No results found.</CommandEmpty>
+            <CommandGroup heading="Select below">
+              <CommandItem
+                onSelect={() => {
+                  setOutlineGeneratorOpen(true);
+                  setOpen(false);
+                }}
+              >
+                Generate Outline
+              </CommandItem>
+              <CommandItem
+                onSelect={() => {
+                  setOutlineWriterOpen(true);
+                  setOpen(false);
+                }}
+              >
+                Write Article from Outline
+              </CommandItem>
+              <CommandItem
+                onSelect={() => {
+                  setCustomPromptOpen(true);
+                  setOpen(false);
+                }}
+              >
+                Custom Prompt
+              </CommandItem>
+              <CommandItem
+                onSelect={() => {
+                  setUrlToOutlineOpen(true);
+                  setOpen(false);
+                }}
+              >
+                Generate Outline from URL
+              </CommandItem>
+              <CommandItem
+                onSelect={() => {
+                  setClaudeCustomOpen(true);
+                  setOpen(false);
+                }}
+              >
+                Custom Prompt (Claude 2)
+              </CommandItem>
+              <CommandItem
+                onSelect={() => {
+                  setClaudeOutline(true);
+                  setOpen(false);
+                }}
+              >
+                Write Article from Outline (Claude 2)
+              </CommandItem>
+              <CommandItem
+                onSelect={() => {
+                  setSearchOutline(true);
+                  setOpen(false);
+                }}
+              >
+                Generate outline from a search term
+              </CommandItem>
+            </CommandGroup>
+          </CommandList>
+        </CommandDialog>
 
-      {/* Dialog Components */}
-      <OutlineGenerator
-        open={outlineGeneratorOpen}
-        setOpen={setOutlineGeneratorOpen}
-        editor={editor}
-        setParentOpen={setOpen}
-      />
-      <OutlineWriter
-        open={outlineWriterOpen}
-        setOpen={setOutlineWriterOpen}
-        editor={editor}
-        setParentOpen={setOpen}
-      />
-      <CustomPrompt
-        open={customPromptOpen}
-        setOpen={setCustomPromptOpen}
-        editor={editor}
-        setParentOpen={setOpen}
-      />
-      <UrlToOutline
-        open={urlToOutlineOpen}
-        setOpen={setUrlToOutlineOpen}
-        editor={editor}
-        setParentOpen={setOpen}
-      />
-      <ClaudeCustomPrompt
-        open={claudeCustomOpen}
-        setOpen={setClaudeCustomOpen}
-        editor={editor}
-        setParentOpen={setOpen}
-      />
-      <ClaudeOutlineWriter
-        open={claudeOutline}
-        setOpen={setClaudeOutline}
-        editor={editor}
-        setParentOpen={setOpen}
-      />
-      <SearchResults
-        open={searchOutline}
-        setOpen={setSearchOutline}
-        editor={editor}
-        setParentOpen={setOpen}
-      />
-    </Command>
+        {/* Dialog Components */}
+        <OutlineGenerator
+          open={outlineGeneratorOpen}
+          setOpen={setOutlineGeneratorOpen}
+          editor={editor}
+          setParentOpen={setOpen}
+        />
+        <OutlineWriter
+          open={outlineWriterOpen}
+          setOpen={setOutlineWriterOpen}
+          editor={editor}
+          setParentOpen={setOpen}
+        />
+        <CustomPrompt
+          open={customPromptOpen}
+          setOpen={setCustomPromptOpen}
+          editor={editor}
+          setParentOpen={setOpen}
+        />
+        <UrlToOutline
+          open={urlToOutlineOpen}
+          setOpen={setUrlToOutlineOpen}
+          editor={editor}
+          setParentOpen={setOpen}
+        />
+        <ClaudeCustomPrompt
+          open={claudeCustomOpen}
+          setOpen={setClaudeCustomOpen}
+          editor={editor}
+          setParentOpen={setOpen}
+        />
+        <ClaudeOutlineWriter
+          open={claudeOutline}
+          setOpen={setClaudeOutline}
+          editor={editor}
+          setParentOpen={setOpen}
+        />
+        <SearchResults
+          open={searchOutline}
+          setOpen={setSearchOutline}
+          editor={editor}
+          setParentOpen={setOpen}
+        />
+      </Command>
+    </div>
   );
 }
