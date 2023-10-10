@@ -1,14 +1,11 @@
 {
-  "name": "novel",
+  "name": "builderkit",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "playwright test",
-    "test:ui": "playwright test --ui",
-    "test:replay": "playwright test --project replay-chromium --reporter=@replayio/playwright/reporter,line",
     "format:write": "prettier --write \"**/*.{css,js,json,jsx,ts,tsx}\"",
     "format": "prettier \"**/*.{css,js,json,jsx,ts,tsx}\"",
     "lint": "next lint"
@@ -58,7 +55,7 @@
     "eventsource-parser": "^0.1.0",
     "framer-motion": "^10.16.4",
     "lucide-react": "^0.244.0",
-    "next": "13.4.10-canary.0",
+    "next": "^13.5.4",
     "next-auth": "^4.23.2",
     "next-themes": "^0.2.1",
     "openai-edge": "^1.2.2",
@@ -77,8 +74,6 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@playwright/test": "^1.38.1",
-    "@replayio/playwright": "^1.0.20",
     "@tailwindcss/typography": "^0.5.10",
     "autoprefixer": "^10.4.16",
     "postcss": "^8.4.31",
