@@ -83,7 +83,7 @@ export default function Editor({ content, id }) {
     return () => {
       document.removeEventListener("keydown", onKeyDown);
     };
-  }, [stop, isLoading, editor, complete, completion.length]);
+  }, []);
 
   const saveOnClick = async () => {
     const content = editor?.getJSON() || "";
