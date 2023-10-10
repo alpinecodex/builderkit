@@ -2,7 +2,7 @@ import Image from "next/image";
 import AccountWidget from "@/ui/auth/account-widget";
 import Link from "next/link";
 
-import { Archive, Pencil, Settings, ArrowRight, File } from "lucide-react";
+import { Archive, Pencil, Settings, ArrowRight, File, Bug } from "lucide-react";
 
 const links = [
   {
@@ -24,6 +24,11 @@ const links = [
     title: "Documentation",
     href: "https://alpinecodex.notion.site/BuilderKit-606cfdb918ea401aab21e0ec7109c595?pvs=4",
     icon: <File />,
+  },
+  {
+    title: "Report an Issue",
+    href: "https://alpinecodex.notion.site/BuilderKit-606cfdb918ea401aab21e0ec7109c595?pvs=4",
+    icon: <Bug />,
   },
 ];
 
@@ -71,7 +76,7 @@ export default function Nav() {
         <p className="sr-only">
           Created by{" "}
           <a href="https://cameronyoungblood.com">Cameron Youngblood</a> and
-          <a href="https://bridger.cc">Bridger Tower</a>
+          <a href="https://bridger.to">Bridger Tower</a>
         </p>
       </div>
     </nav>
