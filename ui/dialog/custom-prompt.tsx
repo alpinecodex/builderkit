@@ -13,7 +13,8 @@ import {
 } from "@/ui/ui/dialog";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form"; import * as z from "zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
 import { Button } from "@/ui/ui/button";
 import {
@@ -120,7 +121,7 @@ export default function CustomPrompt({
             onSubmit={form.handleSubmit(onSubmit)}
             className="w-full space-y-8"
             onKeyDown={(e) => {
-              if (e.key === 'Enter' && !e.shiftKey) {
+              if (e.key === "Enter" && !e.shiftKey) {
                 e.preventDefault();
                 form.handleSubmit(onSubmit)();
               }

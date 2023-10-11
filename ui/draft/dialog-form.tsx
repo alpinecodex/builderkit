@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 import { Editor } from "@tiptap/react";
@@ -31,6 +31,7 @@ import { Button } from "../ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
+import { Plus } from "lucide-react";
 
 export default function DialogForm({ editor }: { editor: Editor }) {
   const router = useRouter();
@@ -47,6 +48,19 @@ export default function DialogForm({ editor }: { editor: Editor }) {
       title: "",
     },
   });
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.code === "KeyS" && (event.metaKey || event.ctrlKey)) {
+        event.preventDefault();
+        setOpen(true);
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const content = editor?.getJSON() || "";
@@ -95,20 +109,7 @@ export default function DialogForm({ editor }: { editor: Editor }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="fixed right-14 top-4 flex items-center gap-1 rounded-lg bg-stone-100 py-1 pl-1 pr-2 text-sm font-medium text-stone-600 hover:bg-stone-200">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="h-4 w-4"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M12 6v12m6-6H6"
-          />
-        </svg>
+        <Plus className="w-4" />
         Save Draft
       </DialogTrigger>
       <DialogContent>
