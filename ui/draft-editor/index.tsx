@@ -254,7 +254,7 @@ export default function Editor({ content, id }) {
           onClick={saveOnClick}
         >
           <Plus className="w-4" />
-          Save Draft
+          Save
         </button>
       </div>
     </div>

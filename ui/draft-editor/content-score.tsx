@@ -1,29 +1,29 @@
 "use client";
 
-// const data = {
-//   status: 200,
-//   score: 2.75,
-//   sentences: [
-//     {
-//       text: "IX. Relationship between the French and Haitian RevolutionsThe French Revolution was a key inspiration for rebellious slaves and free people of color in Saint-Domingue. They embraced the rhetoric of liberty, equality and brotherhood to demand their own rights.",
-//       score: 3.44,
-//     },
-//     {
-//       text: "Some Haitian rebel leaders, like Louverture, also adopted the French revolutionary calendar, vocabulary and uniforms.However, the Haitian Revolution also exposed contradictions within French revolutionary ideals about universal human rights. French abolitionists and black delegates pushed for slavery's abolition during the Revolution.",
-//       score: 2.22,
-//     },
-//     // {
-//     //   text: "But French political leaders compromised on gradual abolition to maintain Caribbean colonies. X. Debates and Responses Historians have long debated the Haitian Revolution's causes, nature and impact. C.L.R. James seminal work The Black Jacobins (1938) first brought scholarly attention to the revolution and Louverture's leadership. Revisionist scholars later emphasized the role of internal class divisions and broader Atlantic world dynamics rather than singular heroic leaders.",
-//     //   score: 65.5,
-//     // },
-//     {
-//       text: "Contemporary observers often denigrated the rebels. But some abolitionists like William Wordsworth praised the revolution's anti-slavery message. Haitian nationalists and black activists worldwide celebrated the revolution as a symbol of resistance against slavery and colonialism.",
-//       score: 0.26,
-//     },
-//   ],
-//   credits_used: 181,
-//   credits_remaining: 2143,
-// };
+const data = {
+  status: 200,
+  score: 0.89,
+  sentences: [
+    {
+      text: "The propeller plane rose above the red dirt and spinifex grasslands, carrying me north across the vast Australian outback. As we flew over the Kimberley region, I gazed out the window in awe at the ancient landscape unfolding below.",
+      score: 52,
+    },
+    {
+      text: "This was the traditional homeland of the Kukatja people, one of many Aboriginal tribes that have inhabited Australia for over 50,000 years. I was embarking on a journey to meet the Kukatja and learn about their ancient culture. The Kukatja are custodians of some of the oldest continuous religious beliefs and cultural practices on Earth.",
+      score: 21.91,
+    },
+    {
+      text: "As we landed on a remote airstrip, I felt both excitement and trepidation about immersing myself in their world. A Kukatja elder named David greeted me at the airstrip. His warm smile and firm handshake assured me I was welcome. We bounced along rough dirt roads in David's old Land Cruiser, kicking up clouds of dust. After an hour, we arrived at a small settlement of tin-roofed houses and traditional wiltjas - temporary shelters made of branches and leaves.",
+      score: 0.03,
+    },
+    {
+      text: 'Children played in the dirt while women cooked kangaroo tails over open fires. I received curious looks but friendly greetings of "yawuru" (hello) from the Kukatja people.',
+      score: 99.99,
+    },
+  ],
+  credits_used: 198,
+  credits_remaining: 354,
+};
 
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -45,75 +45,120 @@ import {
 export default function ContentScore({ editor }: { editor: Editor }) {
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
-  const content = editor.state.doc.textContent;
 
-  function highlightText(searchText: string) {
-    let index = editor.state.doc.textContent.indexOf(searchText);
+  function highlightText(searchText: string, color: string) {
+    const text = getEditorText();
+    let index = text.indexOf(searchText);
+    if (index !== 0) index++;
     if (index !== -1) {
-      // Add a highlight mark to the found text
       editor
         .chain()
         .focus()
         .setTextSelection({
-          from: index + 1,
-          to: index + searchText.length + 4,
+          from: index,
+          to: index + searchText.length,
         })
-        .setHighlight({ color: "#ffcc00" })
+        .setHighlight({ color: color })
         .run();
-    }
 
-    // editor.state.doc.descendants((node, pos: number) => {
-    //   if (node.isText) {
-    //     console.log(node.text);
-    //     let index = node.text.indexOf(searchText);
-    //     if (index !== -1) {
-    //       // Add a highlight mark to the found text
-    //       editor
-    //         .chain()
-    //         .focus()
-    //         .setTextSelection({
-    //           from: pos + index,
-    //           to: pos + index + searchText.length,
-    //         })
-    //         .setHighlight({ color: "#ffcc00" })
-    //         .run();
-    //     }
-    //   }
-    // });
+      // ---- DEBUGGING HELP ----
+      // console.log(
+      //   "selection: ",
+      //   editor.state.doc.textBetween(
+      //     index,
+      //     index + searchText.length,
+      //     // editor.state.selection.content().size,
+      //   ),
+      //   "\n",
+      // );
+    }
   }
+
+  // const highlight = (data) => {
+  //   const content = getEditorText();
+  //   let index = 0;
+  //   for (let i = 0; i < data?.sentences.length; i++) {
+  //     const { text, score } = data?.sentences[i];
+  //     index = content.indexOf(text);
+  //     let color = "";
+  //     if (score <= 25) {
+  //       color = "#fdebeb";
+  //     } else if (score > 25 && score <= 50) {
+  //       color = "#fbf4a2";
+  //     }
+  //     if (index !== -1) {
+  //       editor
+  //         .chain()
+  //         .focus()
+  //         .setTextSelection({
+  //           from: index,
+  //           to: index + text.length,
+  //         })
+  //         .setHighlight({ color: color })
+  //         .run();
+  //     }
+  //     console.log("index: ", index);
+  //   }
+  // };
 
   const parseContentScore = (scoreData) => {
     scoreData?.sentences?.forEach((sentence) => {
-      const { text } = sentence;
-      console.log(text);
-      // const startPosition = findIndex(editor.state.doc, text);
-      // console.log("start position: ", startPosition);
-      // const endPosition = startPosition + text.length;
-      highlightText(text);
+      const { text, score } = sentence;
+      if (score <= 25) {
+        highlightText(text, "#fdebeb");
+      } else if (score > 25 && score <= 50) {
+        highlightText(text, "#fbf4a2");
+      }
     });
   };
 
-  // const testClick = async () => {
-  //   parseContentScore(data);
-  // };
+  const testClick = async () => {
+    // parseContentScore(data);
+    console.log(extractTextFromEditor(editor));
+  };
 
-  const getEditorText = async () => {
+  const getEditorText = () => {
     let textNodes = [];
     editor.state.doc.descendants((node, pos) => {
       if (node.isText) {
         textNodes.push(node.text);
       }
     });
-    let text = textNodes.join(" ");
-    console.log(text);
+    let text = textNodes.join("\n");
+    // console.log("text: ", text);
     return text;
+  };
+
+  const testRange = () => {
+    data?.sentences.forEach((sentence) => {
+      const { text, score } = sentence;
+      // const range = findStringInEditor(editor, text);
+      const range = findStringRangeInEditor(editor, text);
+      console.log("range: ", range);
+      let color = "";
+      if (score <= 25) {
+        color = "#fdebeb";
+      } else if (score > 25 && score <= 50) {
+        color = "#fbf4a2";
+      } else {
+        color = "#00000000";
+      }
+      if (range) {
+        editor
+          .chain()
+          .focus()
+          .setTextSelection(range)
+          .setHighlight({ color: color })
+          .run();
+      }
+    });
   };
 
   const onClick = async () => {
     const apiCall = new Promise(async (resolve, reject) => {
       try {
         setLoading(true);
-        const content = await getEditorText();
+        const content = extractTextFromEditor(editor);
         const response = await fetch("/api/content-score", {
           method: "POST",
           body: JSON.stringify({ content: content }),
@@ -121,7 +166,8 @@ export default function ContentScore({ editor }: { editor: Editor }) {
 
         const data = await response.json();
         if (response.status === 200) {
-          parseContentScore(data);
+          // parseContentScore(data);
+          testRange(data);
           resolve(data);
         } else {
           reject(new Error("Something went wrong."));
@@ -160,11 +206,87 @@ export default function ContentScore({ editor }: { editor: Editor }) {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={onClick} disabled={loading}>
+          <AlertDialogAction onClick={testRange} disabled={loading}>
             Analyze
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
   );
+}
+
+function findStringInEditor(editor, searchString) {
+  let startPosition = null;
+  let endPosition = null;
+
+  editor.state.doc.descendants((node, pos) => {
+    if (node.isText) {
+      if (startPosition === null) {
+        // if start hasn't been found
+        const startIdx = node.text.indexOf(searchString);
+        if (startIdx !== -1) {
+          startPosition = pos + startIdx;
+          endPosition = startPosition + searchString.length;
+          return endPosition <= pos + node.text.length; // stop if the entire string is within this node
+        }
+      } else if (startPosition !== null && pos < endPosition) {
+        if (pos + node.text.length >= endPosition) {
+          return true; // stop if this node contains the end of the string
+        }
+      }
+    }
+  });
+
+  if (startPosition !== null) {
+    return {
+      from: startPosition as number,
+      to: endPosition as number,
+    };
+  }
+
+  return null;
+}
+
+function extractTextFromEditor(editor) {
+  let texts = [];
+
+  editor.state.doc.descendants((node, pos, parent) => {
+    if (node.isText && parent.type.name === "paragraph") {
+      texts.push(node.text);
+    }
+  });
+
+  return texts.join("\n");
+}
+
+function findStringRangeInEditor(editor, searchString) {
+  let startPosition = null;
+  let endPosition = null;
+
+  // Break the search string into two parts: start and end
+  const midPoint = Math.floor(searchString.length / 2);
+  const startString = searchString.slice(0, midPoint);
+  const endString = searchString.slice(midPoint);
+
+  editor.state.doc.descendants((node, pos) => {
+    if (node.isText) {
+      if (startPosition === null && node.text.includes(startString)) {
+        // Find the start position of the text
+        startPosition = pos + node.text.indexOf(startString);
+      } else if (startPosition !== null && node.text.includes(endString)) {
+        // Find the end position of the text
+        endPosition = pos + node.text.indexOf(endString) + endString.length;
+        return true; // stop traversal once end is found
+      }
+    }
+  });
+
+  if (startPosition !== null && endPosition !== null) {
+    return {
+      from: startPosition,
+      to: endPosition,
+    };
+  }
+
+  return null;
 }
