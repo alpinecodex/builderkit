@@ -181,6 +181,6 @@ function extractTextFromEditor(editor) {
 }
 
 function splitIntoSentences(paragraph: string) {
-  const sentences = paragraph.match(/[^.!?]+[.!?]?(?=\s|$)/g) || [];
+  const sentences = paragraph.match(/[^.!?;:-]+[.!?;:-]?(?=\s|$)/g) || [];
   return sentences.map((sentence) => sentence.trim());
 }
