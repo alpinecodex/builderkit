@@ -45,13 +45,14 @@ model User {
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
   anthropicKey      String?
-  copyLeaksKey      String?
   openAiKey         String?
   gptModel          GPTModel?
   wordpressPassword String?
   wordpressUrl      String?
   wordpressUsername String?
   serpApiKey        String?
+  winstonAiKey      String?
+  winstonAiToken    String?
   accounts          Account[]
   draft             Draft[]
   sessions          Session[]

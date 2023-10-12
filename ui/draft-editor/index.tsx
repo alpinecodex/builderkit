@@ -222,7 +222,7 @@ export default function Editor({ content, id }) {
         onClick={() => {
           editor?.chain().focus().run();
         }}
-        className="absolute right-0 top-0 min-h-screen w-3/4 border-neutral-200 sm:mb-[calc(20vh)]"
+        className="absolute right-0 top-0 z-0 min-h-screen w-3/4 border-neutral-200 sm:mb-[calc(20vh)]"
       >
         {editor && <EditorBubbleMenu editor={editor} />}
         {editor?.isActive("image") && <ImageResizer editor={editor} />}

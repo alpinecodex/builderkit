@@ -99,10 +99,13 @@ function DialogForm({ editor }: { editor: Editor }) {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setOpen(false);
     try {
+      const { from, to } = editor.state.selection;
+      const selectedText = editor.state.doc.textBetween(from, to);
+
       const messages = [
         {
           role: "system",
-          content: "You are an AI assistant for writing.",
+          content: `You are an AI assistant for writing. Here is the context: ${selectedText}`,
         },
         {
           role: "user",

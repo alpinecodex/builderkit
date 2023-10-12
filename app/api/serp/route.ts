@@ -1,4 +1,4 @@
-const maxDuration = 30;
+const maxDuration = 60;
 
 import { NextResponse } from "next/server";
 import { kv } from "@vercel/kv";

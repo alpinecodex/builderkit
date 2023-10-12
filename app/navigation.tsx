@@ -1,36 +1,6 @@
 import Image from "next/image";
 import AccountWidget from "@/ui/auth/account-widget";
-import Link from "next/link";
-
-import { Archive, Pencil, Settings, ArrowRight, File, Bug } from "lucide-react";
-
-const links = [
-  {
-    title: "Editor",
-    href: "/",
-    icon: <Pencil />,
-  },
-  {
-    title: "Drafts",
-    href: "/drafts",
-    icon: <Archive />,
-  },
-  {
-    title: "Settings",
-    href: "/settings",
-    icon: <Settings />,
-  },
-  {
-    title: "Documentation",
-    href: "https://alpinecodex.notion.site/BuilderKit-606cfdb918ea401aab21e0ec7109c595?pvs=4",
-    icon: <File />,
-  },
-  {
-    title: "Report an Issue",
-    href: "https://alpinecodex.notion.site/BuilderKit-606cfdb918ea401aab21e0ec7109c595?pvs=4",
-    icon: <Bug />,
-  },
-];
+import NavList from "@/ui/ui/nav-list";
 
 export default function Nav() {
   return (
@@ -47,21 +17,7 @@ export default function Nav() {
             <small>AI-Powered Copy Writing</small>
           </p>
         </div>
-        <div className="mt-12 flex flex-col justify-between gap-4 text-lg">
-          {links.map((link) => (
-            <Link
-              className="group flex items-center justify-between rounded-lg border border-stone-300 px-3 py-2 text-stone-600 hover:bg-stone-300 hover:text-stone-900"
-              href={link.href}
-              key={link.title}
-            >
-              <div className="flex items-center gap-2">
-                {link.icon}
-                {link.title}
-              </div>
-              <ArrowRight className="hidden text-stone-400 group-hover:block" />
-            </Link>
-          ))}
-        </div>
+        <NavList />
       </div>
       <div className="flex flex-col gap-4">
         {/* @ts-expect-error Server Component */}

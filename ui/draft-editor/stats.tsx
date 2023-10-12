@@ -1,4 +1,4 @@
-import { toast } from "sonner";
+import ContentScore from "./content-score";
 
 const Stats = ({ editor }) => {
   if (!editor) {
@@ -24,9 +24,7 @@ const Stats = ({ editor }) => {
             {wordCount}
           </code>
         </p>
-        <button className="hover:underline-hover">
-          Generate Content Score (Coming Soon)
-        </button>
+        <ContentScore editor={editor} />
       </div>
     </div>
   );
