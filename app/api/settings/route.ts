@@ -28,7 +28,8 @@ export async function PUT(request: Request) {
       wordpressUsername: updatedRecord?.wordpressUsername,
       openAiKey: updatedRecord?.openAiKey,
       anthropicKey: updatedRecord?.anthropicKey,
-      copyLeaksKey: updatedRecord?.copyLeaksKey,
+      winstonAiKey: updatedRecord?.winstonAiKey,
+      winstonAiToken: updatedRecord?.winstonAiToken,
       gptModel: updatedRecord?.gptModel,
       serpApiKey: updatedRecord?.serpApiKey,
     });
