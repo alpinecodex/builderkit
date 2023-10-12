@@ -24,9 +24,6 @@ const Stats = ({ editor }) => {
             {wordCount}
           </code>
         </p>
-        <button className="hover:underline-hover">
-          Generate Content Score (Coming Soon)
-        </button>
       </div>
     </div>
   );
