@@ -27,7 +27,7 @@ const links = [
   },
   {
     title: "Report an Issue",
-    href: "https://alpinecodex.notion.site/BuilderKit-606cfdb918ea401aab21e0ec7109c595?pvs=4",
+    href: "https://tally.so/r/n9ZaBQ",
     icon: <Bug />,
   },
 ];
