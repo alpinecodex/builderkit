@@ -18,12 +18,6 @@ const inputs = [
     description: "Enter your Claude API Key.",
   },
   {
-    attribute: "winstonAiKey",
-    title: "WinstonAI API Key",
-    placeholder: "WinstonAI API Key...",
-    description: "Enter your WinstonAI API Key.",
-  },
-  {
     attribute: "winstonAiToken",
     title: "WinstonAI API Token",
     placeholder: "WinstonAI API Token...",

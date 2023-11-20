@@ -13,33 +13,29 @@ export async function POST(request: Request) {
   const { content }: { content: string } = await request.json();
 
   try {
-    const apiKey: string = await kv.hget(email, "winstonAiKey");
     const apiToken: string = await kv.hget(email, "winstonAiToken");
-    const { data } = await generateContentScore(content, apiKey, apiToken);
-    console.log(data);
+    const { data } = await generateContentScore(content, apiToken);
+    console.log("data: ", data);
     return NextResponse.json(data);
   } catch (error) {
     return NextResponse.json(error, { status: 500 });
   }
 }
 
-const generateContentScore = async (
-  content: string,
-  apiKey: string,
-  apiToken: string,
-) => {
+const generateContentScore = async (content: string, apiToken: string) => {
+  console.log(apiToken);
   const response = await fetch(
     "https://api.gowinston.ai/functions/v1/predict",
     {
       method: "POST",
       body: JSON.stringify({
-        api_key: apiKey,
-        text: content,
-        sentences: true,
         language: "en",
+        sentences: true,
+        text: content,
       }),
       headers: {
         Authorization: `Bearer ${apiToken}`,
+        "Content-Type": "application/json",
       },
     },
   );
