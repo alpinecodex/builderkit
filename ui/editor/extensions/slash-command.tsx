@@ -1,7 +1,6 @@
 import { getPrevText } from "@/lib/editor";
 import LoadingCircle from "@/ui/icons/loading-circle";
 import Magic from "@/ui/icons/magic";
-import { ImageIcon } from "lucide-react";
 import { Editor, Extension, Range } from "@tiptap/core";
 import { ReactRenderer } from "@tiptap/react";
 import Suggestion from "@tiptap/suggestion";
@@ -26,8 +25,6 @@ import {
   useLayoutEffect,
   useRef,
   useState,
-  createContext,
-  useContext,
 } from "react";
 import { toast } from "sonner";
 import tippy from "tippy.js";
@@ -194,27 +191,6 @@ const getSuggestionItems = ({ query }: { query: string }) => {
       icon: <Code size={18} />,
       command: ({ editor, range }: CommandProps) =>
         editor.chain().focus().deleteRange(range).toggleCodeBlock().run(),
-    },
-    // Take out image upload for now
-    {
-      title: "Image",
-      description: "Upload an image from your computer.",
-      searchTerms: ["photo", "picture", "media"],
-      icon: <ImageIcon size={18} />,
-      command: ({ editor, range }: CommandProps) => {
-        editor.chain().focus().deleteRange(range).run();
-        // upload image
-        // const input = document.createElement("input");
-        // input.type = "file";
-        // input.accept = "image/*";
-        // input.onchange = async () => {
-        //   if (input.files?.length) {
-        //     const file = input.files[0];
-        //     const pos = editor.view.state.selection.from;
-        //   }
-        // };
-        // input.click();
-      },
     },
   ].filter((item) => {
     if (typeof query === "string" && query.length > 0) {
