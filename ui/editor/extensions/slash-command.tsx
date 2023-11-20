@@ -1,6 +1,7 @@
 import { getPrevText } from "@/lib/editor";
 import LoadingCircle from "@/ui/icons/loading-circle";
 import Magic from "@/ui/icons/magic";
+import { ImageIcon } from "lucide-react";
 import { Editor, Extension, Range } from "@tiptap/core";
 import { ReactRenderer } from "@tiptap/react";
 import Suggestion from "@tiptap/suggestion";
@@ -25,6 +26,8 @@ import {
   useLayoutEffect,
   useRef,
   useState,
+  createContext,
+  useContext,
 } from "react";
 import { toast } from "sonner";
 import tippy from "tippy.js";
@@ -193,27 +196,26 @@ const getSuggestionItems = ({ query }: { query: string }) => {
         editor.chain().focus().deleteRange(range).toggleCodeBlock().run(),
     },
     // Take out image upload for now
-    // {
-    //   title: "Image",
-    //   description: "Upload an image from your computer.",
-    //   searchTerms: ["photo", "picture", "media"],
-    //   icon: <ImageIcon size={18} />,
-    //   command: ({ editor, range }: CommandProps) => {
-    //     editor.chain().focus().deleteRange(range).run();
-    //     // upload image
-    //     const input = document.createElement("input");
-    //     input.type = "file";
-    //     input.accept = "image/*";
-    //     input.onchange = async () => {
-    //       if (input.files?.length) {
-    //         const file = input.files[0];
-    //         const pos = editor.view.state.selection.from;
-    //         startImageUpload(file, editor.view, pos);
-    //       }
-    //     };
-    //     input.click();
-    //   },
-    // },
+    {
+      title: "Image",
+      description: "Upload an image from your computer.",
+      searchTerms: ["photo", "picture", "media"],
+      icon: <ImageIcon size={18} />,
+      command: ({ editor, range }: CommandProps) => {
+        editor.chain().focus().deleteRange(range).run();
+        // upload image
+        // const input = document.createElement("input");
+        // input.type = "file";
+        // input.accept = "image/*";
+        // input.onchange = async () => {
+        //   if (input.files?.length) {
+        //     const file = input.files[0];
+        //     const pos = editor.view.state.selection.from;
+        //   }
+        // };
+        // input.click();
+      },
+    },
   ].filter((item) => {
     if (typeof query === "string" && query.length > 0) {
       const search = query.toLowerCase();
@@ -350,8 +352,9 @@ const CommandList = ({
       {items.map((item: CommandItemProps, index: number) => {
         return (
           <button
-            className={`flex w-full items-center space-x-2 rounded-md px-2 py-1 text-left text-sm text-stone-900 hover:bg-stone-100 ${index === selectedIndex ? "bg-stone-100 text-stone-900" : ""
-              }`}
+            className={`flex w-full items-center space-x-2 rounded-md px-2 py-1 text-left text-sm text-stone-900 hover:bg-stone-100 ${
+              index === selectedIndex ? "bg-stone-100 text-stone-900" : ""
+            }`}
             key={index}
             onClick={() => selectItem(index)}
           >
