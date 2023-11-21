@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-
+import AiTag from "./ai-tag";
 import { Pencil } from "lucide-react";
 
 import {
@@ -68,62 +68,71 @@ export function CommandMenu({ editor }) {
           <CommandInput placeholder="Type a command or search..." />
           <CommandList>
             <CommandEmpty>No results found.</CommandEmpty>
-            <CommandGroup heading="Select below">
+
+            <CommandGroup heading="Generate content outlines.">
               <CommandItem
                 onSelect={() => {
                   setOutlineGeneratorOpen(true);
                   setOpen(false);
                 }}
               >
-                Generate Outline
+                Generate Outline <AiTag aiType="gpt">ChatGPT</AiTag>
               </CommandItem>
-              <CommandItem
-                onSelect={() => {
-                  setOutlineWriterOpen(true);
-                  setOpen(false);
-                }}
-              >
-                Write Article from Outline
-              </CommandItem>
-              <CommandItem
-                onSelect={() => {
-                  setCustomPromptOpen(true);
-                  setOpen(false);
-                }}
-              >
-                Custom Prompt
-              </CommandItem>
+
               <CommandItem
                 onSelect={() => {
                   setUrlToOutlineOpen(true);
                   setOpen(false);
                 }}
               >
-                Generate Outline from URL
+                Generate Outline from URL <AiTag aiType="gpt">ChatGPT</AiTag>
               </CommandItem>
-              <CommandItem
-                onSelect={() => {
-                  setClaudeCustomOpen(true);
-                  setOpen(false);
-                }}
-              >
-                Custom Prompt (Claude 2)
-              </CommandItem>
-              <CommandItem
-                onSelect={() => {
-                  setClaudeOutline(true);
-                  setOpen(false);
-                }}
-              >
-                Write Article from Outline (Claude 2)
-              </CommandItem>
+
               <CommandItem
                 onSelect={() => {
                   setSearchOutline(true);
                   setOpen(false);
                 }}
               >
-                Generate outline from a search term
+                Outline from Search Term <AiTag aiType="gpt">ChatGPT</AiTag>
+              </CommandItem>
+            </CommandGroup>
+
+            <CommandGroup heading="Generate content.">
+              <CommandItem
+                onSelect={() => {
+                  setOutlineWriterOpen(true);
+                  setOpen(false);
+                }}
+              >
+                Article from Outline <AiTag aiType="gpt">ChatGPT</AiTag>
+              </CommandItem>
+
+              <CommandItem
+                onSelect={() => {
+                  setClaudeOutline(true);
+                  setOpen(false);
+                }}
+              >
+                Article from Outline <AiTag aiType="claude">Claude 2</AiTag>
+              </CommandItem>
+
+              <CommandItem
+                onSelect={() => {
+                  setCustomPromptOpen(true);
+                  setOpen(false);
+                }}
+              >
+                Custom Prompt <AiTag aiType="gpt">ChatGPT</AiTag>
+              </CommandItem>
+
+              <CommandItem
+                onSelect={() => {
+                  setClaudeCustomOpen(true);
+                  setOpen(false);
+                }}
+              >
+                Custom Prompt <AiTag aiType="claude">Claude 2</AiTag>
               </CommandItem>
             </CommandGroup>
           </CommandList>
