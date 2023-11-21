@@ -44,7 +44,7 @@ export default async function Page() {
                   className="flex w-full items-center justify-between border-b py-2 font-light transition-all hover:text-stone-500"
                   href={`/drafts/${record?.id}`}
                 >
-                  <h3 className="flex items-center gap-2 text-xl">
+                  <h3 className="flex items-center gap-2 text-lg">
                     {record.title}
                   </h3>
                   {/* <p>created: {record.createdAt.toDateString()}</p> */}

@@ -71,19 +71,19 @@ export default function Editor({ content, id }) {
 
   const prev = useRef("");
 
-  useEffect(() => {
-    const onKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === "s") {
-        e.preventDefault();
-        saveOnClick();
-      }
-    };
-    document.addEventListener("keydown", onKeyDown);
-    // Cleanup function
-    return () => {
-      document.removeEventListener("keydown", onKeyDown);
-    };
-  }, []);
+  // cmd + s to save
+  // useEffect(() => {
+  //   const onKeyDown = (e: KeyboardEvent) => {
+  //     if ((e.metaKey || e.ctrlKey) && e.key === "s") {
+  //       e.preventDefault();
+  //       saveOnClick();
+  //     }
+  //   };
+  //   document.addEventListener("keydown", onKeyDown);
+  //   return () => {
+  //     document.removeEventListener("keydown", onKeyDown);
+  //   };
+  // }, []);
 
   const saveOnClick = async () => {
     const content = editor?.getJSON() || "";
