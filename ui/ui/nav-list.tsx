@@ -35,13 +35,13 @@ const links = [
 export default function NavList() {
   const pathname = usePathname();
   return (
-    <div className="mt-12 flex flex-col justify-between gap-4 text-lg">
+    <div className="mt-12 flex flex-col justify-between gap-4">
       {links.map((link) => (
         <Link
-          className={`group flex items-center justify-between rounded-lg border border-stone-300 px-3 py-2 text-stone-600 hover:bg-stone-300 hover:text-stone-900 ${
+          className={`group flex items-center justify-between rounded-lg border border-stone-300 p-2 text-stone-600 hover:bg-stone-300 hover:text-stone-900 ${
             (pathname.includes("drafts") && link.href === "/drafts") ||
             pathname === link.href
-              ? "bg-stone-300 text-stone-900"
+              ? "bg-stone-300 text-stone-900 cur"
               : ""
           }`}
           href={link.href}

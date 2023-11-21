@@ -22,10 +22,10 @@ export default function Nav() {
       <div className="flex flex-col gap-4">
         {/* @ts-expect-error Server Component */}
         <AccountWidget />
-        <p className="text-sm text-neutral-500">
+        <p className="text-xs text-neutral-500">
           Created by <a href="https://alpinecodex.com">Alpine Codex</a>.
         </p>
-        <p className="text-sm text-neutral-500">
+        <p className="text-xs text-neutral-500">
           © <a href="https://builderkit.io">Builder Kit</a>, 2023. All Rights
           Reserved.
         </p>
