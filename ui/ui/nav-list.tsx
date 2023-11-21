@@ -2,7 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Archive, Pencil, Settings, File, Bug, ArrowRight } from "lucide-react";
+import {
+  Archive,
+  Pencil,
+  Settings,
+  File,
+  Bug,
+  ExternalLink,
+} from "lucide-react";
 
 const links = [
   {
@@ -20,6 +27,9 @@ const links = [
     href: "/settings",
     icon: <Settings />,
   },
+];
+
+const outsideLinks = [
   {
     title: "Documentation",
     href: "https://alpinecodex.notion.site/BuilderKit-606cfdb918ea401aab21e0ec7109c595?pvs=4",
@@ -41,7 +51,7 @@ export default function NavList() {
           className={`group flex items-center justify-between rounded-lg border border-stone-300 p-2 text-stone-600 hover:bg-stone-300 hover:text-stone-900 ${
             (pathname.includes("drafts") && link.href === "/drafts") ||
             pathname === link.href
-              ? "bg-stone-300 text-stone-900 cur"
+              ? "cursor-default bg-stone-300 text-stone-900"
               : ""
           }`}
           href={link.href}
@@ -51,7 +61,26 @@ export default function NavList() {
             {link.icon}
             {link.title}
           </div>
-          <ArrowRight className="hidden text-stone-400 group-hover:block" />
+        </Link>
+      ))}
+      {outsideLinks.map((link) => (
+        <Link
+          className={`group flex items-center justify-between rounded-lg border border-stone-300 p-2 text-stone-600 hover:bg-stone-300 hover:text-stone-900 ${
+            (pathname.includes("drafts") && link.href === "/drafts") ||
+            pathname === link.href
+              ? "cur bg-stone-300 text-stone-900"
+              : ""
+          }`}
+          href={link.href}
+          key={link.title}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <div className="flex items-center gap-2">
+            {link.icon}
+            {link.title}
+          </div>
+          <ExternalLink className="hidden w-4 text-stone-400 group-hover:block" />
         </Link>
       ))}
     </div>

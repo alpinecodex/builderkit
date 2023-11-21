@@ -191,7 +191,7 @@ export default function Editor() {
       success: (data) => `Successfully posted to WordPress`,
       error: (err) => {
         if (err.message === "Something went wrong.") {
-          return "You are unauthorized to perform this action.";
+          return "You need to add your WordPress credentials in Settings.";
         } else {
           return "Something went wrong. Please try again later.";
         }
