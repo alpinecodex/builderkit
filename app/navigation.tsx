@@ -13,21 +13,32 @@ export default function Nav() {
             width={200}
             height={100}
           ></Image>
+
           <p className="mt-2">
-            <small>AI-Powered Copy Writing</small>
+            <small className="mt-4 w-fit rounded-md bg-stone-300 px-1 py-px">
+              Beta 0.1.4
+            </small>
+            <small> AI-Enhanced Copywriting</small>
           </p>
         </div>
         <NavList />
       </div>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-2">
         {/* @ts-expect-error Server Component */}
         <AccountWidget />
-        <p className="text-xs text-neutral-500">
-          Created by <a href="https://alpinecodex.com">Alpine Codex</a>.
+        <p className="mt-4 text-xs text-neutral-500">
+          Created by{" "}
+          <a className="hover:underline" href="https://alpinecodex.com">
+            Alpine Codex
+          </a>
+          .
         </p>
         <p className="text-xs text-neutral-500">
-          © <a href="https://builderkit.io">Builder Kit</a>, 2023. All Rights
-          Reserved.
+          ©{" "}
+          <a className="hover:underline" href="https://builderkit.io">
+            Builder Kit
+          </a>{" "}
+          | All Rights Reserved.
         </p>
         <p className="sr-only">
           Created by{" "}
