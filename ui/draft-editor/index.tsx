@@ -80,7 +80,6 @@ export default function Editor({ content, id }) {
   //     }
   //   };
   //   document.addEventListener("keydown", onKeyDown);
-  //   // Cleanup function
   //   return () => {
   //     document.removeEventListener("keydown", onKeyDown);
   //   };
