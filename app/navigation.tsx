@@ -14,11 +14,11 @@ export default function Nav() {
             height={100}
           ></Image>
 
-          <p className="mt-2">
-            <small className="mt-4 w-fit rounded-md bg-stone-300 px-1 py-px">
+          <p className="mt-4">
+            <small> AI-Enhanced Copywriting</small>{" "}
+            <small className="w-fit rounded-md bg-stone-300 px-1 py-px">
               Beta 0.1.4
             </small>
-            <small> AI-Enhanced Copywriting</small>
           </p>
         </div>
         <NavList />
