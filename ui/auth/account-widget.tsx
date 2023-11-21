@@ -19,7 +19,7 @@ export default async function AccountWidget() {
     <div className="flex items-center justify-between border-b py-4">
       <DropdownMenu>
         <DropdownMenuTrigger className="h-8 w-8">
-          <div className="inline-flex items-center gap-4 py-2 pr-2">
+          <div className="inline-flex w-full items-center gap-4 py-2 pr-2">
             <Avatar>
               <AvatarImage src={session.user?.image || undefined} />
               <AvatarFallback>U</AvatarFallback>
@@ -28,7 +28,7 @@ export default async function AccountWidget() {
           </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuLabel className="text-xs">
+          <DropdownMenuLabel className="w-fit text-xs">
             {session.user?.name}
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
