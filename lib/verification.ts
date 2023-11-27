@@ -1,0 +1,29 @@
+import { resend } from "@/lib/resend";
+import MagicLinkEmail from "@/ui/email/magic-link-email";
+
+export async function sendVerificationRequest(params: {
+  identifier: string;
+  url: string;
+  provider: string;
+  theme: string;
+}) {
+  const { identifier, url, provider, theme } = params;
+  const { host } = new URL(url);
+
+  try {
+    const data = await resend.emails.send({
+      from: "info@builderkit.io",
+      to: [identifier],
+      subject: `Log in to ${host}`,
+      text: text({ url, host }),
+      react: MagicLinkEmail({ url, host }),
+    });
+    return data;
+  } catch (error) {
+    throw new Error("Failed to send the verification email.");
+  }
+}
+
+function text({ url, host }: { url: string; host: string }) {
+  return `Sign in to ${host}\n${url}\n\n`;
+}
