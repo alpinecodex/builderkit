@@ -2,7 +2,6 @@ import Image from "next/image";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth";
-import SignIn from "@/ui/auth/sign-in";
 import Link from "next/link";
 import Icon from "@/public/icon.svg";
 
@@ -28,13 +27,12 @@ export default async function LoginPage() {
           width={200}
           height={100}
         ></Image>
-        <p className="text-center">Login to access your account.</p>
+        <p className="text-center">Check your email!</p>
 
         <div className="flex flex-col items-center gap-4">
-          <SignIn />
           <p>
             <small className="opacity-60">
-              You will be redirected to sign in with Google.
+              A sign in link has been sent to your email address.
             </small>
           </p>
         </div>
