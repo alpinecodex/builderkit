@@ -7,7 +7,7 @@ export async function sendVerificationRequest(params: {
   provider: string;
   theme: string;
 }) {
-  const { identifier, url, provider, theme } = params;
+  const { identifier, url } = params;
   const { host } = new URL(url);
 
   try {
@@ -20,6 +20,7 @@ export async function sendVerificationRequest(params: {
     });
     return data;
   } catch (error) {
+    console.log(error);
     throw new Error("Failed to send the verification email.");
   }
 }
