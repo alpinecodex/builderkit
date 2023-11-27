@@ -5,6 +5,8 @@ import { authOptions } from "@/lib/auth";
 import SignIn from "@/ui/auth/sign-in";
 import Link from "next/link";
 import Icon from "@/public/icon.svg";
+import MagicLinkForm from "@/ui/auth/magic-link-form";
+import { Separator } from "@/ui/ui/separator";
 
 export default async function LoginPage() {
   const session = await getServerSession(authOptions);
@@ -37,6 +39,8 @@ export default async function LoginPage() {
               You will be redirected to sign in with Google.
             </small>
           </p>
+          <Separator />
+          <MagicLinkForm />
         </div>
       </div>
 
