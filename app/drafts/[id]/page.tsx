@@ -1,5 +1,3 @@
-import Menu from "@/app/menu";
-import Nav from "@/app/navigation";
 import { prisma } from "@/lib/prisma";
 import Editor from "@/ui/draft-editor";
 
@@ -10,13 +8,5 @@ export default async function Page({ params: { id }, params: { id: string } }) {
     },
   });
 
-  return (
-    <>
-      <div className="flex">
-        <Nav />
-        <Editor content={draft?.content} id={id} />
-      </div>
-      <Menu />
-    </>
-  );
+  return <Editor content={draft?.content} id={id} />;
 }

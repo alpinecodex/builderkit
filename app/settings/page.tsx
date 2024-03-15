@@ -1,5 +1,3 @@
-import Menu from "../menu";
-import Nav from "../navigation";
 import { getServerSession, Session } from "next-auth";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth";
@@ -11,14 +9,6 @@ export default async function Page() {
   if (!session) {
     redirect("/login");
   }
-  return (
-    <>
-      <div className="flex">
-        <Nav />
-        {/* @ts-expect-error Server Component */}
-        <SettingsForm />
-      </div>
-      <Menu />
-    </>
-  );
+  // @ts-expect-error Server Component
+  return <SettingsForm />;
 }
