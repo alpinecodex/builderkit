@@ -10,11 +10,11 @@ export default function Nav() {
           <Image
             src="/logo.svg"
             alt="Builder Kit Logo"
+            className="dark:invert mb-8"
             width={144}
             height={24}
           ></Image>
-
-          <div className="mt-4">
+          <div>
             <p className="text-sm"> AI-Enhanced Copywriting</p>
             <p className="mt-2 w-fit rounded-md bg-stone-300 px-1 py-px text-xs">
               Beta 0.2

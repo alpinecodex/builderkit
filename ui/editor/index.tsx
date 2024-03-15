@@ -214,54 +214,53 @@ export default function Editor() {
   };
 
   return (
-    <div className="absolute right-0 top-0 w-screen items-end">
-      {/* Cmd + K */}
+    <div className="relative h-screen overflow-hidden">
+      {LeftButtons(copyContent, clearEditor, postToWordpress)}
       <CommandMenu editor={editor} />
-      {/* Text Formatting Menu */}
       <MenuBar editor={editor} />
-      {/* Stats Menu */}
       <Stats editor={editor} />
-
       <div
+        className="relative mx-auto h-full max-w-2xl overflow-scroll py-32"
         onClick={() => {
           editor?.chain().focus().run();
         }}
-        className="absolute right-0 top-0 z-0 min-h-screen w-3/4 border-neutral-200 sm:mb-[calc(20vh)]"
       >
         {editor && <EditorBubbleMenu editor={editor} />}
-        {editor?.isActive("image") && <ImageResizer editor={editor} />}
-        <div className="mx-auto max-w-screen-md px-12 pb-56 pt-36">
-          <EditorContent editor={editor} />
-        </div>
-        {/* Copy Button, Post to Wordpress */}
-        <div className="fixed left-[27%] top-4 flex gap-2">
-          <button
-            className="flex items-center gap-1 rounded-lg bg-stone-100 px-2 py-1 text-sm font-medium text-stone-600 hover:bg-stone-200"
-            onClick={copyContent}
-          >
-            <Copy className="w-4" />
-            Copy
-          </button>
-
-          <button
-            className="flex items-center gap-1 rounded-lg bg-stone-100 px-2 py-1 text-sm font-medium text-stone-600 hover:bg-stone-200"
-            onClick={clearEditor}
-          >
-            <Eraser className="w-4" />
-            Clear Editor
-          </button>
-
-          <button
-            className="flex items-center gap-1 rounded-lg bg-stone-100 px-2 py-1 text-sm font-medium text-stone-600 hover:bg-stone-200"
-            onClick={postToWordpress}
-          >
-            <Send className="w-4" />
-            Post to WordPress
-          </button>
-        </div>
-
+        <EditorContent editor={editor} />
         <DialogForm editor={editor} />
       </div>
     </div>
   );
 }
+
+const LeftButtons = (copyContent, clearEditor, postToWordpress) => {
+  return (
+    <>
+      <div className="absolute left-4 top-4 flex gap-2">
+        <button
+          className="flex items-center gap-1 rounded-lg bg-stone-100 px-2 py-1 text-sm font-medium text-stone-600 hover:bg-stone-200"
+          onClick={copyContent}
+        >
+          <Copy className="w-4" />
+          Copy
+        </button>
+
+        <button
+          className="flex items-center gap-1 rounded-lg bg-stone-100 px-2 py-1 text-sm font-medium text-stone-600 hover:bg-stone-200"
+          onClick={clearEditor}
+        >
+          <Eraser className="w-4" />
+          Clear Editor
+        </button>
+
+        <button
+          className="flex items-center gap-1 rounded-lg bg-stone-100 px-2 py-1 text-sm font-medium text-stone-600 hover:bg-stone-200"
+          onClick={postToWordpress}
+        >
+          <Send className="w-4" />
+          Post to WordPress
+        </button>
+      </div>
+    </>
+  );
+};

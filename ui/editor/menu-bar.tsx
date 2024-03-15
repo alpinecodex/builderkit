@@ -4,7 +4,7 @@ const MenuBar = ({ editor }) => {
   }
 
   return (
-    <div className="fixed bottom-12 right-0 z-10 hidden w-3/4 rounded-lg p-12 py-6 text-sm shadow-sm lg:flex">
+    <div className="absolute bottom-12 left-0 right-0 z-10 hidden rounded-lg p-4 text-sm shadow-sm lg:flex">
       <div className="flex flex-wrap gap-2 rounded-lg border bg-neutral-100 bg-opacity-80 p-4 shadow-sm backdrop-blur-md">
         <button
           onClick={() => editor.chain().focus().toggleBold().run()}
