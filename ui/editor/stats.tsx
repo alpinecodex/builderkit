@@ -22,7 +22,7 @@ const Stats = ({ editor }) => {
       variant="outline"
       size="sm"
     >
-      <a>Word Count: {wordCount}</a>
+      <span>Word Count: {wordCount}</span>
     </Button>
   );
 };
