@@ -48,10 +48,10 @@ export default function NavList() {
     <div className="mt-12 flex flex-col justify-between gap-2 text-sm">
       {links.map((link) => (
         <Link
-          className={`group flex items-center justify-between rounded-lg border  p-2 text-stone-600 transition-all hover:bg-stone-300 hover:text-stone-900 ${
+          className={`group flex items-center justify-between rounded-lg border p-2 transition-all hover:pl-3 ${
             (pathname.includes("drafts") && link.href === "/drafts") ||
             pathname === link.href
-              ? "cursor-default bg-stone-300 text-stone-900"
+              ? "cursor-default bg-accent"
               : ""
           }`}
           href={link.href}
@@ -65,10 +65,10 @@ export default function NavList() {
       ))}
       {outsideLinks.map((link) => (
         <Link
-          className={`group flex items-center justify-between rounded-lg border p-2 text-stone-600 transition-all hover:bg-stone-300 hover:text-stone-900 ${
+          className={`group flex items-center justify-between rounded-lg border p-2 transition-all hover:pl-3 ${
             (pathname.includes("drafts") && link.href === "/drafts") ||
             pathname === link.href
-              ? "cur bg-stone-300 text-stone-900"
+              ? "cursor-default bg-accent"
               : ""
           }`}
           href={link.href}
@@ -80,7 +80,7 @@ export default function NavList() {
             {link.icon}
             {link.title}
           </div>
-          <ExternalLink className="hidden h-4 w-4 text-stone-400 group-hover:block" />
+          <ExternalLink className="hidden h-4 w-4 text-accent-foreground group-hover:block" />
         </Link>
       ))}
     </div>

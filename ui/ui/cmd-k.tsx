@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import AiTag from "./ai-tag";
 import { Pencil } from "lucide-react";
+import { Button } from "./button";
 
 import {
   Command,
@@ -56,13 +57,15 @@ export function CommandMenu({ editor }) {
 
   return (
     <div>
-      <button
-        className="fixed right-[164px] z-50 mt-4 flex items-center gap-1 rounded-lg bg-stone-100 px-2 py-1 text-sm font-medium text-stone-600 hover:bg-stone-200"
+      <Button
+        className="absolute bottom-2 right-2 z-50"
+        variant="outline"
+        size="sm"
         onClick={() => setOpen((open) => !open)}
       >
-        <Pencil className="w-4" />
+        <Pencil className="mr-2 h-4 w-4" />
         Write with AI
-      </button>
+      </Button>
       <Command>
         <CommandDialog open={open} onOpenChange={setOpen}>
           <CommandInput placeholder="Type a command or search..." />

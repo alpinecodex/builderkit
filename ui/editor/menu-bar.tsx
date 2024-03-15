@@ -1,239 +1,140 @@
+import { Button } from "../ui/button";
+
+import {
+  Bold,
+  Italic,
+  Strikethrough,
+  Code,
+  List,
+  ListOrdered,
+  Quote,
+  Undo,
+  Redo,
+} from "lucide-react";
+
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/ui/ui/select";
+
 const MenuBar = ({ editor }) => {
   if (!editor) {
     return null;
   }
 
+  const handleHeadingChange = (level) => {
+    editor
+      .chain()
+      .focus()
+      .toggleHeading({ level: parseInt(level) })
+      .run();
+  };
+
   return (
-    <div className="absolute bottom-12 left-0 right-0 z-10 hidden rounded-lg p-4 text-sm shadow-sm lg:flex">
-      <div className="flex flex-wrap gap-2 rounded-lg border bg-neutral-100 bg-opacity-80 p-4 shadow-sm backdrop-blur-md">
-        <button
+    <div className="absolute left-0 right-0 top-0 z-40 hidden w-full rounded-lg text-sm shadow-sm sm:flex">
+      <div className="flex w-full flex-wrap gap-2 border-b bg-background/80 p-2 shadow-sm backdrop-blur-md">
+        {/* <Select>
+          <SelectTrigger className="w-36">
+            <SelectValue placeholder="Text type ..." />
+          </SelectTrigger>
+          <SelectContent>
+            {[1, 2, 3, 4, 5, 6].map((level) => (
+              <SelectItem
+                key={level}
+                value={level.toString()}
+                onSelect={() => handleHeadingChange(level.toString())}
+                className={
+                  editor.isActive("heading", { level }) ? "font-bold" : ""
+                }
+              >
+                {`H${level}`}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select> */}
+        <Button
+          variant="outline"
+          size="icon"
           onClick={() => editor.chain().focus().toggleBold().run()}
           disabled={!editor.can().chain().focus().toggleBold().run()}
-          className={
-            editor.isActive("bold")
-              ? "is-active dark:text-neutral-700 rounded-md border bg-neutral-300 px-2 py-1"
-              : "rounded-md border px-2 py-1"
-          }
+          className={editor.isActive("bold") ? "is-active bg-accent" : ""}
         >
-          bold
-        </button>
-        <button
+          <Bold size={16} />
+        </Button>
+        <Button
+          variant="outline"
+          size="icon"
           onClick={() => editor.chain().focus().toggleItalic().run()}
           disabled={!editor.can().chain().focus().toggleItalic().run()}
-          className={
-            editor.isActive("italic")
-              ? "is-active dark:text-neutral-700 rounded-md border bg-neutral-300 px-2 py-1"
-              : "rounded-md border px-2 py-1"
-          }
+          className={editor.isActive("italic") ? "is-active bg-accent" : ""}
         >
-          italic
-        </button>
-        <button
+          <Italic size={16} />
+        </Button>
+        <Button
+          variant="outline"
+          size="icon"
           onClick={() => editor.chain().focus().toggleStrike().run()}
           disabled={!editor.can().chain().focus().toggleStrike().run()}
-          className={
-            editor.isActive("strike")
-              ? "is-active dark:text-neutral-700 rounded-md border bg-neutral-300 px-2 py-1"
-              : "rounded-md border px-2 py-1"
-          }
+          className={editor.isActive("strike") ? "is-active bg-accent" : ""}
         >
-          strike
-        </button>
-        <button
+          <Strikethrough size={16} />
+        </Button>
+        <Button
+          variant="outline"
+          size="icon"
           onClick={() => editor.chain().focus().toggleCode().run()}
           disabled={!editor.can().chain().focus().toggleCode().run()}
-          className={
-            editor.isActive("code")
-              ? "is-active dark:text-neutral-700 rounded-md border bg-neutral-300 px-2 py-1"
-              : "rounded-md border px-2 py-1"
-          }
+          className={editor.isActive("code") ? "is-active bg-accent" : ""}
         >
-          code
-        </button>
-        <button
-          className={
-            editor.isActive("clear")
-              ? "is-active dark:text-neutral-700 rounded-md border bg-neutral-300 px-2 py-1"
-              : "rounded-md border px-2 py-1"
-          }
-          onClick={() => editor.chain().focus().unsetAllMarks().run()}
-        >
-          clear marks
-        </button>
-        <button
-          className={
-            editor.isActive("clearNodes")
-              ? "is-active dark:text-neutral-700 rounded-md border bg-neutral-300 px-2 py-1"
-              : "rounded-md border px-2 py-1"
-          }
-          onClick={() => editor.chain().focus().clearNodes().run()}
-        >
-          clear nodes
-        </button>
-        <button
-          onClick={() => editor.chain().focus().setParagraph().run()}
-          className={
-            editor.isActive("paragraph")
-              ? "is-active dark:text-neutral-700 rounded-md border bg-neutral-300 px-2 py-1"
-              : "rounded-md border px-2 py-1"
-          }
-        >
-          paragraph
-        </button>
-        <button
-          onClick={() =>
-            editor.chain().focus().toggleHeading({ level: 1 }).run()
-          }
-          className={
-            editor.isActive("heading", { level: 1 })
-              ? "is-active dark:text-neutral-700 rounded-md border bg-neutral-300 px-2 py-1"
-              : "rounded-md border px-2 py-1"
-          }
-        >
-          h1
-        </button>
-        <button
-          onClick={() =>
-            editor.chain().focus().toggleHeading({ level: 2 }).run()
-          }
-          className={
-            editor.isActive("heading", { level: 2 })
-              ? "is-active dark:text-neutral-700 rounded-md border bg-neutral-300 px-2 py-1"
-              : "rounded-md border px-2 py-1"
-          }
-        >
-          h2
-        </button>
-        <button
-          onClick={() =>
-            editor.chain().focus().toggleHeading({ level: 3 }).run()
-          }
-          className={
-            editor.isActive("heading", { level: 3 })
-              ? "is-active dark:text-neutral-700 rounded-md border bg-neutral-300 px-2 py-1"
-              : "rounded-md border px-2 py-1"
-          }
-        >
-          h3
-        </button>
-        <button
-          onClick={() =>
-            editor.chain().focus().toggleHeading({ level: 4 }).run()
-          }
-          className={
-            editor.isActive("heading", { level: 4 })
-              ? "is-active dark:text-neutral-700 rounded-md border bg-neutral-300 px-2 py-1"
-              : "rounded-md border px-2 py-1"
-          }
-        >
-          h4
-        </button>
-        <button
-          onClick={() =>
-            editor.chain().focus().toggleHeading({ level: 5 }).run()
-          }
-          className={
-            editor.isActive("heading", { level: 5 })
-              ? "is-active dark:text-neutral-700 rounded-md border bg-neutral-300 px-2 py-1"
-              : "rounded-md border px-2 py-1"
-          }
-        >
-          h5
-        </button>
-        <button
-          onClick={() =>
-            editor.chain().focus().toggleHeading({ level: 6 }).run()
-          }
-          className={
-            editor.isActive("heading", { level: 6 })
-              ? "is-active dark:text-neutral-700 rounded-md border bg-neutral-300 px-2 py-1"
-              : "rounded-md border px-2 py-1"
-          }
-        >
-          h6
-        </button>
-        <button
+          <Code size={16} />
+        </Button>
+        <Button
+          variant="outline"
+          size="icon"
           onClick={() => editor.chain().focus().toggleBulletList().run()}
-          className={
-            editor.isActive("bulletList")
-              ? "is-active dark:text-neutral-700 rounded-md border bg-neutral-300 px-2 py-1"
-              : "rounded-md border px-2 py-1"
-          }
+          className={editor.isActive("bulletList") ? "is-active bg-accent" : ""}
         >
-          bullet list
-        </button>
-        <button
+          <List size={16} />
+        </Button>
+        <Button
+          variant="outline"
+          size="icon"
           onClick={() => editor.chain().focus().toggleOrderedList().run()}
           className={
-            editor.isActive("orderedList")
-              ? "is-active dark:text-neutral-700 rounded-md border bg-neutral-300 px-2 py-1"
-              : "rounded-md border px-2 py-1"
+            editor.isActive("orderedList") ? "is-active bg-accent" : ""
           }
         >
-          ordered list
-        </button>
-        <button
-          onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-          className={
-            editor.isActive("codeBlock")
-              ? "is-active dark:text-neutral-700 rounded-md border bg-neutral-300 px-2 py-1"
-              : "rounded-md border px-2 py-1"
-          }
-        >
-          code block
-        </button>
-        <button
+          <ListOrdered size={16} />
+        </Button>
+        <Button
+          variant="outline"
+          size="icon"
           onClick={() => editor.chain().focus().toggleBlockquote().run()}
-          className={
-            editor.isActive("blockquote")
-              ? "is-active dark:text-neutral-700 rounded-md border bg-neutral-300 px-2 py-1"
-              : "rounded-md border px-2 py-1"
-          }
+          className={editor.isActive("blockquote") ? "is-active bg-accent" : ""}
         >
-          blockquote
-        </button>
-        <button
-          className={
-            editor.isActive("horizontalRule")
-              ? "is-active dark:text-neutral-700 rounded-md border bg-neutral-300 px-2 py-1"
-              : "rounded-md border px-2 py-1"
-          }
-          onClick={() => editor.chain().focus().setHorizontalRule().run()}
-        >
-          horizontal rule
-        </button>
-        <button
-          className={
-            editor.isActive("hardBreak")
-              ? "is-active dark:text-neutral-700 rounded-md border bg-neutral-300 px-2 py-1"
-              : "rounded-md border px-2 py-1"
-          }
-          onClick={() => editor.chain().focus().setHardBreak().run()}
-        >
-          hard break
-        </button>
-        <button
-          className={
-            editor.isActive("undo")
-              ? "is-active dark:text-neutral-700 rounded-md border bg-neutral-300 px-2 py-1"
-              : "rounded-md border px-2 py-1"
-          }
+          <Quote size={16} />
+        </Button>
+        <Button
+          variant="outline"
+          size="icon"
           onClick={() => editor.chain().focus().undo().run()}
           disabled={!editor.can().chain().focus().undo().run()}
+          className=""
         >
-          undo
-        </button>
-        <button
-          className={
-            editor.isActive("redo")
-              ? "is-active dark:text-neutral-700 rounded-md border bg-neutral-400 px-2 py-1"
-              : "rounded-md border px-2 py-1"
-          }
+          <Undo size={16} />
+        </Button>
+        <Button
+          variant="outline"
+          size="icon"
           onClick={() => editor.chain().focus().redo().run()}
           disabled={!editor.can().chain().focus().redo().run()}
+          className=""
         >
-          redo
-        </button>
+          <Redo size={16} />
+        </Button>
       </div>
     </div>
   );

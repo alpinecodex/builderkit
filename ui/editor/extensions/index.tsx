@@ -111,7 +111,7 @@ export const TiptapExtensions = [
       if (node.type.name === "heading") {
         return `Heading ${node.attrs.level}`;
       }
-      return "Use AI by pressing '⌘ + K', type '/' for commands, or type '++' for AI autocomplete...";
+      return "Press '⌘ + K', or start typing ...";
     },
     includeChildren: true,
   }),

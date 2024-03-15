@@ -31,7 +31,7 @@ import { Button } from "../ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
-import { Plus } from "lucide-react";
+import { Save } from "lucide-react";
 
 export default function DialogForm({ editor }: { editor: Editor }) {
   const router = useRouter();
@@ -106,11 +106,14 @@ export default function DialogForm({ editor }: { editor: Editor }) {
       },
     });
   };
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger className="fixed right-14 top-4 flex items-center gap-1 rounded-lg bg-stone-100 py-1 pl-1 pr-2 text-sm font-medium text-stone-600 hover:bg-stone-200">
-        <Plus className="w-4" />
-        Save Draft
+      <DialogTrigger className="absolute right-2 top-2 z-50">
+        <Button variant="outline">
+          <Save className="mr-2 h-4 w-4" />
+          Save Draft
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

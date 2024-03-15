@@ -19,6 +19,7 @@ import MenuBar from "./menu-bar";
 import Stats from "./stats";
 import DialogForm from "../draft/dialog-form";
 import { Eraser, Send, Copy } from "lucide-react";
+import { Button } from "../ui/button";
 
 export default function Editor() {
   const { data: session } = useSession();
@@ -214,11 +215,11 @@ export default function Editor() {
   };
 
   return (
-    <div className="relative h-screen overflow-hidden">
-      {LeftButtons(copyContent, clearEditor, postToWordpress)}
+    <div className="relative h-screen">
+      {LeftButtons(copyContent, clearEditor, postToWordpress, editor)}
       <CommandMenu editor={editor} />
       <MenuBar editor={editor} />
-      <Stats editor={editor} />
+      <DialogForm editor={editor} />
       <div
         className="relative mx-auto h-full max-w-2xl overflow-scroll py-32"
         onClick={() => {
@@ -227,39 +228,31 @@ export default function Editor() {
       >
         {editor && <EditorBubbleMenu editor={editor} />}
         <EditorContent editor={editor} />
-        <DialogForm editor={editor} />
       </div>
     </div>
   );
 }
 
-const LeftButtons = (copyContent, clearEditor, postToWordpress) => {
+const LeftButtons = (copyContent, clearEditor, postToWordpress, editor) => {
   return (
     <>
-      <div className="absolute left-4 top-4 flex gap-2">
-        <button
-          className="flex items-center gap-1 rounded-lg bg-stone-100 px-2 py-1 text-sm font-medium text-stone-600 hover:bg-stone-200"
-          onClick={copyContent}
-        >
-          <Copy className="w-4" />
+      <div className="absolute bottom-0 left-0 right-0 z-40 flex w-full gap-2 border-t bg-background/80 p-2 backdrop-blur-sm">
+        <Button variant="outline" size="sm" onClick={copyContent}>
+          <Copy className="mr-2 h-4 w-4" />
           Copy
-        </button>
+        </Button>
 
-        <button
-          className="flex items-center gap-1 rounded-lg bg-stone-100 px-2 py-1 text-sm font-medium text-stone-600 hover:bg-stone-200"
-          onClick={clearEditor}
-        >
-          <Eraser className="w-4" />
+        <Button variant="outline" size="sm" onClick={clearEditor}>
+          <Eraser className="mr-2 h-4 w-4" />
           Clear Editor
-        </button>
+        </Button>
 
-        <button
-          className="flex items-center gap-1 rounded-lg bg-stone-100 px-2 py-1 text-sm font-medium text-stone-600 hover:bg-stone-200"
-          onClick={postToWordpress}
-        >
-          <Send className="w-4" />
+        <Button variant="outline" size="sm" onClick={postToWordpress}>
+          <Send className="mr-2 h-4 w-4" />
           Post to WordPress
-        </button>
+        </Button>
+
+        <Stats editor={editor} />
       </div>
     </>
   );

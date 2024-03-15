@@ -28,12 +28,12 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <Providers>
-        <body className="grid sm:grid-cols-[256px,1fr]">
+      <body className="grid h-screen w-screen overflow-hidden sm:grid-cols-[256px,1fr]">
+        <Providers>
           <Nav />
-          {children}
-        </body>
-      </Providers>
+          <main className="h-fit overflow-y-auto">{children}</main>
+        </Providers>
+      </body>
     </html>
   );
 }

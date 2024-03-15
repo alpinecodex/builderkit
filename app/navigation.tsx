@@ -4,20 +4,20 @@ import NavList from "@/ui/ui/nav-list";
 
 export default function Nav() {
   return (
-    <nav className="flex h-screen flex-col justify-between bg-neutral-200 shadow-inner md:p-6">
+    <nav className="flex h-screen flex-col justify-between border-r shadow-inner md:p-6">
       <div>
         <div>
           <Image
             src="/logo.svg"
             alt="Builder Kit Logo"
-            className="dark:invert mb-8"
+            className="mb-8 dark:invert"
             width={144}
             height={24}
           ></Image>
           <div>
             <p className="text-sm"> AI-Enhanced Copywriting</p>
-            <p className="mt-2 w-fit rounded-md bg-stone-300 px-1 py-px text-xs">
-              Beta 0.2
+            <p className="mt-2 w-fit rounded-md border bg-accent px-1 py-px text-xs">
+              v.0.2 Alpha
             </p>
           </div>
         </div>
