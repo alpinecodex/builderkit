@@ -22,7 +22,6 @@ export const metadata: Metadata = {
     card: "summary_large_image",
   },
   metadataBase: new URL("https://builderkit.io"),
-  themeColor: "#ffffff",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
