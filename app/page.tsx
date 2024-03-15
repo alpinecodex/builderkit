@@ -1,5 +1,4 @@
 import Editor from "@/ui/editor";
-import Menu from "./menu";
 import Nav from "./navigation";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
@@ -11,13 +10,5 @@ export default async function Page() {
   if (!session) {
     redirect("/login");
   }
-  return (
-    <>
-      <div className="flex">
-        <Nav />
-        <Editor />
-      </div>
-      <Menu />
-    </>
-  );
+  return <Editor />;
 }

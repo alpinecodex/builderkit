@@ -4,6 +4,7 @@ import "@/styles/prosemirror.css";
 import { Metadata } from "next";
 import { ReactNode } from "react";
 import Providers from "./providers";
+import Nav from "./navigation";
 
 const title = "Builder Kit | AI Powered Copywriting Companion";
 const description =
@@ -27,9 +28,12 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body>
-        <Providers>{children}</Providers>
-      </body>
+      <Providers>
+        <body className="grid sm:grid-cols-[256px,1fr]">
+          <Nav />
+          {children}
+        </body>
+      </Providers>
     </html>
   );
 }
