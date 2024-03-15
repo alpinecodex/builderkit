@@ -109,7 +109,7 @@ export default function DialogForm({ editor }: { editor: Editor }) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger className="absolute right-2 top-2 z-50">
+      <DialogTrigger className="fixed right-2 top-2 z-50">
         <Button asChild variant="outline">
           <span>
             <Save className="mr-2 h-4 w-4" />

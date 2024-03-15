@@ -31,7 +31,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body className="relative grid h-screen w-screen overflow-hidden sm:grid-cols-[256px,1fr]">
         <Providers>
           <Nav />
-          <main className="no-scrollbar overflow-y-auto">{children}</main>
+          <main className="no-scrollbar relative overflow-y-auto">
+            {children}
+          </main>
         </Providers>
       </body>
     </html>

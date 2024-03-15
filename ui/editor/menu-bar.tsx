@@ -34,7 +34,7 @@ const MenuBar = ({ editor }) => {
   };
 
   return (
-    <div className="absolute left-0 right-0 top-0 z-40 hidden w-full rounded-lg text-sm shadow-sm sm:flex">
+    <div className="fixed left-0 right-0 top-0 z-40 ml-[256px] hidden w-[calc(100%-256px)] rounded-lg text-sm shadow-sm sm:flex">
       <div className="flex w-full flex-wrap gap-2 border-b bg-background/80 p-2 shadow-sm backdrop-blur-md">
         {/* <Select>
           <SelectTrigger className="w-36">
