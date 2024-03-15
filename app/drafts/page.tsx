@@ -26,7 +26,7 @@ export default async function Page() {
   });
 
   return (
-    <section className="mx-4 h-auto max-w-2xl pt-24 sm:mx-auto">
+    <section className="mx-4 h-auto max-w-2xl py-24 sm:mx-auto">
       <h1 className="mb-6 text-3xl">Drafts</h1>
       {data.map((record) => (
         <div

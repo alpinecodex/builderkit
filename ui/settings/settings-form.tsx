@@ -63,7 +63,7 @@ export default async function SettingsForm() {
   });
 
   return (
-    <section className="mx-4 h-auto max-w-2xl pt-24 sm:mx-auto">
+    <section className="mx-4 h-auto max-w-2xl py-24 sm:mx-auto">
       <h1 className="mb-8 text-3xl">Settings</h1>
       <h2 className="mb-2 text-xl text-muted-foreground">API Keys</h2>
       <hr className="mb-4" />

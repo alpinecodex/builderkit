@@ -58,7 +58,7 @@ export function CommandMenu({ editor }) {
   return (
     <div>
       <Button
-        className="absolute bottom-2 right-2 z-50"
+        className="fixed bottom-2 right-2 z-50"
         variant="outline"
         size="sm"
         onClick={() => setOpen((open) => !open)}

@@ -216,12 +216,12 @@ export default function Editor() {
 
   return (
     <div className="relative h-screen">
-      {LeftButtons(copyContent, clearEditor, postToWordpress, editor)}
+      {BottomBar(copyContent, clearEditor, postToWordpress, editor)}
       <CommandMenu editor={editor} />
       <MenuBar editor={editor} />
       <DialogForm editor={editor} />
       <div
-        className="relative mx-auto h-full max-w-2xl overflow-scroll py-32"
+        className="relative mx-auto max-w-2xl py-32"
         onClick={() => {
           editor?.chain().focus().run();
         }}
@@ -233,27 +233,25 @@ export default function Editor() {
   );
 }
 
-const LeftButtons = (copyContent, clearEditor, postToWordpress, editor) => {
+const BottomBar = (copyContent, clearEditor, postToWordpress, editor) => {
   return (
-    <>
-      <div className="absolute bottom-0 left-0 right-0 z-40 flex w-full gap-2 border-t bg-background/80 p-2 backdrop-blur-sm">
-        <Button variant="outline" size="sm" onClick={copyContent}>
-          <Copy className="mr-2 h-4 w-4" />
-          Copy
-        </Button>
+    <div className="fixed bottom-0 left-0 right-0 z-40 ml-[256px] flex w-[calc(100%-256px)] gap-2 border-t bg-background/80 p-2 backdrop-blur-sm">
+      <Button variant="outline" size="sm" onClick={copyContent}>
+        <Copy className="mr-2 h-4 w-4" />
+        Copy
+      </Button>
 
-        <Button variant="outline" size="sm" onClick={clearEditor}>
-          <Eraser className="mr-2 h-4 w-4" />
-          Clear Editor
-        </Button>
+      <Button variant="outline" size="sm" onClick={clearEditor}>
+        <Eraser className="mr-2 h-4 w-4" />
+        Clear Editor
+      </Button>
 
-        <Button variant="outline" size="sm" onClick={postToWordpress}>
-          <Send className="mr-2 h-4 w-4" />
-          Post to WordPress
-        </Button>
+      <Button variant="outline" size="sm" onClick={postToWordpress}>
+        <Send className="mr-2 h-4 w-4" />
+        Post to WordPress
+      </Button>
 
-        <Stats editor={editor} />
-      </div>
-    </>
+      <Stats editor={editor} />
+    </div>
   );
 };
