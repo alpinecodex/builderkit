@@ -22,13 +22,13 @@ export default async function LoginPage() {
           src={Icon}
           alt="BuilderKit "
           width={50}
-          height={72}
+          height={50}
         ></Image>
         <Image
           src="./logo.svg"
           alt="Builder Kit Logo"
           width={200}
-          height={100}
+          height={33.3}
         ></Image>
         <p className="text-center">Login to access your account.</p>
 
