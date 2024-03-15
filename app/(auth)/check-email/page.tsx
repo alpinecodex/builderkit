@@ -12,7 +12,7 @@ export default async function LoginPage() {
     redirect("/");
   }
   return (
-    <main className="flex h-screen w-full flex-col items-center justify-center bg-neutral-100">
+    <main className="bg-background/80 fixed flex h-screen w-full flex-col items-center justify-center backdrop-blur-sm">
       <div className="flex flex-col items-center gap-8 rounded-lg border bg-neutral-50 p-8 shadow-sm md:p-12">
         <Image
           className="rounded-md border shadow-sm"
