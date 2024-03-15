@@ -10,7 +10,7 @@ export default function SignIn() {
         xmlns="http://www.w3.org/2000/svg"
         x="0px"
         y="0px"
-        className="-ml-1 mr-2 h-6 w-6"
+        className="-ml-1 mr-2 h-6 w-6 dark:invert"
         viewBox="0 0 32 32"
         fill="#fff"
       >

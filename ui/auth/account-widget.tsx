@@ -11,7 +11,7 @@ export default async function AccountWidget() {
     <div className="grid gap-8">
       <div className="flex items-center gap-2">
         <Avatar>
-          <AvatarImage src={session.user?.image || undefined} />
+          <AvatarImage src={session?.user?.image || undefined} />
           <AvatarFallback>U</AvatarFallback>
         </Avatar>
         <div>

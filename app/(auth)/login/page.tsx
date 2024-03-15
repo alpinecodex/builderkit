@@ -15,8 +15,8 @@ export default async function LoginPage() {
     redirect("/");
   }
   return (
-    <main className="bg-background/80 fixed flex h-screen w-full flex-col items-center justify-center backdrop-blur-sm">
-      <div className="flex flex-col items-center gap-8 rounded-lg border bg-neutral-50 p-8 shadow-sm md:p-12">
+    <section className="fixed left-0 right-0 top-0 flex h-screen w-full flex-col items-center justify-center bg-background/80 backdrop-blur-sm">
+      <div className="flex flex-col items-center gap-8 rounded-lg border bg-accent p-8 shadow-sm md:p-12">
         <Image
           className="rounded-md border shadow-sm"
           src={Icon}
@@ -26,6 +26,7 @@ export default async function LoginPage() {
         ></Image>
         <Image
           src="./logo.svg"
+          className="dark:invert"
           alt="Builder Kit Logo"
           width={200}
           height={33.3}
@@ -55,6 +56,6 @@ export default async function LoginPage() {
         </Link>
         .
       </p>
-    </main>
+    </section>
   );
 }

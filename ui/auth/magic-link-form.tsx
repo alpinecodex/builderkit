@@ -64,7 +64,7 @@ export default function MagicLinkForm() {
               </FormItem>
             )}
           />
-          <Button variant="outline" type="submit" className="w-full">
+          <Button type="submit" className="w-full">
             Send magic link
           </Button>
         </form>
