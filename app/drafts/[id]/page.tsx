@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import Editor from "@/ui/draft-editor";
+import Editor from "@/ui/editor";
 
 export default async function Page({ params: { id }, params: { id: string } }) {
   const draft = await prisma.draft.findUnique({

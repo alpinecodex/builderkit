@@ -21,14 +21,32 @@ import DialogForm from "../draft/dialog-form";
 import { Eraser, Send, Copy } from "lucide-react";
 import { Button } from "../ui/button";
 
-export default function Editor() {
-  const { data: session } = useSession();
-  const [content, setContent] = useLocalStorage(
-    "content",
-    DEFAULT_EDITOR_CONTENT,
-  );
+interface EditorProps {
+  content?: any; // Optional, as it might not be provided for new drafts
+  id?: string; // Optional, as it might not be provided for new drafts
+}
 
+export default function Editor({ content: initialContent, id }: EditorProps) {
+  const { data: session } = useSession();
+  const [content, setContent] = useState(
+    initialContent || DEFAULT_EDITOR_CONTENT,
+  );
   const [hydrated, setHydrated] = useState(false);
+
+  // Always call useLocalStorage at the top level
+  const [storedContent, setStoredContent] = useLocalStorage("content", content);
+
+  // If an ID is provided, we should not use local storage to manage the content state
+  const useLocalStorageForContent = !id;
+
+  useEffect(() => {
+    if (useLocalStorageForContent) {
+      // Now, you're using the result of useLocalStorage conditionally, which is fine
+      setContent(storedContent);
+      const syncContent = () => setStoredContent(content);
+      return syncContent;
+    }
+  }, [content, storedContent, setStoredContent, useLocalStorageForContent]);
 
   const debouncedUpdates = useDebouncedCallback(async ({ editor }) => {
     const json = editor.getJSON();
@@ -53,7 +71,6 @@ export default function Editor() {
             chars: 5000,
           }),
         );
-        // complete(e.editor.storage.markdown.getMarkdown());
         va.track("Autocomplete Shortcut Used");
       } else {
         debouncedUpdates(e);
@@ -127,9 +144,9 @@ export default function Editor() {
     };
   }, [stop, isLoading, editor, complete, completion.length]);
 
-  // Hydrate the editor with the content from localStorage.
+  // Hydrate the editor with the content from the prop or localStorage.
   useEffect(() => {
-    if (editor && content && !hydrated) {
+    if (editor && !hydrated) {
       editor.commands.setContent(content);
       setHydrated(true);
     }
