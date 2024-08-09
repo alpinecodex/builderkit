@@ -77,7 +77,6 @@ export default function Editor({ content: initialContent, id }: EditorProps) {
       }
     },
     autofocus: "end",
-    immediatelyRender: false,
   });
 
   const { complete, completion, isLoading, stop } = useCompletion({

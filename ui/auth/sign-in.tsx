@@ -5,7 +5,7 @@ import { signIn } from "next-auth/react";
 
 export default function SignIn() {
   return (
-    <Button onClick={() => signIn("google")}>
+    <Button className="w-full" onClick={() => signIn("google")}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         x="0px"
