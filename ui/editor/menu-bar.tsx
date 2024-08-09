@@ -12,14 +12,6 @@ import {
   Redo,
 } from "lucide-react";
 
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from "@/ui/ui/select";
-
 const MenuBar = ({ editor }) => {
   if (!editor) {
     return null;
@@ -36,25 +28,6 @@ const MenuBar = ({ editor }) => {
   return (
     <div className="fixed left-0 right-0 top-0 z-40 ml-[256px] hidden w-[calc(100%-256px)] rounded-lg text-sm sm:flex">
       <div className="flex w-full flex-wrap gap-2 border-b bg-background/80 p-2 backdrop-blur-md">
-        {/* <Select>
-          <SelectTrigger className="w-36">
-            <SelectValue placeholder="Text type ..." />
-          </SelectTrigger>
-          <SelectContent>
-            {[1, 2, 3, 4, 5, 6].map((level) => (
-              <SelectItem
-                key={level}
-                value={level.toString()}
-                onSelect={() => handleHeadingChange(level.toString())}
-                className={
-                  editor.isActive("heading", { level }) ? "font-bold" : ""
-                }
-              >
-                {`H${level}`}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select> */}
         <Button
           variant="outline"
           size="icon"
