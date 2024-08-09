@@ -117,7 +117,7 @@ export function CommandMenu({ editor }) {
                   setOpen(false);
                 }}
               >
-                Article from Outline <AiTag aiType="claude">Claude 2</AiTag>
+                Article from Outline <AiTag aiType="claude">Claude</AiTag>
               </CommandItem>
 
               <CommandItem
@@ -135,7 +135,7 @@ export function CommandMenu({ editor }) {
                   setOpen(false);
                 }}
               >
-                Custom Prompt <AiTag aiType="claude">Claude 2</AiTag>
+                Custom Prompt <AiTag aiType="claude">Claude</AiTag>
               </CommandItem>
             </CommandGroup>
           </CommandList>

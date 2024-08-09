@@ -35,7 +35,7 @@ export default async function Page() {
         >
           <File />
           <a
-            className="flex w-full items-center justify-between rounded-md border-b p-2 font-light transition-all hover:bg-accent hover:text-muted-foreground"
+            className="flex w-full items-center justify-between border-b p-2 font-light transition-all hover:bg-accent hover:text-muted-foreground"
             href={`/drafts/${record?.id}`}
           >
             <h3 className="flex items-center gap-2 text-lg">{record.title}</h3>
