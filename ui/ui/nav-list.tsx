@@ -30,11 +30,11 @@ const links = [
 ];
 
 const outsideLinks = [
-  {
-    title: "Documentation",
-    href: "https://alpinecodex.notion.site/BuilderKit-606cfdb918ea401aab21e0ec7109c595?pvs=4",
-    icon: <File size={20} />,
-  },
+  // {
+  //   title: "Documentation",
+  //   href: "https://alpinecodex.notion.site/BuilderKit-606cfdb918ea401aab21e0ec7109c595?pvs=4",
+  //   icon: <File size={20} />,
+  // },
   {
     title: "Report an Issue",
     href: "https://tally.so/r/n9ZaBQ",
