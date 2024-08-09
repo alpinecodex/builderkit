@@ -6,9 +6,9 @@ import { kv } from "@vercel/kv";
 export const runtime = "edge";
 
 const models = {
-  gpt_4: "gpt-4",
   gpt_4o: "gpt-4o",
   gpt_4o_mini: "gpt-4o-mini",
+  gpt_4: "gpt-4",
 };
 
 export async function POST(request: Request) {
