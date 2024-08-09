@@ -8,11 +8,10 @@ export async function POST(request: Request) {
   const email = request.headers.get("email");
   const apiKey: string = await kv.hget(email, "anthropicKey");
   const { prompt } = await request.json();
-  console.log(prompt); // get rid of this
 
   if (!apiKey) {
     return NextResponse.json(
-      "Missing OpenAI API key – make sure to add it in settings.",
+      "Missing Anthropic API key -- make sure to add it in settings.",
       {
         status: 400,
       },
@@ -29,7 +28,7 @@ export async function POST(request: Request) {
       },
       body: JSON.stringify({
         prompt: `Human: ${prompt}\n\nAssistant:`,
-        model: "claude-2",
+        model: "claude-3-5-sonnet-20240620",
         max_tokens_to_sample: 100000,
         temperature: 0.9,
         stream: true,
