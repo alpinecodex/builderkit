@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import { TiptapEditorProps } from "./props";
@@ -40,13 +40,21 @@ export default function Editor({ content: initialContent, id }: EditorProps) {
   const useLocalStorageForContent = !id;
 
   useEffect(() => {
-    if (useLocalStorageForContent) {
-      // Now, you're using the result of useLocalStorage conditionally, which is fine
+    if (useLocalStorageForContent && !hydrated) {
       setContent(storedContent);
-      const syncContent = () => setStoredContent(content);
-      return syncContent;
+      setHydrated(true);
     }
-  }, [content, storedContent, setStoredContent, useLocalStorageForContent]);
+  }, [storedContent, useLocalStorageForContent, hydrated]);
+
+  const syncContent = useCallback(() => {
+    if (useLocalStorageForContent) {
+      setStoredContent(content);
+    }
+  }, [useLocalStorageForContent, content, setStoredContent]);
+
+  useEffect(() => {
+    return syncContent;
+  }, [syncContent]);
 
   const debouncedUpdates = useDebouncedCallback(async ({ editor }) => {
     const json = editor.getJSON();

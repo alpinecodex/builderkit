@@ -1,7 +1,5 @@
-"use client";
-
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+
 import {
   Archive,
   Pencil,
@@ -43,17 +41,11 @@ const outsideLinks = [
 ];
 
 export default function NavList() {
-  const pathname = usePathname();
   return (
     <div className="mt-12 flex flex-col justify-between gap-2 text-sm">
       {links.map((link) => (
         <Link
-          className={`group flex items-center justify-between rounded-lg border p-2 transition-all hover:pl-3 ${
-            (pathname.includes("drafts") && link.href === "/drafts") ||
-            pathname === link.href
-              ? "cursor-default bg-accent"
-              : ""
-          }`}
+          className={`group flex items-center justify-between rounded-lg border p-2 transition-all hover:pl-3`}
           href={link.href}
           key={link.title}
         >
@@ -65,12 +57,7 @@ export default function NavList() {
       ))}
       {outsideLinks.map((link) => (
         <Link
-          className={`group flex items-center justify-between rounded-lg border p-2 transition-all hover:pl-3 ${
-            (pathname.includes("drafts") && link.href === "/drafts") ||
-            pathname === link.href
-              ? "cursor-default bg-accent"
-              : ""
-          }`}
+          className={`group flex items-center justify-between rounded-lg border p-2 transition-all hover:pl-3`}
           href={link.href}
           key={link.title}
           target="_blank"
