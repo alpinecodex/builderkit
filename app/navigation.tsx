@@ -17,7 +17,7 @@ export default function Nav() {
           <div>
             <p className="text-sm"> AI-Enhanced Copywriting</p>
             <p className="mt-2 w-fit rounded-md border bg-accent px-1 py-px text-xs">
-              v.0.2 Alpha
+              v.1.0.0 Beta
             </p>
           </div>
         </div>
